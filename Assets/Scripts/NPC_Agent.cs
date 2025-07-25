@@ -1,16 +1,36 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class NPC_Agent : MonoBehaviour
+public class NpcAgent : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private NavMeshAgent agent;
+    private Camera cam;
+    public TextMeshPro text;
+
+    private bool walk;
+    
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        cam = Camera.main;
+    }
+    
     void Start()
     {
-        
+        StartCoroutine(walktowardscam());
+    }
+    private IEnumerator walktowardscam()
+    {
+        yield return new WaitForSeconds(2f);
+        walk = true;
+        text.SetText("I'm walking towards you now!");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (walk) agent.destination = cam.transform.position;
     }
 }
