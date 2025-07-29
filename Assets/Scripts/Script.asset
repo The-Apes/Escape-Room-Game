@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scriptLines:
   - text: Your Test worked, you handsome man
-    condition: 
+    condition: 'Wait: 5'
     actions: 
   test:
     text: 

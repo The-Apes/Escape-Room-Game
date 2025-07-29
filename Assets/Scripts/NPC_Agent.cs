@@ -12,7 +12,6 @@ public class NpcAgent : MonoBehaviour
         GoTo,
     }
     
-    
     private NavMeshAgent agent;
     private Camera cam;
     public TextMeshPro text;
@@ -23,17 +22,6 @@ public class NpcAgent : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         cam = Camera.main;
-    }
-    
-    void Start()
-    {
-        StartCoroutine(walktowardscam());
-    }
-    private IEnumerator walktowardscam()
-    {
-        yield return new WaitForSeconds(2f);
-        walk = true;
-        text.SetText("I'm walking towards you now!");
     }
     
     public void Speak(string line)
