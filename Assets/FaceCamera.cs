@@ -20,7 +20,6 @@ public class FaceCamera : MonoBehaviour
         float textSize = Vector3.Distance(transform.position, _cam.transform.position)/ 5;
         
         rectTransform.localScale = new Vector3(textSize, textSize, textSize);
-        //print distance between the camera and the object
-        print (Vector3.Distance(transform.position, _cam.transform.position));
+   
     }
 }

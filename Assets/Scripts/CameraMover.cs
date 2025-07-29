@@ -17,5 +17,6 @@ public class CameraMover : MonoBehaviour
         //     transform.position = new Vector3(0, 10, -10);
         //     transform.rotation = Quaternion.Euler(30, 0, 0);
         // }
+        
     }
 }
