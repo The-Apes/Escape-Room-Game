@@ -4,6 +4,10 @@ public class DialogueManager : MonoBehaviour
 {
  public static DialogueManager Instance;
  
+ //Braindump
+ // if Script manager talking is false, hid the subtitles after some secconds,
+ // Add code to show or hide subtitles based on if player is looking ar NPC or not, should this be here on in Subtitle class doe?
+ 
  private NpcAgent npcAgent;
  private Subtitle subtitle;
  private Logs logs;
@@ -24,26 +28,33 @@ public class DialogueManager : MonoBehaviour
   logs = FindFirstObjectByType<Logs>();
  }
 
- public void SayLine(string line)
+ public void SayLine(string line, bool player = false)
  {
-  NpcSpeak(line);
-  ChangeSubtitle(line);
-  LogLine(line);
+  if (!player) NpcSpeak(line);
+  ChangeSubtitle(line, player);
+  LogLine(line, player);
  }
  public void NpcSpeak(string line)
  {
   npcAgent.Speak(line);
  }
- public void ChangeSubtitle (string line)
+ public void ChangeSubtitle (string line, bool player)
  {
   foreach (Subtitle subtitle in FindObjectsByType<Subtitle>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
   {
-   subtitle.SetSubtitle(line);
+   subtitle.SetSubtitle(line, player);
   }
  }
- public void LogLine(string line)
+ public void LogLine(string line, bool player)
  {
-  logs.lines.Add(line);
+  if (player)
+  {
+   logs.lines.Add("Player: "+line);
+  }else
+  {
+   logs.lines.Add("NPC: "+line);
+  }
+  
   
   //TODO: Implement logging functionality and UI FOR It
  }

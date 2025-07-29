@@ -1,21 +1,20 @@
 using System;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 [Serializable]
 public class ScriptLine
 {
     public String text;
-    public String condition;
-    //public Condition condition;
-    
-    public Action[] actions; // maybe make it a string too for additional parameters?
+    public bool player;
+    [FormerlySerializedAs("condition")] public String continueCondition;
+    public String[] actions; // maybe make it a string too for additional parameters?
 
-    public enum Action
-    {
-        Dance,
-        LookAt,
-    }
-    
+    [Header("other")] 
+    public GameObject customObject;
+    public Vector3 location;
+
+
     //TODO
     // with the actions, I need a way to pass in a command "LookAT" and afterwards it provied a game object or a transfrom
     // idk how to do that with the current setup and da enums,  
