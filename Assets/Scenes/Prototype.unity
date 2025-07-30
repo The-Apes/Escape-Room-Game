@@ -678,11 +678,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1696154440 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7456976920613646926, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
+  m_PrefabInstance: {fileID: 7694497387028796920}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &1696154441 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 2380208972931125986, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
+  m_PrefabInstance: {fileID: 7694497387028796920}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1696154444 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 852018413292311724, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
   m_PrefabInstance: {fileID: 7694497387028796920}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1696154445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696154440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c4101e84ca370a458bd26e95ff401fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1696154441}
+  speed: 12
 --- !u!1 &1699950371
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,6 +988,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3d7b4f4883dc8774b91edf391babe6bc, type: 2}
+    - target: {fileID: 2380208972931125986, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
+      propertyPath: m_StepOffset
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 3280999522148479551, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.71
@@ -988,6 +1016,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7456976920613646926, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1696154445}
     - targetCorrespondingSourceObject: {fileID: 4934729364974289609, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1564822115}
