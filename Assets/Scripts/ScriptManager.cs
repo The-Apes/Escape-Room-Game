@@ -46,11 +46,10 @@ public class ScriptManager : MonoBehaviour
             foreach (var actionLine in line.actions)
             {
                 String action;
-                String actionParam;
                 if (actionLine.Contains(':'))
                 {
                      action = actionLine.Substring(0, actionLine.IndexOf(':')).ToLower();
-                     actionParam = actionLine.Substring(actionLine.IndexOf(':') + 1).Trim().ToLower();
+                     String actionParam = actionLine.Substring(actionLine.IndexOf(':') + 1).Trim().ToLower();
                      _npcAgent.Action(action, actionParam);
                 }
                 else
@@ -77,6 +76,9 @@ public class ScriptManager : MonoBehaviour
                     {
                         Debug.LogError("Invalid Parameter for 'wait' condition: " + parameters);
                     }
+                    break;
+                case "question":
+                    ChoiceManager.instance.Ask(parameters);
                     break;
                 case "distance to player":
                     // When the player is at a certain distance

@@ -5,5 +5,6 @@ using UnityEngine;
 public class Script : ScriptableObject
 {
     public List <ScriptLine> scriptLines;
-    public ScriptLine test;
+    [Header("Choices")]
+    public Script[] choices; //for every choice, there will be a script for the response
 }

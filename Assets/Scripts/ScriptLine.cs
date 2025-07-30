@@ -7,7 +7,7 @@ public class ScriptLine
 {
     public String text;
     public bool player;
-    [FormerlySerializedAs("condition")] public String continueCondition;
+    public String continueCondition = "wait: 2";
     public String[] actions; // maybe make it a string too for additional parameters?
 
     [Header("other")] 

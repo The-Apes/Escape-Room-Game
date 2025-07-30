@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
-  m_Name: Script
+  m_Name: Rude AI
   m_EditorClassIdentifier: 
   scriptLines:
   - text: Hey you there!
