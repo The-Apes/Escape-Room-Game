@@ -744,7 +744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1696154441}
   speed: 12
-  gravity: -9.81
+  gravity: -19.62
   groundCheck: {fileID: 1862584133}
   groundDistance: 0.4
   groundMask:
@@ -1024,7 +1024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 852018413292311724, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.43
+      value: 10.63
       objectReference: {fileID: 0}
     - target: {fileID: 852018413292311724, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
       propertyPath: m_LocalPosition.z
