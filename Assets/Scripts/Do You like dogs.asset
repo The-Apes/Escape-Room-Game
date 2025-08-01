@@ -21,7 +21,7 @@ MonoBehaviour:
     location: {x: 0, y: 0, z: 0}
   - text: Do you like dogs?
     player: 0
-    continueCondition: 'Question: yes, no, uhhh'
+    continueCondition: 'Question: yes, no, idk'
     actions: []
     customObject: {fileID: 0}
     location: {x: 0, y: 0, z: 0}

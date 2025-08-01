@@ -28,7 +28,7 @@ public class ScriptManager : MonoBehaviour
     
     public void Start()
     {
-        StartCoroutine(RunScript(introduction));
+        if(introduction) StartCoroutine(RunScript(introduction));
         _npcAgent = FindFirstObjectByType<NpcAgent>();
     }
 

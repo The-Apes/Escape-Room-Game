@@ -26,17 +26,22 @@ public class ChoiceManager : MonoBehaviour
     {
         string remainder = question;
         string currentSample;
-        int count = 0;
+        int choices = 0;
         while (remainder.Contains(','))
         {
+            print("s");
             print(remainder);
-            count++;
+            choices++;
             currentSample = remainder.Substring(0, remainder.IndexOf(','));
             print(currentSample);
-            choiceBox.AddChoice(currentSample, count);
-            remainder = remainder.Substring(remainder.IndexOf(','));
+            choiceBox.AddChoice(currentSample, choices);
+            remainder = remainder.Substring(remainder.IndexOf(',')+1);
             print("loop end");
         }
+
+        choices++;
+        choiceBox.AddChoice(remainder, choices);
+        
         choiceBox.ShowChoices(true);
     }
 
