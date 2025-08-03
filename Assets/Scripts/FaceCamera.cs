@@ -17,7 +17,7 @@ public class FaceCamera : MonoBehaviour
         transform.LookAt(_cam.transform);
         transform.rotation = transform.rotation * Quaternion.Euler(0, 180, 0);
         
-        float textSize = Vector3.Distance(transform.position, _cam.transform.position)/ 5;
+        float textSize = Vector3.Distance(transform.position, _cam.transform.position)/ 10;
         
         rectTransform.localScale = new Vector3(textSize, textSize, textSize);
    

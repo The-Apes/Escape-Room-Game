@@ -15,7 +15,7 @@ public class ChoiceBox : MonoBehaviour
  private int selectedChoice = 0;
  private int avaliableChoices;
  private List <ChoiceButton> choiceButtons = new List<ChoiceButton>();
- 
+ private bool choicesShown = false;
  
  private void Awake()
  {
@@ -39,12 +39,13 @@ public class ChoiceBox : MonoBehaviour
  public void ShowChoices(bool show)
  {
   _image.enabled = show;
-
+  choicesShown = show;
   subtitleRectTransform.position = show ? new Vector3(subtitleRectTransform.position.x, 55, 0) : new Vector3(subtitleRectTransform.position.x, -30, 0);
  }
 
  public void Navigate(InputAction.CallbackContext context)
  {
+  if (!choicesShown) return;
   if (!context.started) return;
   print(context.ReadValue<Vector2>().y);
   choiceButtons[selectedChoice].Deselected();
@@ -59,6 +60,22 @@ public class ChoiceBox : MonoBehaviour
   selectedChoice = Mathf.Clamp(selectedChoice, 0, choiceButtons.Count - 1);
   choiceButtons[selectedChoice].Selected();
 
+ }
+ public void SelectChoice(InputAction.CallbackContext context)
+ {
+  if (!choicesShown) return;
+  if (!context.started) return;
+  print(selectedChoice);
+  ChoiceManager.instance.ChosenChoice(selectedChoice);
+
+  foreach (ChoiceButton choiceButton in choiceButtons)
+  {
+   Destroy(choiceButton.gameObject);
+  }
+
+  choiceButtons.Clear();
+  ShowChoices(false);
+  selectedChoice = 0;
  }
 
  

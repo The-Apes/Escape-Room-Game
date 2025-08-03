@@ -25,4 +25,6 @@ MonoBehaviour:
     actions: []
     customObject: {fileID: 0}
     location: {x: 0, y: 0, z: 0}
-  choices: []
+  choices:
+  - {fileID: 11400000, guid: 1f3fd212ede00344c89c3870513e5a46, type: 2}
+  - {fileID: 11400000, guid: 69da02d3b8e13814288a9b50b471e876, type: 2}

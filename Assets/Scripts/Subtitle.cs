@@ -14,13 +14,18 @@ public class Subtitle : MonoBehaviour
 
     public void SetSubtitle(string line, bool player)
     {
-        if (player != this.player) return;
-        if (_subtitleText)
+        if (player == this.player) {
+            if (_subtitleText)
+            {
+                _subtitleText.text = line;
+            }else
+            {
+                Debug.LogError("Subtitle TextMeshPro component is not assigned.");
+            }
+        }
+        else
         {
-            _subtitleText.text = line;
-        }else
-        {
-            Debug.LogError("Subtitle TextMeshPro component is not assigned.");
+            _subtitleText.text = "";
         }
     }
 }

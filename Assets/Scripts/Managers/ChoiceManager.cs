@@ -45,6 +45,11 @@ public class ChoiceManager : MonoBehaviour
         choiceBox.ShowChoices(true);
     }
 
+    public void ChosenChoice(int choice)
+    {
+        StartCoroutine(ScriptManager.instance.RunScript(ScriptManager.instance.currentScript.choices[choice]));
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

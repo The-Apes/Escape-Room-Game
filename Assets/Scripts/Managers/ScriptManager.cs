@@ -12,6 +12,7 @@ public class ScriptManager : MonoBehaviour
     private bool _nextLine;
     [NonSerialized] public bool NpcTalking;
     [NonSerialized] public ScriptLine CurrentLine;
+    [NonSerialized] public Script currentScript;
     
     private void Awake()
     {
@@ -28,12 +29,13 @@ public class ScriptManager : MonoBehaviour
     
     public void Start()
     {
-        if(introduction) StartCoroutine(RunScript(introduction));
         _npcAgent = FindFirstObjectByType<NpcAgent>();
+        if(introduction) StartCoroutine(RunScript(introduction));
     }
 
     public IEnumerator RunScript(Script script)
     {
+        currentScript = script;
         foreach (ScriptLine line in script.scriptLines)
         {
             CurrentLine = line;
@@ -80,8 +82,15 @@ public class ScriptManager : MonoBehaviour
                 case "question":
                     ChoiceManager.instance.Ask(parameters);
                     break;
-                case "distance to player":
-                    // When the player is at a certain distance
+                case "player distance less than":
+                    if (float.TryParse(parameters, out float distance))
+                    {
+                        StartCoroutine(PlayerDistanceLessThan(distance));
+                    }
+                    else
+                    {
+                        Debug.LogError("Invalid Parameter for 'player distance less than' condition: " + parameters);
+                    }
                     break;
                 case "distance to object":
                     break;
@@ -108,6 +117,16 @@ public class ScriptManager : MonoBehaviour
     private IEnumerator WaitForSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        _nextLine = true;
+    }
+    private IEnumerator PlayerDistanceLessThan(float distance)
+    {
+        GameObject player = FindFirstObjectByType<PlayerMovement>().gameObject;
+        while (Vector3.Distance(_npcAgent.transform.position, player.transform.position) > distance)
+        {
+            print(Vector3.Distance(_npcAgent.transform.position, player.transform.position));
+            yield return null;
+        }
         _nextLine = true;
     }
 }
