@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
- public static DialogueManager Instance;
+ public static DialogueManager instance;
  
  //Braindump
  // if Script manager talking is false, hid the subtitles after some secconds,
  // Add code to show or hide subtitles based on if player is looking ar NPC or not, should this be here on in Subtitle class doe?
  
- private NpcAgent npcAgent;
- private Subtitle subtitle;
- private Logs logs;
+ private NpcAgent _npcAgent;
+ private Subtitle _subtitle;
+ private Logs _logs;
  public void Awake()
  {
   
-  if (Instance == null)
+  if (instance == null)
   {
-   Instance = this;
+   instance = this;
    DontDestroyOnLoad(gameObject);
   }
   else
@@ -24,8 +24,8 @@ public class DialogueManager : MonoBehaviour
    Destroy(gameObject);
   }
 
-  npcAgent = FindFirstObjectByType<NpcAgent>();
-  logs = FindFirstObjectByType<Logs>();
+  _npcAgent = FindFirstObjectByType<NpcAgent>();
+  _logs = FindFirstObjectByType<Logs>();
  }
 
  public void SayLine(string line, bool player = false)
@@ -36,7 +36,7 @@ public class DialogueManager : MonoBehaviour
  }
  public void NpcSpeak(string line)
  {
-  npcAgent.Speak(line);
+  _npcAgent.Speak(line);
  }
  public void ChangeSubtitle (string line, bool player)
  {
@@ -49,10 +49,10 @@ public class DialogueManager : MonoBehaviour
  {
   if (player)
   {
-   logs.lines.Add("Player: "+line);
+   _logs.lines.Add("Player: "+line);
   }else
   {
-   logs.lines.Add("NPC: "+line);
+   _logs.lines.Add("NPC: "+line);
   }
   
   

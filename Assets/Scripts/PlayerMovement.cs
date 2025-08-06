@@ -13,17 +13,17 @@ public class PlayerMovement : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
-    Vector3 velocity;
-    bool isGrounded;
+    Vector3 _velocity;
+    bool _isGrounded;
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        _isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (isGrounded && velocity.y < 0)
+        if (_isGrounded && _velocity.y < 0)
         {
-            velocity.y = -2f; // Reset vertical velocity when grounded
+            _velocity.y = -2f; // Reset vertical velocity when grounded
         }
 
         float x = Input.GetAxis("Horizontal");
@@ -33,12 +33,12 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(move * speed * Time.deltaTime);
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && _isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Calculate jump velocity
+            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Calculate jump velocity
         }
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        _velocity.y += gravity * Time.deltaTime;
+        controller.Move(_velocity * Time.deltaTime);
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ChoiceButton : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    [NonSerialized] public int id;
+    [NonSerialized] public int ID;
     [SerializeField] private Color selectedColor = Color.green;
     [SerializeField] private Color unselectedColor = Color.white;
 
@@ -19,7 +19,7 @@ public class ChoiceButton : MonoBehaviour
 
     private void Start()
     {
-        if (id == 1) Selected();
+        if (ID == 1) Selected();
     }
 
     public void Selected()

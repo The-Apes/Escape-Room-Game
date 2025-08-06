@@ -6,13 +6,13 @@ public class ScriptManager : MonoBehaviour
 {
     public static ScriptManager instance;
     
-    [SerializeField] private Script introduction;
+    [SerializeField] private NpcScriptAsset _introduction;
     private NpcAgent _npcAgent;
 
     private bool _nextLine;
     [NonSerialized] public bool NpcTalking;
     [NonSerialized] public ScriptLine CurrentLine;
-    [NonSerialized] public Script currentScript;
+    [NonSerialized] public NpcScriptAsset CurrentScript;
     
     private void Awake()
     {
@@ -30,18 +30,18 @@ public class ScriptManager : MonoBehaviour
     public void Start()
     {
         _npcAgent = FindFirstObjectByType<NpcAgent>();
-        if(introduction) StartCoroutine(RunScript(introduction));
+        if(_introduction) StartCoroutine(RunScript(_introduction));
     }
 
-    public IEnumerator RunScript(Script script)
+    public IEnumerator RunScript(NpcScriptAsset script)
     {
-        currentScript = script;
+        CurrentScript = script;
         foreach (ScriptLine line in script.scriptLines)
         {
             CurrentLine = line;
             _nextLine = false;
             //Tells the dialogue manager to handle the Line
-            DialogueManager.Instance.SayLine(line.text, line.player);
+            DialogueManager.instance.SayLine(line.text, line.player);
             
             // Does the other actions per the script line
            

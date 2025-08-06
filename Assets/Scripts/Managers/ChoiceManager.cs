@@ -5,7 +5,7 @@ public class ChoiceManager : MonoBehaviour
 {
     public static ChoiceManager instance;
     
-    private ChoiceBox choiceBox;
+    private ChoiceBox _choiceBox;
 
     private void Awake()
     {
@@ -19,7 +19,7 @@ public class ChoiceManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        choiceBox = FindFirstObjectByType<ChoiceBox>();
+        _choiceBox = FindFirstObjectByType<ChoiceBox>();
     }
 
     public void Ask(string question)
@@ -34,20 +34,20 @@ public class ChoiceManager : MonoBehaviour
             choices++;
             currentSample = remainder.Substring(0, remainder.IndexOf(','));
             print(currentSample);
-            choiceBox.AddChoice(currentSample, choices);
+            _choiceBox.AddChoice(currentSample, choices);
             remainder = remainder.Substring(remainder.IndexOf(',')+1);
             print("loop end");
         }
 
         choices++;
-        choiceBox.AddChoice(remainder, choices);
+        _choiceBox.AddChoice(remainder, choices);
         
-        choiceBox.ShowChoices(true);
+        _choiceBox.ShowChoices(true);
     }
 
     public void ChosenChoice(int choice)
     {
-        StartCoroutine(ScriptManager.instance.RunScript(ScriptManager.instance.currentScript.choices[choice]));
+        StartCoroutine(ScriptManager.instance.RunScript(ScriptManager.instance.CurrentScript.choices[choice]));
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

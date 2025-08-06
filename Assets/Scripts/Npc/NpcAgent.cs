@@ -13,11 +13,11 @@ public class NpcAgent : MonoBehaviour
         GoTo,
     }
     
-    private NavMeshAgent agent;
-    private Camera cam;
+    private NavMeshAgent _agent;
+    private Camera _cam;
     public TextMeshPro text;
 
-    private bool walk;
+    private bool _walk;
 
     private bool _talking;
 
@@ -29,8 +29,8 @@ public class NpcAgent : MonoBehaviour
 
     void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        cam = Camera.main;
+        _agent = GetComponent<NavMeshAgent>();
+        _cam = Camera.main;
     }
     
     public void Speak(string line)
@@ -46,13 +46,13 @@ public class NpcAgent : MonoBehaviour
         switch (action)
         {
             case "go to player":
-                agent.destination = cam.transform.position;
+                _agent.destination = _cam.transform.position;
                 break;
             case "go to object":
-                agent.destination = ScriptManager.instance.CurrentLine.customObject.transform.position;
+                _agent.destination = ScriptManager.instance.CurrentLine.customObject.transform.position;
                 break;
             case "go to location":
-                agent.destination = ScriptManager.instance.CurrentLine.location;
+                _agent.destination = ScriptManager.instance.CurrentLine.location;
                 break;
         }
     }
@@ -60,6 +60,6 @@ public class NpcAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (walk) agent.destination = cam.transform.position;
+        if (_walk) _agent.destination = _cam.transform.position;
     }
 }
