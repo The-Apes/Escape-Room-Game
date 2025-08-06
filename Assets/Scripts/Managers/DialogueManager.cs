@@ -32,7 +32,7 @@ public class DialogueManager : MonoBehaviour
  {
   if (!player) NpcSpeak(line);
   ChangeSubtitle(line, player);
-  LogLine(line, player);
+  _logs.LogLine(line, player);
  }
  public void NpcSpeak(string line)
  {
@@ -45,18 +45,8 @@ public class DialogueManager : MonoBehaviour
    subtitle.SetSubtitle(line, player);
   }
  }
- public void LogLine(string line, bool player)
- {
-  if (player)
-  {
-   _logs.lines.Add("Player: "+line);
-  }else
-  {
-   _logs.lines.Add("NPC: "+line);
-  }
+
   
   
   //TODO: Implement logging functionality and UI FOR It
  }
- 
-}

@@ -124,7 +124,6 @@ public class ScriptManager : MonoBehaviour
         GameObject player = FindFirstObjectByType<PlayerMovement>().gameObject;
         while (Vector3.Distance(_npcAgent.transform.position, player.transform.position) > distance)
         {
-            print(Vector3.Distance(_npcAgent.transform.position, player.transform.position));
             yield return null;
         }
         _nextLine = true;
