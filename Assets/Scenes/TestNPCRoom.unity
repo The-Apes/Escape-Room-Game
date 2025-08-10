@@ -2430,7 +2430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ee1d60b2fda604580694027697a992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subtitleRectTransform: {fileID: 436342209}
+  subtitleRectTransform: {fileID: 632231143}
   choiceButtonPrefab: {fileID: 4782054960676474007, guid: d491301d5da1cf543bd321bb3e23c0d0, type: 3}
 --- !u!114 &632231149
 MonoBehaviour:
