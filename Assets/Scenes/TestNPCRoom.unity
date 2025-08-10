@@ -499,7 +499,6 @@ GameObject:
   - component: {fileID: 155060643}
   - component: {fileID: 155060645}
   - component: {fileID: 155060644}
-  - component: {fileID: 155060646}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -625,19 +624,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155060642}
   m_CullTransparentMesh: 1
---- !u!114 &155060646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 155060642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c750069032a66f4a911748b2cd57942, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: 0
 --- !u!1 &161275322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1749,6 +1735,8 @@ GameObject:
   - component: {fileID: 436342210}
   - component: {fileID: 436342214}
   - component: {fileID: 436342213}
+  - component: {fileID: 436342216}
+  - component: {fileID: 436342215}
   m_Layer: 5
   m_Name: NPC Subtitles Panel
   m_TagString: Untagged
@@ -1874,6 +1862,32 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!225 &436342215
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436342208}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &436342216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436342208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c750069032a66f4a911748b2cd57942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: 0
+  shouldShow: 0
 --- !u!1 &441821710
 GameObject:
   m_ObjectHideFlags: 0
@@ -3061,7 +3075,6 @@ GameObject:
   m_Component:
   - component: {fileID: 894435569}
   - component: {fileID: 894435572}
-  - component: {fileID: 894435571}
   - component: {fileID: 894435570}
   m_Layer: 0
   m_Name: Camera
@@ -3129,14 +3142,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &894435571
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894435568}
-  m_Enabled: 1
 --- !u!20 &894435572
 Camera:
   m_ObjectHideFlags: 0
@@ -4061,6 +4066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: 1
+  shouldShow: 0
 --- !u!1 &1445787213
 GameObject:
   m_ObjectHideFlags: 0
