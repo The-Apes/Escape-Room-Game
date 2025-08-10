@@ -12,10 +12,10 @@ public class ChoiceBox : MonoBehaviour
  private Image _image;
  private bool _elevateText;
  
- private int _selectedChoice = 0;
+ private int _selectedChoice;
  private int _avaliableChoices;
  private List <ChoiceButton> _choiceButtons = new List<ChoiceButton>();
- private bool _choicesShown = false;
+ private bool _choicesShown;
  
  private void Awake()
  {
@@ -47,9 +47,9 @@ public class ChoiceBox : MonoBehaviour
  {
   if (!_choicesShown) return;
   if (!context.started) return;
-  print(context.ReadValue<Vector2>().y);
+  print(context.ReadValue<float>());
   _choiceButtons[_selectedChoice].Deselected();
-  if (context.ReadValue<Vector2>().y.Equals(1))
+  if (context.ReadValue<float>().Equals(1))
   {
    _selectedChoice--;
   }
