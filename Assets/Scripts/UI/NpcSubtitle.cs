@@ -21,7 +21,7 @@ namespace UI
         private void Update()
         {
             int targetAlpha = shouldShow ? 1 : 0;
-            _canvasGroup.alpha = Mathf.Lerp(_canvasGroup.alpha, targetAlpha, Time.deltaTime * 10);
+            if(_canvasGroup) _canvasGroup.alpha = Mathf.Lerp(_canvasGroup.alpha, targetAlpha, Time.deltaTime * 10);
         }
 
         public void SetSubtitle(string line, bool player)
