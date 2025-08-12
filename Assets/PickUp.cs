@@ -62,7 +62,7 @@ public class PickUpScript : MonoBehaviour
             else if(hit.transform.gameObject.tag == "Interactable")
             {
                 print("Interactable object hit");
-                hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(hit.transform.gameObject); //call Interactable script on object
+                hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(heldObj); //call Interactable script on object
             }
         }
     }
@@ -107,6 +107,7 @@ public class PickUpScript : MonoBehaviour
         //heldObjRb.isKinematic = false;
         heldObj.transform.parent = placePos;
         heldObj.transform.position = placePos.position; //new Vector3(0f, 0f, 0f);
+        heldObj.transform.rotation = placePos.rotation;
         heldObj = null; //undefine game object
     }
     void MoveObject()
