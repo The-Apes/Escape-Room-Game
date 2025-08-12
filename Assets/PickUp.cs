@@ -34,7 +34,7 @@ public class PickUpScript : MonoBehaviour
     {
         if (heldObj == null) return; //if player is holding object
         MoveObject(); //keep object position at holdPos
-        RotateObject();
+       // RotateObject();
         // if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
         // {
         //     StopClipping();
@@ -76,6 +76,7 @@ public class PickUpScript : MonoBehaviour
         heldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
         heldObjRb.isKinematic = true;
         heldObjRb.transform.parent = holdPos.transform; //parent object to holdposition
+        heldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         heldObj.layer = LayerNumber; //change the object layer to the holdLayer
         
         //make sure object doesnt collide with player, it can cause weird bugs
@@ -95,7 +96,7 @@ public class PickUpScript : MonoBehaviour
         //keep object position the same as the holdPosition position
         heldObj.transform.position = holdPos.transform.position;
     }
-    void RotateObject()
+    /*void RotateObject()
     {
         if (Input.GetKey(KeyCode.R))//hold R key to rotate, change this to whatever key you want
         {
@@ -118,7 +119,7 @@ public class PickUpScript : MonoBehaviour
             //mouseLookScript.lateralSensitivity = originalvalue;
             canDrop = true;
         }
-    }
+    }*/
     // void ThrowObject()
     // {
     //     //same as drop function, but add force to object before undefining it

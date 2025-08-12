@@ -12,9 +12,15 @@ public class GameUI : MonoBehaviour
     {
         _logs = FindFirstObjectByType<Logs>();
     }
-    public void PauseGame(InputAction.CallbackContext context)
+    public void PauseInput(InputAction.CallbackContext context)
     {
         if (!context.started) return;
+        PauseGame();
+
+    }
+
+    public void PauseGame()
+    {
         if (_paused)
         {
             gameScreen.SetActive(true);
