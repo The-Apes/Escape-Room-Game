@@ -47,7 +47,6 @@ public class ChoiceBox : MonoBehaviour
  {
   if (!_choicesShown) return;
   if (!context.started) return;
-  print(context.ReadValue<float>());
   _choiceButtons[_selectedChoice].Deselected();
   if (context.ReadValue<float>().Equals(1))
   {

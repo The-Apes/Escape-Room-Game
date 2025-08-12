@@ -29,14 +29,10 @@ public class ChoiceManager : MonoBehaviour
         int choices = 0;
         while (remainder.Contains(','))
         {
-            print("s");
-            print(remainder);
             choices++;
             currentSample = remainder.Substring(0, remainder.IndexOf(','));
-            print(currentSample);
             _choiceBox.AddChoice(currentSample, choices);
             remainder = remainder.Substring(remainder.IndexOf(',')+1);
-            print("loop end");
         }
 
         choices++;

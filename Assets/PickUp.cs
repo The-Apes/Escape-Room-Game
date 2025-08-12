@@ -45,17 +45,24 @@ public class PickUpScript : MonoBehaviour
     public void Interact(InputAction.CallbackContext context)
     {
         if (!context.started) return; 
-        if (heldObj != null) return; 
         
         //perform raycast to check if player is looking at object within pickuprange
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
         {
             //make sure pickup tag is attached
+            
+            //if you add more tags, turn this into a switch statement habibi
             if (hit.transform.gameObject.tag == "canPickUp")
             {
+                if (heldObj != null) return; 
                 //pass in object hit into the PickUpObject function
                 PickUpObject(hit.transform.gameObject);
+            }
+            else if(hit.transform.gameObject.tag == "Interactable")
+            {
+                print("Interactable object hit");
+                hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(hit.transform.gameObject); //call Interactable script on object
             }
         }
     }
@@ -89,6 +96,17 @@ public class PickUpScript : MonoBehaviour
         heldObj.layer = 0; //object assigned back to default layer
         heldObjRb.isKinematic = false;
         heldObj.transform.parent = null; //unparent object
+        heldObj = null; //undefine game object
+    }
+    public void placeObject(Transform placePos)
+    {
+        print("place");
+        //re-enable collision with player
+        Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
+        heldObj.layer = 0; //object assigned back to default layer
+        //heldObjRb.isKinematic = false;
+        heldObj.transform.parent = placePos;
+        heldObj.transform.position = placePos.position; //new Vector3(0f, 0f, 0f);
         heldObj = null; //undefine game object
     }
     void MoveObject()
