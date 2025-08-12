@@ -12,7 +12,7 @@ public class PickUpScript : MonoBehaviour
 {
     public GameObject player;
     public Transform holdPos;
-    public float throwForce = 500f; //force at which the object is thrown at
+   // public float throwForce = 500f; //force at which the object is thrown at
     public float pickUpRange = 5f; //how far the player can pickup the object from
     private float rotationSensitivity = 1f; //how fast/slow the object is rotated in relation to mouse movement
     private GameObject heldObj; //object which we pick up
@@ -34,7 +34,7 @@ public class PickUpScript : MonoBehaviour
     {
         if (heldObj == null) return; //if player is holding object
         MoveObject(); //keep object position at holdPos
-        RotateObject();
+       // RotateObject();
         // if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
         // {
         //     StopClipping();
@@ -45,17 +45,24 @@ public class PickUpScript : MonoBehaviour
     public void Interact(InputAction.CallbackContext context)
     {
         if (!context.started) return; 
-        if (heldObj != null) return; 
         
         //perform raycast to check if player is looking at object within pickuprange
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
         {
             //make sure pickup tag is attached
+            
+            //if you add more tags, turn this into a switch statement habibi
             if (hit.transform.gameObject.tag == "canPickUp")
             {
+                if (heldObj != null) return; 
                 //pass in object hit into the PickUpObject function
                 PickUpObject(hit.transform.gameObject);
+            }
+            else if(hit.transform.gameObject.tag == "Interactable")
+            {
+                print("Interactable object hit");
+                hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(heldObj); //call Interactable script on object
             }
         }
     }
@@ -76,6 +83,7 @@ public class PickUpScript : MonoBehaviour
         heldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
         heldObjRb.isKinematic = true;
         heldObjRb.transform.parent = holdPos.transform; //parent object to holdposition
+        heldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         heldObj.layer = LayerNumber; //change the object layer to the holdLayer
         
         //make sure object doesnt collide with player, it can cause weird bugs
@@ -90,12 +98,24 @@ public class PickUpScript : MonoBehaviour
         heldObj.transform.parent = null; //unparent object
         heldObj = null; //undefine game object
     }
+    public void placeObject(Transform placePos)
+    {
+        print("place");
+        //re-enable collision with player
+        Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
+        heldObj.layer = 0; //object assigned back to default layer
+        //heldObjRb.isKinematic = false;
+        heldObj.transform.parent = placePos;
+        heldObj.transform.position = placePos.position; //new Vector3(0f, 0f, 0f);
+        heldObj.transform.rotation = placePos.rotation;
+        heldObj = null; //undefine game object
+    }
     void MoveObject()
     {
         //keep object position the same as the holdPosition position
         heldObj.transform.position = holdPos.transform.position;
     }
-    void RotateObject()
+    /*void RotateObject()
     {
         if (Input.GetKey(KeyCode.R))//hold R key to rotate, change this to whatever key you want
         {
@@ -118,7 +138,7 @@ public class PickUpScript : MonoBehaviour
             //mouseLookScript.lateralSensitivity = originalvalue;
             canDrop = true;
         }
-    }
+    }*/
     // void ThrowObject()
     // {
     //     //same as drop function, but add force to object before undefining it
