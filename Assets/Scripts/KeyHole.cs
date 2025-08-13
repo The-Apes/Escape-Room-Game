@@ -14,6 +14,6 @@ public class KeyHole : MonoBehaviour, IInteractable
         print("HeldObject: " + HeldObject);
         print("key: " + key);
         if(!HeldObject.name.Equals(key.name)) return;
-        FindFirstObjectByType<PickUpScript>().placeObject(slot);
+        FindFirstObjectByType<PickUpScript>().PlaceObject(slot);
     }
 }
