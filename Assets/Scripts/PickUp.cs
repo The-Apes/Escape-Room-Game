@@ -4,6 +4,8 @@ Author: JonDevTutorial
 Date: 10/08/2025
 Availability: https://github.com/JonDevTutorial/PickUpTutorial or https://www.youtube.com/watch?v=pPcYr3tL3Sc
 */
+// a lopt o0f this code is commented out because im not sure if we will use a lot of it, don't delete out the commented
+//Code for this exact reason
 
 using UnityEngine;
 using UnityEngine.InputSystem;
