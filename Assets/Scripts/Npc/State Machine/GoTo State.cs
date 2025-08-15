@@ -8,8 +8,8 @@ public class GoToState : State
         
     }
 
-    public State stuff()
-    {
-     return new RoamState();   
-    }
+    // public State stuff()
+    // {
+    //  //return new RoamState();   
+    // }
 }

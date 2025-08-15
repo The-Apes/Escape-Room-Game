@@ -6,12 +6,11 @@ using UnityEngine.AI;
 
 public class NpcAgent : MonoBehaviour
 {
-    private NavMeshAgent _agent;
-    private Camera _cam;
     public TextMeshPro text;
 
+    private NavMeshAgent _agent;
+    private Camera _cam;
     private bool _walk;
-
     private bool _talking;
 
     private enum States
@@ -22,8 +21,8 @@ public class NpcAgent : MonoBehaviour
         Script
     }
     
-    States currentState = States.Roam;
-    private State activeState = new RoamState();
+    States _currentState = States.Roam;
+    private State _activeState;
     private void SetTalking(bool value)
     {
         _talking = value;
@@ -34,8 +33,12 @@ public class NpcAgent : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _cam = Camera.main;
+        _activeState = new RoamState(_agent, transform);
     }
-    
+    private void Start()
+    {
+        text.SetText("");
+    }
     public void Speak(string line)
     {
         //TODO
@@ -62,7 +65,7 @@ public class NpcAgent : MonoBehaviour
 
     public void input()
     {
-        switch (currentState)
+        switch (_currentState)
         {
             case States.Roam:
                 break;
@@ -72,7 +75,7 @@ public class NpcAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        activeState.StateUpdate();
+        _activeState.StateUpdate();
         if (_walk) _agent.destination = _cam.transform.position;
     }
 }
