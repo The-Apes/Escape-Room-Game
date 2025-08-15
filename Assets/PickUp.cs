@@ -93,6 +93,7 @@ public class PickUpScript : MonoBehaviour
         heldObj.layer = 0; //object assigned back to default layer
         heldObjRb.isKinematic = false;
         heldObj.transform.parent = null; //unparent object
+        heldObj.transform.position = new Vector3(heldObj.transform.position.x, Mathf.Max(0.25f, heldObj.transform.position.y), heldObj.transform.position.z);
         heldObj = null; //undefine game object
     }
     public void Inspect(InputAction.CallbackContext context)
