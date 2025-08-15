@@ -57,5 +57,5 @@ public class FPController : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
     }
-}
+
         
