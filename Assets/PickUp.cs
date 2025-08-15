@@ -4,6 +4,8 @@ Author: JonDevTutorial
 Date: 10/08/2025
 Availability: https://github.com/JonDevTutorial/PickUpTutorial or https://www.youtube.com/watch?v=pPcYr3tL3Sc
 */
+// a lopt o0f this code is commented out because im not sure if we will use a lot of it, don't delete out the commented
+//Code for this exact reason
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,14 +13,22 @@ using UnityEngine.InputSystem;
 public class PickUpScript : MonoBehaviour
 {
     public GameObject player;
-    public Transform holdPos;
+    public Transform holdTransform;
+    
+    [SerializeField] private Vector3 holdPos;
+    [SerializeField] private Vector3 inspectPos;
+    
    // public float throwForce = 500f; //force at which the object is thrown at
     public float pickUpRange = 5f; //how far the player can pickup the object from
     private float rotationSensitivity = 1f; //how fast/slow the object is rotated in relation to mouse movement
     private GameObject heldObj; //object which we pick up
     private Rigidbody heldObjRb; //rigidbody of object we pick up
     private bool canDrop = true; //this is needed so we don't throw/drop object when rotating the object
+    private bool inspecting;
     private int LayerNumber; //layer index
+    
+    private MouseLook _mouseLook;
+    private float _cachedLookSensitivity;
 
     //Reference to script which includes mouse movement of player (looking around)
     //we want to disable the player looking around when rotating the object
@@ -27,19 +37,22 @@ public class PickUpScript : MonoBehaviour
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
+        
+        _mouseLook = FindFirstObjectByType<MouseLook>();
+        _cachedLookSensitivity = _mouseLook.mouseSensitivity;
 
         //mouseLookScript = player.GetComponent<MouseLookScript>();
     }
     void Update()
     {
-        if (heldObj == null) return; //if player is holding object
+        if (!heldObj) return; //if player is holding object
         MoveObject(); //keep object position at holdPos
-       // RotateObject();
-        // if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
-        // {
-        //     StopClipping();
-        //     ThrowObject();
-        // }
+        if(inspecting) RotateObject();
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
+        {
+            StopClipping();
+            //ThrowObject();
+        }
     }
 
     public void Interact(InputAction.CallbackContext context)
@@ -82,7 +95,7 @@ public class PickUpScript : MonoBehaviour
         heldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
         heldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
         heldObjRb.isKinematic = true;
-        heldObjRb.transform.parent = holdPos.transform; //parent object to holdposition
+        heldObjRb.transform.parent = holdTransform.transform; //parent object to holdposition
         heldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         heldObj.layer = LayerNumber; //change the object layer to the holdLayer
         
@@ -98,7 +111,28 @@ public class PickUpScript : MonoBehaviour
         heldObj.transform.parent = null; //unparent object
         heldObj = null; //undefine game object
     }
-    public void placeObject(Transform placePos)
+    public void Inspect(InputAction.CallbackContext context)
+    {
+        print(context);
+        if (!context.started) return;
+        if (!heldObj) return;
+        
+        print("Inspect");
+        
+        if (!inspecting)
+        {
+            //_mouseLook.mouseSensitivity = 0f;
+            holdTransform.localPosition = inspectPos;
+            inspecting = true;
+        }
+        else
+        {
+           // _mouseLook.mouseSensitivity = _cachedLookSensitivity;
+            holdTransform.localPosition = holdPos;
+            inspecting = false;
+        }
+    }
+    public void PlaceObject(Transform placePos)
     {
         print("place");
         //re-enable collision with player
@@ -113,32 +147,35 @@ public class PickUpScript : MonoBehaviour
     void MoveObject()
     {
         //keep object position the same as the holdPosition position
-        heldObj.transform.position = holdPos.transform.position;
+        heldObj.transform.position = holdTransform.transform.position;
     }
-    /*void RotateObject()
+    void RotateObject()
     {
-        if (Input.GetKey(KeyCode.R))//hold R key to rotate, change this to whatever key you want
+        if (Input.GetKey(KeyCode.Mouse1))//hold R key to rotate, change this to whatever key you want
         {
             canDrop = false; //make sure throwing can't occur during rotating
-
+            
+            
             //disable player being able to look around
             //mouseLookScript.verticalSensitivity = 0f;
             //mouseLookScript.lateralSensitivity = 0f;
 
             float XaxisRotation = Input.GetAxis("Mouse X") * rotationSensitivity;
             float YaxisRotation = Input.GetAxis("Mouse Y") * rotationSensitivity;
+            
             //rotate the object depending on mouse X-Y Axis
-            heldObj.transform.Rotate(Vector3.down, XaxisRotation);
-            heldObj.transform.Rotate(Vector3.right, YaxisRotation);
+            heldObj.transform.Rotate(Vector3.down, XaxisRotation*3);
+            heldObj.transform.Rotate(Vector3.right, YaxisRotation*3);
         }
         else
         {
             //re-enable player being able to look around
+            
             //mouseLookScript.verticalSensitivity = originalvalue;
             //mouseLookScript.lateralSensitivity = originalvalue;
             canDrop = true;
         }
-    }*/
+    }
     // void ThrowObject()
     // {
     //     //same as drop function, but add force to object before undefining it
