@@ -4,8 +4,6 @@ Author: JonDevTutorial
 Date: 10/08/2025
 Availability: https://github.com/JonDevTutorial/PickUpTutorial or https://www.youtube.com/watch?v=pPcYr3tL3Sc
 */
-// a lopt o0f this code is commented out because im not sure if we will use a lot of it, don't delete out the commented
-//Code for this exact reason
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,7 +16,6 @@ public class PickUpScript : MonoBehaviour
     [SerializeField] private Vector3 holdPos;
     [SerializeField] private Vector3 inspectPos;
     
-   // public float throwForce = 500f; //force at which the object is thrown at
     public float pickUpRange = 5f; //how far the player can pickup the object from
     private float rotationSensitivity = 3f; //how fast/slow the object is rotated in relation to mouse movement
     private GameObject heldObj; //object which we pick up
@@ -28,33 +25,19 @@ public class PickUpScript : MonoBehaviour
     private int LayerNumber; //layer index
     
     private FPController _FPController;
-    private float _cachedLookSensitivity;
-    private float _cachedMoveSpeed;
-
-    //Reference to script which includes mouse movement of player (looking around)
-    //we want to disable the player looking around when rotating the object
-    //example below 
-    //MouseLookScript mouseLookScript;
+    private float _xAxisRotation;
+    private float _yAxisRotation;
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
         
         _FPController = FindFirstObjectByType<FPController>();
-        _cachedLookSensitivity = _FPController.lookSensitivity;
-        _cachedMoveSpeed = _FPController.moveSpeed;
-
-        //mouseLookScript = player.GetComponent<MouseLookScript>();
     }
     void Update()
     {
         if (!heldObj) return; //if player is holding object
         MoveObject(); //keep object position at holdPos
         if(inspecting) RotateObject();
-        if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
-        {
-            StopClipping();
-            //ThrowObject();
-        }
     }
 
     public void Interact(InputAction.CallbackContext context)
@@ -68,13 +51,13 @@ public class PickUpScript : MonoBehaviour
             //make sure pickup tag is attached
             
             //if you add more tags, turn this into a switch statement habibi
-            if (hit.transform.gameObject.tag == "canPickUp")
+            if (hit.transform.gameObject.CompareTag("canPickUp"))
             {
                 if (heldObj != null) return; 
                 //pass in object hit into the PickUpObject function
                 PickUpObject(hit.transform.gameObject);
             }
-            else if(hit.transform.gameObject.tag == "Interactable")
+            else if(hit.transform.gameObject.CompareTag("Interactable"))
             {
                 print("Interactable object hit");
                 hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(heldObj); //call Interactable script on object
@@ -89,7 +72,6 @@ public class PickUpScript : MonoBehaviour
         if (!canDrop) return;
         StopClipping(); //prevents object from clipping through walls
         DropObject();
-
     }
     void PickUpObject(GameObject pickUpObj)
     {
@@ -101,7 +83,7 @@ public class PickUpScript : MonoBehaviour
         heldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         heldObj.layer = LayerNumber; //change the object layer to the holdLayer
         
-        //make sure object doesnt collide with player, it can cause weird bugs
+        //make sure object doesn't collide with player, it can cause weird bugs
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
     }
     void DropObject()
@@ -115,16 +97,13 @@ public class PickUpScript : MonoBehaviour
     }
     public void Inspect(InputAction.CallbackContext context)
     {
-        print(context);
         if (!context.started) return;
         if (!heldObj) return;
         
-        print("Inspect");
-        
         if (!inspecting)
         {
-            _FPController.moveSpeed = 0f;
-            _FPController.lookSensitivity = 0f;
+            _FPController.canMove = false;
+            _FPController.canLook = false;
             holdTransform.localPosition = inspectPos;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true; 
@@ -132,8 +111,8 @@ public class PickUpScript : MonoBehaviour
         }
         else
         {
-            _FPController.moveSpeed = _cachedMoveSpeed;
-           _FPController.lookSensitivity = _cachedLookSensitivity;
+            _FPController.canMove = true;
+            _FPController.canLook = true;
             holdTransform.localPosition = holdPos;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false; 
@@ -148,7 +127,7 @@ public class PickUpScript : MonoBehaviour
         heldObj.layer = 0; //object assigned back to default layer
         //heldObjRb.isKinematic = false;
         heldObj.transform.parent = placePos;
-        heldObj.transform.position = placePos.position; //new Vector3(0f, 0f, 0f);
+        heldObj.transform.position = placePos.position; 
         heldObj.transform.rotation = placePos.rotation;
         heldObj = null; //undefine game object
     }
@@ -157,6 +136,11 @@ public class PickUpScript : MonoBehaviour
         //keep object position the same as the holdPosition position
         heldObj.transform.position = holdTransform.transform.position;
     }
+    public void RotateInput(InputAction.CallbackContext context)
+    {
+        _xAxisRotation = context.ReadValue<Vector2>().x;
+        _yAxisRotation = context.ReadValue<Vector2>().y;
+    }
     void RotateObject()
     {
         if(!inspecting) return; 
@@ -164,16 +148,12 @@ public class PickUpScript : MonoBehaviour
         {
             canDrop = false; //make sure throwing can't occur during rotating
             
-            
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false; 
-
-            float xAxisRotation = Input.GetAxis("Mouse X") * rotationSensitivity;
-            float yAxisRotation = Input.GetAxis("Mouse Y") * rotationSensitivity;
             
             //rotate the object depending on mouse X-Y Axis
-            heldObj.transform.Rotate(Vector3.down, xAxisRotation*3);
-            heldObj.transform.Rotate(Vector3.right, yAxisRotation*3);
+            heldObj.transform.Rotate(Vector3.down, _xAxisRotation*3);
+            heldObj.transform.Rotate(Vector3.right, _yAxisRotation*3);
         }
         else
         {
@@ -182,17 +162,8 @@ public class PickUpScript : MonoBehaviour
             Cursor.visible = true;
         }
     }
-    // void ThrowObject()
-    // {
-    //     //same as drop function, but add force to object before undefining it
-    //     Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
-    //     heldObj.layer = 0;
-    //     heldObjRb.isKinematic = false;
-    //     heldObj.transform.parent = null;
-    //     heldObjRb.AddForce(transform.forward * throwForce);
-    //     heldObj = null;
-    // }
-    void StopClipping() //function only called when dropping/throwing
+
+    void StopClipping() //function only called when dropping
     {
         var clipRange = Vector3.Distance(heldObj.transform.position, transform.position); //distance from holdPos to the camera
         //have to use RaycastAll as object blocks raycast in center screen

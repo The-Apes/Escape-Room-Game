@@ -8,11 +8,13 @@ public class FPController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 3f; //will we have jumping? maybe remove jumping for immersion
     public float gravity = -9.81f;
+    [NonSerialized] public bool canMove = true; //if we want to disable movement, for example when you inspecting an object
     
     [Header("Look Settings")]
     public Transform cameraTransform;
     public float lookSensitivity = 2f;
     public float verticalLookLimit = 90f; //do we need?
+    [NonSerialized] public bool canLook = true; //if we want to disable looking around, for example when you inspecting an object
     
     private CharacterController _characterController;
     private Vector2 moveInput;
@@ -44,6 +46,7 @@ public class FPController : MonoBehaviour
     }
     public void HandleMovement()
     {
+        if (!canMove) return;
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         _characterController.Move(move * moveSpeed * Time.deltaTime);
         if (_characterController.isGrounded && velocity.y < 0) velocity.y = -2f;
@@ -52,6 +55,7 @@ public class FPController : MonoBehaviour
     }
     public void HandleLook()
     {
+        if (!canLook) return;
         float mouseX = lookInput.x * lookSensitivity;
         float mouseY = lookInput.y * lookSensitivity;
         verticalRotation -= mouseY;
