@@ -6,7 +6,7 @@ public class FPController : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    //public float jumpForce = 5f; //will we have jumping? maybe remove jumping for immersion
+    public float jumpForce = 3f; //will we have jumping? maybe remove jumping for immersion
     public float gravity = -9.81f;
     
     [Header("Look Settings")]
@@ -18,6 +18,7 @@ public class FPController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lookInput;
     private Vector3 velocity;
+    private bool isGrounded;
     private float verticalRotation = 0f;
 
     private void Awake()
@@ -26,6 +27,11 @@ public class FPController : MonoBehaviour
         //put this in a manager class maybe?
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false; 
+    }
+    private void Update()
+    {
+        HandleMovement();
+        HandleLook();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -38,11 +44,9 @@ public class FPController : MonoBehaviour
     }
     public void HandleMovement()
     {
-        Vector3 move = transform.right * moveInput.x + transform.forward *
-            moveInput.y;
+        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         _characterController.Move(move * moveSpeed * Time.deltaTime);
-        if (_characterController.isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+        if (_characterController.isGrounded && velocity.y < 0) velocity.y = -2f;
         velocity.y += gravity * Time.deltaTime;
         _characterController.Move(velocity * Time.deltaTime);
     }
@@ -51,10 +55,16 @@ public class FPController : MonoBehaviour
         float mouseX = lookInput.x * lookSensitivity;
         float mouseY = lookInput.y * lookSensitivity;
         verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -verticalLookLimit,
-            verticalLookLimit);
+        verticalRotation = Mathf.Clamp(verticalRotation, -verticalLookLimit, verticalLookLimit);
         cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
+    }
+    public void Jump(InputAction.CallbackContext context)
+    {
+        if (_characterController.isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpForce * -3f * gravity);
+        }
     }
     }
 
