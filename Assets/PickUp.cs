@@ -20,15 +20,16 @@ public class PickUpScript : MonoBehaviour
     
    // public float throwForce = 500f; //force at which the object is thrown at
     public float pickUpRange = 5f; //how far the player can pickup the object from
-    private float rotationSensitivity = 1f; //how fast/slow the object is rotated in relation to mouse movement
+    private float rotationSensitivity = 3f; //how fast/slow the object is rotated in relation to mouse movement
     private GameObject heldObj; //object which we pick up
     private Rigidbody heldObjRb; //rigidbody of object we pick up
     private bool canDrop = true; //this is needed so we don't throw/drop object when rotating the object
     private bool inspecting;
     private int LayerNumber; //layer index
     
-    private MouseLook _mouseLook;
+    private FPController _FPController;
     private float _cachedLookSensitivity;
+    private float _cachedMoveSpeed;
 
     //Reference to script which includes mouse movement of player (looking around)
     //we want to disable the player looking around when rotating the object
@@ -38,8 +39,9 @@ public class PickUpScript : MonoBehaviour
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
         
-        _mouseLook = FindFirstObjectByType<MouseLook>();
-        _cachedLookSensitivity = _mouseLook.mouseSensitivity;
+        _FPController = FindFirstObjectByType<FPController>();
+        _cachedLookSensitivity = _FPController.lookSensitivity;
+        _cachedMoveSpeed = _FPController.moveSpeed;
 
         //mouseLookScript = player.GetComponent<MouseLookScript>();
     }
@@ -48,7 +50,7 @@ public class PickUpScript : MonoBehaviour
         if (!heldObj) return; //if player is holding object
         MoveObject(); //keep object position at holdPos
         if(inspecting) RotateObject();
-        if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
         {
             StopClipping();
             //ThrowObject();
@@ -121,14 +123,20 @@ public class PickUpScript : MonoBehaviour
         
         if (!inspecting)
         {
-            //_mouseLook.mouseSensitivity = 0f;
+            _FPController.moveSpeed = 0f;
+            _FPController.lookSensitivity = 0f;
             holdTransform.localPosition = inspectPos;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true; 
             inspecting = true;
         }
         else
         {
-           // _mouseLook.mouseSensitivity = _cachedLookSensitivity;
+            _FPController.moveSpeed = _cachedMoveSpeed;
+           _FPController.lookSensitivity = _cachedLookSensitivity;
             holdTransform.localPosition = holdPos;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false; 
             inspecting = false;
         }
     }
@@ -151,29 +159,27 @@ public class PickUpScript : MonoBehaviour
     }
     void RotateObject()
     {
+        if(!inspecting) return; 
         if (Input.GetKey(KeyCode.Mouse1))//hold R key to rotate, change this to whatever key you want
         {
             canDrop = false; //make sure throwing can't occur during rotating
             
             
-            //disable player being able to look around
-            //mouseLookScript.verticalSensitivity = 0f;
-            //mouseLookScript.lateralSensitivity = 0f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false; 
 
-            float XaxisRotation = Input.GetAxis("Mouse X") * rotationSensitivity;
-            float YaxisRotation = Input.GetAxis("Mouse Y") * rotationSensitivity;
+            float xAxisRotation = Input.GetAxis("Mouse X") * rotationSensitivity;
+            float yAxisRotation = Input.GetAxis("Mouse Y") * rotationSensitivity;
             
             //rotate the object depending on mouse X-Y Axis
-            heldObj.transform.Rotate(Vector3.down, XaxisRotation*3);
-            heldObj.transform.Rotate(Vector3.right, YaxisRotation*3);
+            heldObj.transform.Rotate(Vector3.down, xAxisRotation*3);
+            heldObj.transform.Rotate(Vector3.right, yAxisRotation*3);
         }
         else
         {
-            //re-enable player being able to look around
-            
-            //mouseLookScript.verticalSensitivity = originalvalue;
-            //mouseLookScript.lateralSensitivity = originalvalue;
             canDrop = true;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
         }
     }
     // void ThrowObject()
