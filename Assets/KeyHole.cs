@@ -1,3 +1,4 @@
+using Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,5 +17,7 @@ public class KeyHole : MonoBehaviour, IInteractable
         if(!HeldObject.Equals(key)) return;
         print("Key matches, placing object in slot");
         FindFirstObjectByType<PickUpScript>().PlaceObject(slot);
+        HeldObject.tag = "Untagged"; //remove tag so we don't pick it up again
+        PuzzleManager.instance.SetPuzzleStagee(1);
     }
 }

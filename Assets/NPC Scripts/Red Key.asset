@@ -10,13 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
-  m_Name: No
+  m_Name: Red Key
   m_EditorClassIdentifier: 
   scriptLines:
-  - text: No I dont, wtf is that
-    player: 1
+  - text: It looks like a key for the door downstairs
+    player: 0
     continueCondition: 'wait: 2'
     actions: []
     customObject: {fileID: 0}
     location: {x: 0, y: 0, z: 0}
-  choices: []
+  - text: Want me to show you?
+    player: 0
+    continueCondition: 'Question: yes, no'
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  choices:
+  - {fileID: 11400000, guid: 618b8d3cbf4106e4db2c0d49e1ed7909, type: 2}
+  - {fileID: 11400000, guid: 69da02d3b8e13814288a9b50b471e876, type: 2}

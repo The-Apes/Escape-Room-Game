@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,36 +20,72 @@ public class NpcInteraction : MonoBehaviour
     public void CallNpcInput(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
+        if (_npcAgent.Busy) return;
         StartCoroutine(CallNpcCoroutine());
     }
     public IEnumerator CallNpcCoroutine()
     {
-        string line = GenericLines.callLines[UnityEngine.Random.Range(0, GenericLines.callLines.Count)];
-        DialogueManager.instance.SayLine(line,true);
+        DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Call"),true);
         yield return new WaitForSeconds(1f);
         
         // Check if the NPC is already following the player
-        string npcLine;
         if (_npcAgent.ActiveState is FollowState)
         {
             Debug.Log("NPC is already following the player.");
-            npcLine = GenericLines.redundantNpcCallLines[UnityEngine.Random.Range(0, GenericLines.redundantNpcCallLines.Count)];
-            DialogueManager.instance.SayLine(npcLine);
-
+            DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Redundant Call"));
         }
         else
         {
-             npcLine = GenericLines.npcCallLines[UnityEngine.Random.Range(0, GenericLines.npcCallLines.Count)];
              FollowState followState = (FollowState)(_npcAgent.ActiveState = new FollowState(_npcAgent, transform, 15f));
-             DialogueManager.instance.SayLine(npcLine);
+             DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Call"));
 
              while (!followState.waiting)
              {
                     yield return null; // Wait until the NPC starts Waiting
              }
-             npcLine = GenericLines.npcArrivalLines[UnityEngine.Random.Range(0, GenericLines.npcArrivalLines.Count)];
-             DialogueManager.instance.SayLine(npcLine);
+            
+             DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Arrival"));
 
+        }
+    }
+ public void DialogueOption(string action)
+    {
+        StartCoroutine(DialogueOptionCoroutine(action));
+    }
+    public IEnumerator DialogueOptionCoroutine(string action)
+    {
+        switch (action)
+        {
+            case "Talk":
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Talk"), true);
+                yield return new WaitForSeconds(0.5f);
+                PuzzleManager.instance.TalkHelp();
+                break;
+            case "Ask about item":
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Inquire Item"), true);
+                yield return new WaitForSeconds(0.5f);
+                _npcAgent.DescribeObject();
+                break;
+            case "Give item":
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Give Item"), true);
+                yield return new WaitForSeconds(0.5f);
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Affirmative"));
+                _npcAgent.TakeObject();
+                _npcAgent.StopInteraction();
+                break;
+            case "Take item":
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Take Item"), true);
+                yield return new WaitForSeconds(0.5f);
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Affirmative"));
+                _npcAgent.GiveObject();
+                _npcAgent.StopInteraction();
+                break;
+            case "Nevermind":
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Cancel"), true);
+                yield return new WaitForSeconds(0.5f);
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Cancel"));
+                _npcAgent.StopInteraction();
+                break;
         }
     }
  

@@ -1,7 +1,8 @@
+using Npc.State_Machine;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FollowState : State
+public class FollowState : IState
 {
     public bool waiting;
     
@@ -17,18 +18,17 @@ public class FollowState : State
         _npcAgent = agent;
     }
 
-    public State StateUpdate()
+    public IState StateUpdate()
     {
-        _npcAgent.agent.SetDestination(_target.position);
+        _npcAgent.Agent.SetDestination(_target.position);
 
-        if (_followTime > 0f && _npcAgent.agent.pathPending == false && _npcAgent.agent.remainingDistance <= _npcAgent.agent.stoppingDistance)
+        if (_followTime > 0f && _npcAgent.Agent.pathPending == false && _npcAgent.Agent.remainingDistance <= _npcAgent.Agent.stoppingDistance)
         {
             waiting = true;
             _timer += Time.deltaTime;
-            if (_timer >= _followTime)
+            if (_timer >= _followTime && !_npcAgent.Busy)
             {
-                string npcLine = GenericLines.npcRoamLines[UnityEngine.Random.Range(0, GenericLines.npcCallLines.Count)];
-                DialogueManager.instance.SayLine(npcLine);
+                DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Roam"));
                 return new RoamState(_npcAgent, _npcAgent.transform);
             }
         }

@@ -4,22 +4,23 @@ Date: 12/08/2025
 Availability: https://www.youtu.be/-ZP2Xm-mY4E?si=vA2NjSFFdNNDiejb //TODO fix link
 */
 
-using UnityEngine;
-
-public interface State
+namespace Npc.State_Machine
 {
-    public State StateUpdate() //needs to return a state ig
+    public interface IState
     {
-        return null;
-    }
-    public void enterState()
-    {
+        public IState StateUpdate() //needs to return a state ig
+        {
+            return null;
+        }
+        public void enterState()
+        {
         
-    }
+        }
 
-    public void exitState()
-    {
+        public void exitState()
+        {
+        
+        }
         
     }
-        
 }

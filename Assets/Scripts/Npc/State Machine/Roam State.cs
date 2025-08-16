@@ -1,7 +1,8 @@
+using Npc.State_Machine;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RoamState : State
+public class RoamState : IState
 {
     public float roamRadius = 10f;
     public float waitTime = 2f;
@@ -17,9 +18,9 @@ public class RoamState : State
         GoToRandomPoint();
     }
 
-    public State StateUpdate()
+    public IState StateUpdate()
     {
-        if (!_npcAgent.agent.pathPending && _npcAgent.agent.remainingDistance <= _npcAgent.agent.stoppingDistance)
+        if (!_npcAgent.Agent.pathPending && _npcAgent.Agent.remainingDistance <= _npcAgent.Agent.stoppingDistance)
         {
             _waitTimer += Time.deltaTime;
             if (_waitTimer >= waitTime)
@@ -38,7 +39,7 @@ public class RoamState : State
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomDirection, out hit, roamRadius, NavMesh.AllAreas))
         {
-            _npcAgent.agent.SetDestination(hit.position);
+            _npcAgent.Agent.SetDestination(hit.position);
         }
     }
 }

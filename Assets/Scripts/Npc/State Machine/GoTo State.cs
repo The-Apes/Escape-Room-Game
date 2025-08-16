@@ -1,7 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using IState = Npc.State_Machine.IState;
 
-public class GoToState : State
+public class GoToState : IState
 {
     public void Update()
     {

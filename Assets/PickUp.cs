@@ -5,6 +5,7 @@ Date: 10/08/2025
 Availability: https://github.com/JonDevTutorial/PickUpTutorial or https://www.youtube.com/watch?v=pPcYr3tL3Sc
 */
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,10 +17,11 @@ public class PickUpScript : MonoBehaviour
     [SerializeField] private Vector3 holdPos;
     [SerializeField] private Vector3 inspectPos;
     
+    [NonSerialized] public GameObject heldObj; //object which we pick up
+    [NonSerialized]public Rigidbody heldObjRb; //rigidbody of object we pick up
+
     public float pickUpRange = 5f; //how far the player can pickup the object from
     private float rotationSensitivity = 3f; //how fast/slow the object is rotated in relation to mouse movement
-    private GameObject heldObj; //object which we pick up
-    private Rigidbody heldObjRb; //rigidbody of object we pick up
     private bool canDrop = true; //this is needed so we don't throw/drop object when rotating the object
     private bool inspecting;
     private int LayerNumber; //layer index
@@ -48,19 +50,24 @@ public class PickUpScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
         {
-            //make sure pickup tag is attached
+            //make sure tag is attached
             
-            //if you add more tags, turn this into a switch statement habibi
-            if (hit.transform.gameObject.CompareTag("canPickUp"))
+            switch (hit.transform.gameObject.tag)
             {
-                if (heldObj != null) return; 
+                case "canPickUp" when heldObj != null:
+                    return;
+                //make sure pickup tag is attached
                 //pass in object hit into the PickUpObject function
-                PickUpObject(hit.transform.gameObject);
-            }
-            else if(hit.transform.gameObject.CompareTag("Interactable"))
-            {
-                print("Interactable object hit");
-                hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(heldObj); //call Interactable script on object
+                case "canPickUp":
+                    PickUpObject(hit.transform.gameObject);
+                    break;
+                case "Interactable":
+                    print("Interactable object hit");
+                    hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(heldObj); //call Interactable script on object
+                    break;
+                case "NPC":
+                    FindFirstObjectByType<NpcAgent>().Interact();
+                    break;
             }
         }
     }
@@ -73,7 +80,7 @@ public class PickUpScript : MonoBehaviour
         StopClipping(); //prevents object from clipping through walls
         DropObject();
     }
-    void PickUpObject(GameObject pickUpObj)
+    public void PickUpObject(GameObject pickUpObj)
     {
         if (!pickUpObj.GetComponent<Rigidbody>()) return; //make sure the object has a RigidBody
         heldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
@@ -86,7 +93,7 @@ public class PickUpScript : MonoBehaviour
         //make sure object doesn't collide with player, it can cause weird bugs
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
     }
-    void DropObject()
+    public void DropObject()
     {
         //re-enable collision with player
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);

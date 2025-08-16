@@ -10,7 +10,7 @@ public class DialogueManager : MonoBehaviour
  // Add code to show or hide subtitles based on if player is looking ar NPC or not, should this be here on in Subtitle class doe?
  
  private NpcAgent _npcAgent;
- private NpcSubtitle _npcSubtitle;
+ private Subtitle _subtitle;
  private Logs _logs;
  public void Awake()
  {
@@ -41,7 +41,7 @@ public class DialogueManager : MonoBehaviour
 
  public void ChangeSubtitle (string line, bool player, float duration)
  {
-  foreach (NpcSubtitle subtitle in FindObjectsByType<NpcSubtitle>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+  foreach (Subtitle subtitle in FindObjectsByType<Subtitle>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
   {
    subtitle.SetSubtitle(line, player, duration);
   }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class NpcSubtitle : MonoBehaviour
+    public class Subtitle : MonoBehaviour
     {
         public bool shouldShow; // Controls whether the subtitle should be shown or not
         public bool player; // Indicates if the subtitle is for the player
@@ -20,7 +20,9 @@ namespace UI
             _subtitleText = GetComponentInChildren<TextMeshProUGUI>();
             _canvasGroup = GetComponent<CanvasGroup>();
             _backgroundImage = GetComponent<Image>();
+            
             _backgroundImage.color = new Color(_backgroundImage.color.r, _backgroundImage.color.g, _backgroundImage.color.b, 0.0f);
+            _subtitleText.text = "";
         }
 
         private void Update()

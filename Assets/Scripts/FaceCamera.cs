@@ -5,7 +5,7 @@ public class FaceCamera : MonoBehaviour
 {
     private RectTransform _rectTransform;
     private MeshRenderer _meshRenderer;
-    private NpcSubtitle _npcSubtitle;
+    private Subtitle _subtitle;
     private Camera _cam;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -14,12 +14,12 @@ public class FaceCamera : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
         _meshRenderer = GetComponent<MeshRenderer>();
         
-        NpcSubtitle[] subs = FindObjectsByType<NpcSubtitle>(FindObjectsSortMode.None);
+        Subtitle[] subs = FindObjectsByType<Subtitle>(FindObjectsSortMode.None);
 
-        foreach (NpcSubtitle sub in subs)
+        foreach (Subtitle sub in subs)
         {
             if (sub.player) continue;
-            _npcSubtitle = sub;
+            _subtitle = sub;
             break;
         }
         _cam = Camera.main;
@@ -32,9 +32,9 @@ public class FaceCamera : MonoBehaviour
         transform.rotation = transform.rotation * Quaternion.Euler(0, 180, 0);
         
         float textSize = Vector3.Distance(transform.position, _cam.transform.position)/ 10;
-        
-        _rectTransform.localScale = new Vector3(textSize, textSize, textSize);
-   
-        if (_npcSubtitle) _npcSubtitle.shouldShow = !_meshRenderer.isVisible;
+
+        if (!_rectTransform) return;
+            _rectTransform.localScale = new Vector3(textSize, textSize, textSize);
+        if (_subtitle) _subtitle.shouldShow = !_meshRenderer.isVisible;
     }
 }

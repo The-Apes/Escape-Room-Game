@@ -30,12 +30,18 @@ public class ScriptManager : MonoBehaviour
     public void Start()
     {
         _npcAgent = FindFirstObjectByType<NpcAgent>();
-        if(_introduction) StartCoroutine(RunScript(_introduction));
+        if(_introduction) StartCoroutine(RunScriptCoroutine(_introduction));
     }
 
-    public IEnumerator RunScript(NpcScriptAsset script)
+    public void RunScript(NpcScriptAsset script)
+    {
+        StartCoroutine(RunScriptCoroutine(script));
+    }
+
+    public IEnumerator RunScriptCoroutine(NpcScriptAsset script)
     {
         CurrentScript = script;
+        _npcAgent.ScriptStart();
         foreach (ScriptLine line in script.scriptLines)
         {
             CurrentLine = line;
@@ -64,7 +70,15 @@ public class ScriptManager : MonoBehaviour
             }
             
             // Waits for the condition for the dialogue to be met to continue
-            String condition = line.continueCondition.Substring(0, line.continueCondition.IndexOf(':')).ToLower();
+            String condition = "";
+            if (line.continueCondition.Contains(':'))
+            {
+                condition = line.continueCondition.Substring(0, line.continueCondition.IndexOf(':')).ToLower();
+            }
+            else
+            {
+                condition = line.continueCondition.Trim().ToLower();
+            }
             String parameters = line.continueCondition.Substring(line.continueCondition.IndexOf(':') + 1).Trim().ToLower();
             switch (condition)
             {
@@ -81,6 +95,9 @@ public class ScriptManager : MonoBehaviour
                     break;
                 case "question":
                     ChoiceManager.instance.Ask(parameters);
+                    break;
+                case "destination":
+                    StartCoroutine(WaitUntilDestination());
                     break;
                 case "player distance less than":
                     if (float.TryParse(parameters, out float distance))
@@ -104,6 +121,7 @@ public class ScriptManager : MonoBehaviour
                     Debug.LogError("Unknown command:"+condition);
                     Debug.LogWarning("Waiting for 3 seconds instead");
                     StartCoroutine(WaitForSeconds(3));
+                    _nextLine = true; // Default to true to avoid infinite wait
                     break;
             }
 
@@ -112,6 +130,7 @@ public class ScriptManager : MonoBehaviour
                 yield return null;
             }
         }
+        _npcAgent.ScriptEnd();
     }
 
     private IEnumerator WaitForSeconds(float seconds)
@@ -119,9 +138,18 @@ public class ScriptManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         _nextLine = true;
     }
+
+    private IEnumerator WaitUntilDestination()
+    {
+        while (!(_npcAgent.Agent.pathPending == false && _npcAgent.Agent.remainingDistance <= _npcAgent.Agent.stoppingDistance))
+        {
+            yield return null;
+        }
+        _nextLine = true;
+    }
     private IEnumerator PlayerDistanceLessThan(float distance)
     {
-        GameObject player = FindFirstObjectByType<PlayerMovement>().gameObject;
+        GameObject player = FindFirstObjectByType<FPController>().gameObject;
         while (Vector3.Distance(_npcAgent.transform.position, player.transform.position) > distance)
         {
             yield return null;
