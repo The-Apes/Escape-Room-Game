@@ -39,7 +39,7 @@ public class NpcInteraction : MonoBehaviour
         else
         {
              npcLine = GenericLines.npcCallLines[UnityEngine.Random.Range(0, GenericLines.npcCallLines.Count)];
-             FollowState followState = (FollowState)(_npcAgent.ActiveState = new FollowState(_npcAgent, transform, 5f));
+             FollowState followState = (FollowState)(_npcAgent.ActiveState = new FollowState(_npcAgent, transform, 15f));
              DialogueManager.instance.SayLine(npcLine);
 
              while (!followState.waiting)

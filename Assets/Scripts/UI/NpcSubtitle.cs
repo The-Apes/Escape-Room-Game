@@ -8,7 +8,7 @@ namespace UI
     public class NpcSubtitle : MonoBehaviour
     {
         public bool shouldShow; // Controls whether the subtitle should be shown or not
-        [SerializeField] private bool player; // Indicates if the subtitle is for the player
+        public bool player; // Indicates if the subtitle is for the player
 
         private TextMeshProUGUI _subtitleText;
         private Image _backgroundImage; 
@@ -32,6 +32,7 @@ namespace UI
         public void SetSubtitle(string line, bool player, float duration)
         {
             if (player == this.player) {
+                StopAllCoroutines();
                 StartCoroutine(SetSubtitleCoroutine(line, duration));
             }
             // else

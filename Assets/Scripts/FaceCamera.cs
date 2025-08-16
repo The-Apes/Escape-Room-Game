@@ -13,7 +13,15 @@ public class FaceCamera : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
         _meshRenderer = GetComponent<MeshRenderer>();
-        _npcSubtitle = FindFirstObjectByType<NpcSubtitle>();
+        
+        NpcSubtitle[] subs = FindObjectsByType<NpcSubtitle>(FindObjectsSortMode.None);
+
+        foreach (NpcSubtitle sub in subs)
+        {
+            if (sub.player) continue;
+            _npcSubtitle = sub;
+            break;
+        }
         _cam = Camera.main;
     }
 
