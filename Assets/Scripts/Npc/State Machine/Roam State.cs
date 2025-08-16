@@ -6,20 +6,20 @@ public class RoamState : State
     public float roamRadius = 10f;
     public float waitTime = 2f;
 
-    private NavMeshAgent _agent;
+    private NpcAgent _npcAgent;
     private float _waitTimer;
     private Transform _npcTransform;
 
-    public RoamState(NavMeshAgent agent, Transform npcTransform)
+    public RoamState(NpcAgent npcAgent, Transform npcTransform)
     {
-        _agent = agent;
+        _npcAgent = npcAgent;
         _npcTransform = npcTransform;
         GoToRandomPoint();
     }
 
     public State StateUpdate()
     {
-        if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance)
+        if (!_npcAgent.agent.pathPending && _npcAgent.agent.remainingDistance <= _npcAgent.agent.stoppingDistance)
         {
             _waitTimer += Time.deltaTime;
             if (_waitTimer >= waitTime)
@@ -28,7 +28,7 @@ public class RoamState : State
                 _waitTimer = 0f;
             }
         }
-        return this;
+        return null;
     }
     void GoToRandomPoint()
     {
@@ -38,7 +38,7 @@ public class RoamState : State
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomDirection, out hit, roamRadius, NavMesh.AllAreas))
         {
-            _agent.SetDestination(hit.position);
+            _npcAgent.agent.SetDestination(hit.position);
         }
     }
 }

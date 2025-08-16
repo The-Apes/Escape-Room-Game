@@ -3,12 +3,13 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class NpcAgent : MonoBehaviour
 {
     public TextMeshPro text;
 
-    private NavMeshAgent _agent;
+   public NavMeshAgent agent;
     private Camera _cam;
     private bool _walk;
     private bool _talking;
@@ -22,7 +23,7 @@ public class NpcAgent : MonoBehaviour
     }
     
     States _currentState = States.Roam;
-    private State _activeState;
+    public State ActiveState;
     private void SetTalking(bool value)
     {
         _talking = value;
@@ -31,19 +32,26 @@ public class NpcAgent : MonoBehaviour
 
     void Awake()
     {
-        _agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         _cam = Camera.main;
-        _activeState = new RoamState(_agent, transform);
+        ActiveState = new RoamState(this, transform);
     }
     private void Start()
     {
         text.SetText("");
     }
-    public void Speak(string line)
+    public void Speak(string line, float duration)
+    {
+        StartCoroutine(SpeakCoroutine(line, duration));
+    }
+    private IEnumerator SpeakCoroutine(string line, float duration)
     {
         //TODO
         // For each line, display one character at a time same way we did bog wood
+        //SetTalking(true); don't wanna break nothing
         text.SetText(line);
+        yield return new WaitForSeconds(duration);
+        text.SetText("");
         SetTalking(false);
     }
 
@@ -52,13 +60,13 @@ public class NpcAgent : MonoBehaviour
         switch (action)
         {
             case "go to player":
-                _agent.destination = _cam.transform.position;
+                agent.destination = _cam.transform.position;
                 break;
             case "go to object":
-                _agent.destination = ScriptManager.instance.CurrentLine.customObject.transform.position;
+                agent.destination = ScriptManager.instance.CurrentLine.customObject.transform.position;
                 break;
             case "go to location":
-                _agent.destination = ScriptManager.instance.CurrentLine.location;
+                agent.destination = ScriptManager.instance.CurrentLine.location;
                 break;
         }
     }
@@ -75,7 +83,17 @@ public class NpcAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _activeState.StateUpdate();
-        if (_walk) _agent.destination = _cam.transform.position;
+        var newState = ActiveState.StateUpdate();
+        if (newState != null)
+        {
+            ChangeState(newState);
+        }
+    }
+
+    private void ChangeState(State newState)
+    {
+        ActiveState.exitState();
+        ActiveState = newState;
+        ActiveState.enterState();
     }
 }

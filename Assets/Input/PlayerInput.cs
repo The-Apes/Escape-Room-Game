@@ -181,6 +181,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Call NPC"",
+                    ""type"": ""Button"",
+                    ""id"": ""df556719-7ff6-4e7c-80f9-e20b1959cc98"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -535,6 +544,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e67cdc0f-32dd-4537-a63f-b6bff2831583"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keybaord and Mouse"",
+                    ""action"": ""Call NPC"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34939cde-fa3f-476e-9f0b-f405b54b4aca"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Call NPC"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -581,6 +612,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_SelectChoice = m_Player.FindAction("Select Choice", throwIfNotFound: true);
         m_Player_NavigateChoice = m_Player.FindAction("NavigateChoice", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_CallNPC = m_Player.FindAction("Call NPC", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -671,6 +703,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SelectChoice;
     private readonly InputAction m_Player_NavigateChoice;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_CallNPC;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -722,6 +755,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Pause".
         /// </summary>
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/CallNPC".
+        /// </summary>
+        public InputAction @CallNPC => m_Wrapper.m_Player_CallNPC;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -778,6 +815,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @CallNPC.started += instance.OnCallNPC;
+            @CallNPC.performed += instance.OnCallNPC;
+            @CallNPC.canceled += instance.OnCallNPC;
         }
 
         /// <summary>
@@ -819,6 +859,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @CallNPC.started -= instance.OnCallNPC;
+            @CallNPC.performed -= instance.OnCallNPC;
+            @CallNPC.canceled -= instance.OnCallNPC;
         }
 
         /// <summary>
@@ -955,5 +998,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Call NPC" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCallNPC(InputAction.CallbackContext context);
     }
 }

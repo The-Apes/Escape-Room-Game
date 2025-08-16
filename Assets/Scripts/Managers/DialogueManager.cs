@@ -29,21 +29,21 @@ public class DialogueManager : MonoBehaviour
   _logs = FindFirstObjectByType<Logs>();
  }
 
- public void SayLine(string line, bool player = false)
+ public void SayLine(string line, bool player = false, float duration = -1f)
  {
-  if (!player) NpcSpeak(line);
-  ChangeSubtitle(line, player);
+  float time = duration;
+  if (time == -1f) time = Mathf.Max(1,line.Split(' ').Length * 0.35f); // 0.35 seconds per word, can be adjusted
+  
+  if (!player) _npcAgent.Speak(line, time);
+  ChangeSubtitle(line, player, time);
   _logs.LogLine(line, player);
  }
- public void NpcSpeak(string line)
- {
-  _npcAgent.Speak(line);
- }
- public void ChangeSubtitle (string line, bool player)
+
+ public void ChangeSubtitle (string line, bool player, float duration)
  {
   foreach (NpcSubtitle subtitle in FindObjectsByType<NpcSubtitle>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
   {
-   subtitle.SetSubtitle(line, player);
+   subtitle.SetSubtitle(line, player, duration);
   }
  }
 
