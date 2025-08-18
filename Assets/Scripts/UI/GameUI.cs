@@ -54,15 +54,7 @@ namespace UI
 
         public void QuitGame()
         {
-            //closes the game
-            if (Application.isEditor)
-            {
-                UnityEditor.EditorApplication.isPlaying = false;
-            }
-            else
-            {
                 Application.Quit();
-            }
         }
     }
 }
