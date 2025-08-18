@@ -13,7 +13,7 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
-    public class PickUpScript : MonoBehaviour
+    public class ObjectInteractor : MonoBehaviour
     {
         public GameObject player;
         public Transform holdTransform;
@@ -80,6 +80,7 @@ namespace Player
             if (HeldObj == null) return;
             if (!context.started) return;
             if (!_canDrop) return;
+            if (_inspecting) return;
             StopClipping(); //prevents object from clipping through walls
             DropObject();
         }

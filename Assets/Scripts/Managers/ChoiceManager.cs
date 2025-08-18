@@ -45,7 +45,7 @@ namespace Managers
 
         public void ChosenChoice(int choice)
         {
-            StartCoroutine(ScriptManager.instance.RunScriptCoroutine(ScriptManager.instance.CurrentScript.choices[choice]));
+            ScriptManager.instance.RunScript(ScriptManager.instance.CurrentScript.choices[choice]);
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created

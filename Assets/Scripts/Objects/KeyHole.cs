@@ -18,9 +18,9 @@ namespace Objects
             print("key: " + key);
             if(!heldObject.Equals(key)) return;
             print("Key matches, placing object in slot");
-            FindFirstObjectByType<PickUpScript>().PlaceObject(slot);
+            FindFirstObjectByType<ObjectInteractor>().PlaceObject(slot);
             heldObject.tag = "Untagged"; //remove tag so we don't pick it up again
-            PuzzleManager.instance.SetPuzzleStage(1);
+            PuzzleManager.instance.SetPuzzleStage(2);
         }
     }
 }

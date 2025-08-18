@@ -28,7 +28,7 @@ namespace Npc
         private bool _walk;
         private bool _talking;
         private Rigidbody _heldObjRb; //rigidbody of object we pick up
-        private PickUpScript _pickUpScript;
+        private ObjectInteractor _objectInteractor;
     
     
 
@@ -57,7 +57,7 @@ namespace Npc
         private void Start()
         {
             text.SetText("");
-            _pickUpScript = FindFirstObjectByType<PickUpScript>();
+            _objectInteractor = FindFirstObjectByType<ObjectInteractor>();
 
         }
         void Update()
@@ -158,12 +158,12 @@ namespace Npc
 
         public void TakeObject()
         {
-            GameObject objectToPickUp = _pickUpScript.HeldObj;
-            _pickUpScript.HeldObj = null;
+            GameObject objectToPickUp = _objectInteractor.HeldObj;
+            _objectInteractor.HeldObj = null;
             HeldObj = objectToPickUp; //assign heldObj to the object that was hit by the raycast (no longer == null)
             HeldObj.transform.position = holdTransform.transform.position; //set position to hold position
-            _heldObjRb = _pickUpScript.HeldObjRb.GetComponent<Rigidbody>(); //assign Rigidbody
-            _pickUpScript.HeldObjRb = null;
+            _heldObjRb = _objectInteractor.HeldObjRb.GetComponent<Rigidbody>(); //assign Rigidbody
+            _objectInteractor.HeldObjRb = null;
             _heldObjRb.isKinematic = true;
             _heldObjRb.transform.parent = holdTransform.transform; //parent object to hold position
             _heldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
@@ -178,13 +178,13 @@ namespace Npc
 
         public void GiveObject()
         {
-            if (_pickUpScript.HeldObj)
+            if (_objectInteractor.HeldObj)
             {
                 DropObject();
             }
             else
             {
-                _pickUpScript.PickUpObject(HeldObj);
+                _objectInteractor.PickUpObject(HeldObj);
                 HeldObj.tag = "canPickUp"; //reset tag to canPickUp
                 HeldObj = null;
                 _heldObjRb = null; 

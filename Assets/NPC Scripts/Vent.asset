@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
+  m_Name: Vent
+  m_EditorClassIdentifier: 
+  scriptLines:
+  - text: What?? who hides stuff in vents
+    player: 0
+    continueCondition: 'wait: 3'
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: "Maybe he was \u201Cprototyping\u201D a clever way to hide it."
+    player: 0
+    continueCondition: 'wait: 4'
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: 'I feel the urge to wink for some reason '
+    player: 0
+    continueCondition: 'wait: 4'
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Hey, pass the thing in the vent over to me, I can give it a look for you
+    player: 0
+    continueCondition: 'wait: 4'
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  choices: []

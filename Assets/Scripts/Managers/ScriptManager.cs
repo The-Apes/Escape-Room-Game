@@ -39,10 +39,16 @@ namespace Managers
 
         public void RunScript(NpcScriptAsset script)
         {
+            if (script == null)
+            {
+                Debug.Log("No Script");
+                _npcAgent.ScriptEnd();
+                return;
+            }
             StartCoroutine(RunScriptCoroutine(script));
         }
 
-        public IEnumerator RunScriptCoroutine(NpcScriptAsset script)
+        private IEnumerator RunScriptCoroutine(NpcScriptAsset script)
         {
             CurrentScript = script;
             _npcAgent.ScriptStart();

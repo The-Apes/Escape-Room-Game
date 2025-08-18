@@ -26,8 +26,8 @@ namespace UI
 
             CreateChoice("Talk");
             if(_npcAgent.HeldObj) CreateChoice("Ask about item");
-            if(FindFirstObjectByType<PickUpScript>().HeldObj && !_npcAgent.HeldObj) CreateChoice("Give item");
-            if(!FindFirstObjectByType<PickUpScript>().HeldObj && _npcAgent.HeldObj) CreateChoice("Take item");
+            if(FindFirstObjectByType<ObjectInteractor>().HeldObj && !_npcAgent.HeldObj) CreateChoice("Give item");
+            if(!FindFirstObjectByType<ObjectInteractor>().HeldObj && _npcAgent.HeldObj) CreateChoice("Take item");
        
             //Todo
             //if (_npcAgent.CachedState is RoamState) CreateChoice("Follow");
