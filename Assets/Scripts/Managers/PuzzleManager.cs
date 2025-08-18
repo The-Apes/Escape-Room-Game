@@ -9,6 +9,8 @@ namespace Managers
         public static PuzzleManager instance;
         
         public int puzzleStage; // Start with -1 to indicate no puzzle state set, but 0 for prototype
+        
+        [SerializeField] private NpcScriptAsset prototypeEnd; // Script to run when the prototype is completed
 
         private void Awake()
         {
@@ -49,6 +51,9 @@ namespace Managers
                     break;
                 case 2:
                     DialogueManager.instance.SayLine("Maybe check inside the closet for something useful?");
+                    break;
+                case 3: 
+                    ScriptManager.instance.RunScript(prototypeEnd);  //make a script list with disctionaries that can be acsessed with as string key?
                     break;
                 default:
                     DialogueManager.instance.SayLine("Unfortunately i'm not sure");

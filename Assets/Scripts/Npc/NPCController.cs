@@ -86,8 +86,11 @@ namespace Npc
         }
         public void ScriptStart()
         {
-            _cachedState = ActiveState;
-            ActiveState = null;
+            if(ActiveState != null) 
+            {
+                _cachedState = ActiveState;
+                ActiveState = null;
+            }
             Busy = true; //make a separate script bool?
         }
         public void ScriptEnd()
@@ -224,6 +227,7 @@ namespace Npc
 
         private void ChangeState(IState newState)
         {
+            if(ActiveState == null) return;
             ActiveState.ExitState();
             ActiveState = newState;
             ActiveState.EnterState();

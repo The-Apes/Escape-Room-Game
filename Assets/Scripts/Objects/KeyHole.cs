@@ -1,13 +1,14 @@
 using Managers;
 using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Objects
 {
     public class KeyHole : MonoBehaviour, IInteractable
     {
-        public GameObject key;
-    
+        [SerializeField] private GameObject key;
+        [SerializeField] private GameObject door;
         [SerializeField] private Transform slot;
 
         public void OnInteract(GameObject heldObject)
@@ -21,6 +22,7 @@ namespace Objects
             FindFirstObjectByType<ObjectInteractor>().PlaceObject(slot);
             heldObject.tag = "Untagged"; //remove tag so we don't pick it up again
             PuzzleManager.instance.SetPuzzleStage(2);
+            Destroy(door);
         }
     }
 }

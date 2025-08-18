@@ -51,5 +51,18 @@ namespace UI
                 _paused = true;
             }
         }
+
+        public void QuitGame()
+        {
+            //closes the game
+            if (Application.isEditor)
+            {
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+            else
+            {
+                Application.Quit();
+            }
+        }
     }
 }
