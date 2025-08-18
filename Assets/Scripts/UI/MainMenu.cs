@@ -41,7 +41,7 @@ public class MainMenu : MonoBehaviour
                     "<b>E / West Button</b> - Select Choice\n" +
                     "<b>Scroll / D-Pad</b> - Navigate Choice\n" +
                     "<b>Q / Left Shoulder</b> - Call NPC\n" +
-                    "<b>Escape / Start</b> - Pause"
+                    "<b>Escape / Start</b> - Pause, <color=yellow><b>Dialogue Logs</b></color>"
                 );
                 continueButton.SetText("Start");
                 _continueStage++;
