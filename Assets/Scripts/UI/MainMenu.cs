@@ -29,12 +29,24 @@ public class MainMenu : MonoBehaviour
         switch (_continueStage)
         {
             case 0:
-                description.SetText("<size=50>Controls:</size> \n <b>WASD</b> - Movement \n <b>Scroll</b> - Cycle Choice \n <b>F</b> - Select Choice\n <b>P</b> - Pause");
+                description.SetText(
+                    "<size=50>Controls:</size>\n" +
+                    "<b>WASD / Left Stick</b> - Move\n" +
+                    "<b>Mouse / Right Stick</b> - Look Around\n" +
+                    "<b>Space / South Button</b> - Jump\n" +
+                    "<b>C / Left Stick Press</b> - Crouch\n" +
+                    "<b>Left Mouse / West Button</b> - Interact\n" +
+                    "<b>G / East Button</b> - Drop\n" +
+                    "<b>F / North Button</b> - Inspect\n" +
+                    "<b>E / West Button</b> - Select Choice\n" +
+                    "<b>Scroll / D-Pad</b> - Navigate Choice\n" +
+                    "<b>Q / Left Shoulder</b> - Call NPC\n" +
+                    "<b>Escape / Start</b> - Pause"
+                );
                 continueButton.SetText("Start");
                 _continueStage++;
                 break;
             case 1:
-                // Loads the next level, but i forgot how to do that, coPilot help me in the next line
                 UnityEngine.SceneManagement.SceneManager.LoadScene("TestNPCRoom");
                 break;
         }
