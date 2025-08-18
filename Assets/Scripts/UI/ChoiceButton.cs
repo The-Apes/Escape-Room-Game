@@ -3,32 +3,35 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChoiceButton : MonoBehaviour
+namespace UI
 {
-    public TextMeshProUGUI text;
-    [NonSerialized] public int ID;
-    [SerializeField] private Color selectedColor = Color.green;
-    [SerializeField] private Color unselectedColor = Color.white;
-
-    private Image _image;
-
-    private void Awake()
+    public class ChoiceButton : MonoBehaviour
     {
-        _image = GetComponent<Image>();
-    }
+        public TextMeshProUGUI text;
+        [NonSerialized] public int ID;
+        [SerializeField] private Color selectedColor = Color.green;
+        [SerializeField] private Color unselectedColor = Color.white;
 
-    private void Start()
-    {
-        if (ID == 1) Selected();
-    }
+        private Image _image;
 
-    public void Selected()
-    {
-        _image.color = selectedColor;
-    }
+        private void Awake()
+        {
+            _image = GetComponent<Image>();
+        }
 
-    public void Deselected()
-    {
-        _image.color = unselectedColor;
+        private void Start()
+        {
+            if (ID == 1) Selected();
+        }
+
+        public void Selected()
+        {
+            _image.color = selectedColor;
+        }
+
+        public void Deselected()
+        {
+            _image.color = unselectedColor;
+        }
     }
 }

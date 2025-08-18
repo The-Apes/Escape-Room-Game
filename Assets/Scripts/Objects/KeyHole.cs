@@ -1,0 +1,26 @@
+using Managers;
+using Player;
+using UnityEngine;
+
+namespace Objects
+{
+    public class KeyHole : MonoBehaviour, IInteractable
+    {
+        public GameObject key;
+    
+        [SerializeField] private Transform slot;
+
+        public void OnInteract(GameObject heldObject)
+        {
+            print("KeyHole Interacted with");
+            if(!heldObject) return;
+            print("HeldObject: " + heldObject);
+            print("key: " + key);
+            if(!heldObject.Equals(key)) return;
+            print("Key matches, placing object in slot");
+            FindFirstObjectByType<PickUpScript>().PlaceObject(slot);
+            heldObject.tag = "Untagged"; //remove tag so we don't pick it up again
+            PuzzleManager.instance.SetPuzzleStage(1);
+        }
+    }
+}

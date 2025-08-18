@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Npc;
 using UnityEngine;
 
 namespace Managers
@@ -22,7 +23,7 @@ namespace Managers
             }
         }
         
-        public void SetPuzzleStagee(int stage)
+        public void SetPuzzleStage(int stage)
         {
             if (!(stage > puzzleStage)) return; // Ensure state is greater than current state
             puzzleStage = stage;
