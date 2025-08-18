@@ -12,12 +12,12 @@ namespace Npc.State_Machine
         {
             return null;
         }
-        public void enterState()
+        public void EnterState()
         {
         
         }
 
-        public void exitState()
+        public void ExitState()
         {
         
         }

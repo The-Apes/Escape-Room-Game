@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Npc;
 using UnityEngine;
 
 namespace Managers
@@ -8,6 +9,8 @@ namespace Managers
         public static PuzzleManager instance;
         
         public int puzzleStage; // Start with -1 to indicate no puzzle state set, but 0 for prototype
+        
+        [SerializeField] private NpcScriptAsset prototypeEnd; // Script to run when the prototype is completed
 
         private void Awake()
         {
@@ -22,7 +25,7 @@ namespace Managers
             }
         }
         
-        public void SetPuzzleStagee(int stage)
+        public void SetPuzzleStage(int stage)
         {
             if (!(stage > puzzleStage)) return; // Ensure state is greater than current state
             puzzleStage = stage;
@@ -44,17 +47,16 @@ namespace Managers
                     FindFirstObjectByType<NpcAgent>().StopInteraction();
                     break;
                 case 1:
-                    DialogueManager.instance.SayLine("The Keys in the door but it's still not working...");
-                    yield return new WaitForSeconds(1f);
-                    DialogueManager.instance.SayLine("I blame Phiwe, fat neek");
+                    DialogueManager.instance.SayLine("That object in the vent surely was hidden for a reason...");
                     break;
                 case 2:
-                    Debug.Log("Puzzle Stage 2: Offering help for the second puzzle.");
-                    // Add specific help logic here
-                    yield return new WaitForSeconds(1f);
+                    DialogueManager.instance.SayLine("Maybe check inside the closet for something useful?");
+                    break;
+                case 3: 
+                    ScriptManager.instance.RunScript(prototypeEnd);  //make a script list with disctionaries that can be acsessed with as string key?
                     break;
                 default:
-                    Debug.Log("No specific help available for this puzzle stage.");
+                    DialogueManager.instance.SayLine("Unfortunately i'm not sure");
                     yield return null;
                     break;
             }

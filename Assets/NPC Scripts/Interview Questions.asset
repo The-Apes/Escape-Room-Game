@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
+  m_Name: Interview Questions
+  m_EditorClassIdentifier: 
+  scriptLines:
+  - text: What you wanna know about the prototype?
+    player: 0
+    continueCondition: 'question: Did I miss anything?, best way to play, Fun fact?'
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  choices:
+  - {fileID: 11400000, guid: f347fb4c847219b4dba9c1af21121d93, type: 2}
+  - {fileID: 11400000, guid: 6b68a1c2d2574ea4db380a9e95c44d50, type: 2}
+  - {fileID: 11400000, guid: ffc688d6fa1a6f347833673a6fb2ec47, type: 2}
