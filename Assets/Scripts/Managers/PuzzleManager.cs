@@ -48,9 +48,12 @@ namespace Managers
                     break;
                 case 1:
                     DialogueManager.instance.SayLine("That object in the vent surely was hidden for a reason...");
+                    FindFirstObjectByType<NpcAgent>().StopInteraction();
+
                     break;
                 case 2:
                     DialogueManager.instance.SayLine("Maybe check inside the closet for something useful?");
+                    FindFirstObjectByType<NpcAgent>().StopInteraction();
                     break;
                 case 3: 
                     ScriptManager.instance.RunScript(prototypeEnd);  //make a script list with disctionaries that can be acsessed with as string key?
