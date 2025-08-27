@@ -49,7 +49,6 @@ namespace Managers
                 case 1:
                     DialogueManager.instance.SayLine("That object in the vent surely was hidden for a reason...");
                     FindFirstObjectByType<NpcAgent>().StopInteraction();
-
                     break;
                 case 2:
                     DialogueManager.instance.SayLine("Maybe check inside the closet for something useful?");
@@ -60,9 +59,10 @@ namespace Managers
                     break;
                 default:
                     DialogueManager.instance.SayLine("Unfortunately i'm not sure");
-                    yield return null;
+                    FindFirstObjectByType<NpcAgent>().StopInteraction();
                     break;
             }
+            //make stop interaction line run after switch statement? or keep it on a per case basis?
         }
         public void Help(){} //Npc helping on it's own
     }
