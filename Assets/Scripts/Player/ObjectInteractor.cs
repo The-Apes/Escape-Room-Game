@@ -29,14 +29,14 @@ namespace Player
         private bool _canDrop = true; //this is needed so we don't throw/drop object when rotating the object
         private bool _inspecting;
         private int _layerNumber; //layer index
-    
+        private Camera _cam;
         private FPController _fpController;
         private float _xAxisRotation;
         private float _yAxisRotation;
         void Start()
         {
             _layerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
-        
+            _cam = Camera.main;
             _fpController = FindFirstObjectByType<FPController>();
         }
         void Update()
@@ -50,27 +50,45 @@ namespace Player
         {
             if (!context.started) return; 
         
-            //perform raycast to check if player is looking at object within pickup range
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, pickUpRange))
-            {
-                //make sure tag is attached
-            
-                switch (hit.transform.gameObject.tag)
+            if(!_inspecting){
+                //perform raycast to check if player is looking at object within pickup range
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, pickUpRange))
                 {
-                    case "canPickUp" when HeldObj != null:
-                        return;
-                    //make sure pickup tag is attached
-                    //pass in object hit into the PickUpObject function
-                    case "canPickUp":
-                        PickUpObject(hit.transform.gameObject);
-                        break;
-                    case "Interactable":
-                        print("Interactable object hit");
-                        hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(HeldObj); //call Interactable script on object
-                        break;
-                    case "NPC":
-                        FindFirstObjectByType<NpcAgent>().Interact();
-                        break;
+                    //make sure tag is attached
+            
+                    switch (hit.transform.gameObject.tag)
+                    {
+                        case "canPickUp" when HeldObj != null:
+                            return;
+                        //make sure pickup tag is attached
+                        //pass in object hit into the PickUpObject function
+                        case "canPickUp":
+                            PickUpObject(hit.transform.gameObject);
+                            break;
+                        case "Interactable":
+                            print("Interactable object hit");
+                            hit.transform.gameObject.GetComponent<IInteractable>()?.OnInteract(HeldObj); //call Interactable script on object
+                            break;
+                        case "NPC":
+                            FindFirstObjectByType<NpcAgent>().Interact();
+                            break;
+                    }
+                }
+            
+            }
+            else
+            {
+                Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log("Clicked on " + hit.collider.name);
+                    if (hit.transform.gameObject.tag.Equals("Clickable"))
+                    {
+                    }
+                    // Example: do something
+                    // hit.collider.GetComponent<Renderer>().material.color = Color.red;
                 }
             }
         }
@@ -93,6 +111,9 @@ namespace Player
             HeldObjRb.transform.parent = holdTransform.transform; //parent object to hold position
             HeldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
             HeldObj.layer = _layerNumber; //change the object layer to the holdLayer
+            foreach (Transform child in HeldObj.transform)            {
+                child.gameObject.layer = _layerNumber;
+            }
         
             //make sure object doesn't collide with player, it can cause weird bugs
             Physics.IgnoreCollision(HeldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);

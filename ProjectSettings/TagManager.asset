@@ -7,6 +7,7 @@ TagManager:
   - canPickUp
   - Interactable
   - NPC
+  - Clickable
   layers:
   - Default
   - TransparentFX
