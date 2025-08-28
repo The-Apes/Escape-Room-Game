@@ -79,13 +79,16 @@ namespace Player
             else
             {
                 Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     Debug.Log("Clicked on " + hit.collider.name);
+                    Debug.Log(hit.transform.tag);
+                    hit.transform.gameObject.GetComponent<IClickable>()?.OnClick(HeldObj); //call Interactable script on object
+
                     if (hit.transform.gameObject.tag.Equals("Clickable"))
                     {
+                        print("clickable object hit");
                     }
                     // Example: do something
                     // hit.collider.GetComponent<Renderer>().material.color = Color.red;
