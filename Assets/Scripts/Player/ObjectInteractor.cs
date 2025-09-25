@@ -10,6 +10,7 @@ using Npc;
 using Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Util;
 
 namespace Player
 {
@@ -83,12 +84,12 @@ namespace Player
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     Debug.Log("Clicked on " + hit.collider.name);
-                    Debug.Log(hit.transform.tag);
-                    hit.transform.gameObject.GetComponent<IClickable>()?.OnClick(HeldObj); //call Interactable script on object
+                    //Debug.Log(hit.transform.tag);
+                    hit.collider.gameObject.GetComponent<IClickable>()?.OnClick(HeldObj); //call Interactable script on object
 
                     if (hit.transform.gameObject.tag.Equals("Clickable"))
                     {
-                        print("clickable object hit");
+                        //print("clickable object hit");
                     }
                     // Example: do something
                     // hit.collider.GetComponent<Renderer>().material.color = Color.red;
@@ -114,9 +115,7 @@ namespace Player
             HeldObjRb.transform.parent = holdTransform.transform; //parent object to hold position
             HeldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
             HeldObj.layer = _layerNumber; //change the object layer to the holdLayer
-            foreach (Transform child in HeldObj.transform)            {
-                child.gameObject.layer = _layerNumber;
-            }
+            SetMultipleLayers.SetLayerRecursively(HeldObj, _layerNumber);
         
             //make sure object doesn't collide with player, it can cause weird bugs
             Physics.IgnoreCollision(HeldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
@@ -126,7 +125,7 @@ namespace Player
         {
             //re-enable collision with player
             Physics.IgnoreCollision(HeldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
-            HeldObj.layer = 0; //object assigned back to default layer
+            SetMultipleLayers.SetLayerRecursively(HeldObj, 0);
             HeldObjRb.isKinematic = false;
             HeldObj.transform.parent = null; //unparent object
             HeldObj.transform.position = new Vector3(HeldObj.transform.position.x, Mathf.Max(0.25f, HeldObj.transform.position.y), HeldObj.transform.position.z);
@@ -161,7 +160,7 @@ namespace Player
             print("place");
             //re-enable collision with player
             Physics.IgnoreCollision(HeldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
-            HeldObj.layer = 0; //object assigned back to default layer
+            SetMultipleLayers.SetLayerRecursively(HeldObj, 0);  //object assigned back to default layer
             //heldObjRb.isKinematic = false;
             HeldObj.transform.parent = placePos;
             HeldObj.transform.position = placePos.position; 

@@ -22,7 +22,7 @@ namespace Objects
             FindFirstObjectByType<ObjectInteractor>().PlaceObject(slot);
             heldObject.tag = "Untagged"; //remove tag so we don't pick it up again
             PuzzleManager.instance.SetPuzzleStage(2);
-            Destroy(door);
+            Destroy(door); 
         }
     }
 }
