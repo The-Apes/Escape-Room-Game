@@ -1,4 +1,6 @@
 using System;
+using Managers;
+using UI;
 using UnityEngine;
 
 namespace Objects
@@ -9,8 +11,7 @@ namespace Objects
         
         public void OnClick(GameObject heldObject)
         {
-            // Display the text in the UI
-            //FindObjectOfType<UI.UIManager>().ShowText(text);
+            UIManager.instance.Read(text);
         }
     }
 }
