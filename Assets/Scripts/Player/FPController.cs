@@ -6,9 +6,10 @@ using UnityEngine.InputSystem.Interactions;
 
 namespace Player
 {
-    // ReSharper disable once InconsistentNaming
     public class FPController : MonoBehaviour
     {
+        public bool useFootsteps = true;
+        public bool UseFootsteps => useFootsteps;
         public float radius = 0.3f;
 
         [Header("Movement Settings")] 
@@ -30,9 +31,19 @@ namespace Player
         [SerializeField] private float sprintBobAmount = 0.1f;
         [SerializeField] private float crouchBobSpeed = 8f;
         [SerializeField] private float crouchBobAmount = 0.025f;
-        // Removed proneBobSpeed and proneBobAmount
         private float _defaultYPos = 0;
         private float _timer;
+
+        [Header("Footstep Settings")]
+        [SerializeField] private float baseStepSpeed = 0.5f;
+        [SerializeField] private float crouchStepMultiplier = 1.5f;
+        [SerializeField] private float proneStepMultiplier = 2.5f;
+        [SerializeField] private float sprintStepMultiplier = 0.6f;
+        [SerializeField] private AudioSource footstepAudioSource = default;
+        [SerializeField] private AudioClip[] woodClips = default;
+        [SerializeField] private AudioClip[] metalClips = default;
+        private float _footstepTimer = 0;
+        private float GetCurrentOffset => IsCrouching ? baseStepSpeed * crouchStepMultiplier : IsProne ? baseStepSpeed * proneStepMultiplier : IsSprinting ? baseStepSpeed * sprintStepMultiplier : baseStepSpeed;
 
         [Header("Look Settings")]
         public Transform cameraTransform;
@@ -67,6 +78,11 @@ namespace Player
         private Height _currentHeight = Height.Standing;
         private bool _isSprinting = false; // Add sprinting logic if needed
 
+        // Properties for state checks
+        private bool IsCrouching => _currentHeight == Height.Crouching;
+        private bool IsProne => _currentHeight == Height.Prone;
+        private bool IsSprinting => _isSprinting;
+
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
@@ -81,6 +97,7 @@ namespace Player
             HandleMovement();
             HandleLook();
             HandleHeadbob();
+            HandleFootsteps();
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -150,6 +167,34 @@ namespace Player
                     cameraTransform.localPosition.x,
                     _defaultYPos + Mathf.Sin(_timer) * bobAmount,
                     cameraTransform.localPosition.z);
+            }
+        }
+
+        private void HandleFootsteps()
+        {
+            if (!useFootsteps || footstepAudioSource == null) return;
+            if (!_characterController.isGrounded) return;
+            if (_moveInput == Vector2.zero) return;
+
+            _footstepTimer -= Time.deltaTime;
+
+            if (_footstepTimer <= 0)
+            {
+                if (Physics.Raycast(cameraTransform.position, Vector3.down, out RaycastHit hit, 3))
+                {
+                    AudioClip[] clipsToUse = woodClips;
+                    if (hit.collider.CompareTag("METAL") && metalClips != null && metalClips.Length > 0)
+                        clipsToUse = metalClips;
+                    else if (hit.collider.CompareTag("WOOD") && woodClips != null && woodClips.Length > 0)
+                        clipsToUse = woodClips;
+
+                    if (clipsToUse != null && clipsToUse.Length > 0)
+                    {
+                        footstepAudioSource.PlayOneShot(clipsToUse[UnityEngine.Random.Range(0, clipsToUse.Length)]);
+                    }
+                }
+
+                _footstepTimer = GetCurrentOffset;
             }
         }
 
