@@ -29,7 +29,7 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     if (lastInteractable != null)
                         lastInteractable.Highlight(false);
-                    if(_objectInteractor.inspecting) return;
+                    if(_objectInteractor.Inspecting) return;
                     interactable.Highlight(true);
                     lastInteractable = interactable;
                 }

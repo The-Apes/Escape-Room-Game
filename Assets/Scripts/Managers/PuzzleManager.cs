@@ -44,6 +44,8 @@ namespace Managers
                     DialogueManager.instance.SayLine("Not sure... but there is plenty of stuff here.");
                     yield return new WaitForSeconds(3f);
                     DialogueManager.instance.SayLine("You can also bring me items and I can tell you what I know about them.");
+                    yield return new WaitForSeconds(3f);
+                    DialogueManager.instance.SayLine("Also, check upstairs, there is a computer and a screwdriver that might come in handy.");
                     FindFirstObjectByType<NpcAgent>().StopInteraction();
                     break;
                 case 1:

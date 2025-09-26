@@ -202,8 +202,8 @@ namespace Npc
             _heldObjRb.isKinematic = false;
             _heldObjRb.transform.parent = null; //unparent object
             _heldObjRb.transform.position = new Vector3(_heldObjRb.transform.position.x, Mathf.Max(0.25f, _heldObjRb.transform.position.y), _heldObjRb.transform.position.z);
-            HeldObj = null; //undefine game object
             HeldObj.tag = "canPickUp"; //reset tag to canPickUp
+            HeldObj = null; //undefine game object
         }
         void MoveObject()
         {

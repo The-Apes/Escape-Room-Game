@@ -29,7 +29,7 @@ namespace Player
         public float pickUpRange = 5f; //how far the player can pick up the object from
         //private float _rotationSensitivity = 3f; //how fast/slow the object is rotated in relation to mouse movement
         private bool _canDrop = true; //this is needed so we don't throw/drop object when rotating the object
-        [NonSerialized] public bool inspecting;
+        [NonSerialized] public bool Inspecting;
         private int _layerNumber; //layer index
         private Camera _cam;
         private FPController _fpController;
@@ -45,14 +45,14 @@ namespace Player
         {
             if (!HeldObj) return; //if player is holding object
             MoveObject(); //keep object position at holdPos
-            if(inspecting) RotateObject();
+            if(Inspecting) RotateObject();
         }
 
         public void Interact(InputAction.CallbackContext context)
         {
             if (!context.started) return; 
         
-            if(!inspecting){
+            if(!Inspecting){
                 //perform raycast to check if player is looking at object within pickup range
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, pickUpRange))
                 {
@@ -103,7 +103,7 @@ namespace Player
             if (HeldObj == null) return;
             if (!context.started) return;
             if (!_canDrop) return;
-            if (inspecting) return;
+            if (Inspecting) return;
             StopClipping(); //prevents object from clipping through walls
             DropObject();
         }
@@ -137,14 +137,14 @@ namespace Player
             if (!context.started) return;
             if (!HeldObj) return;
         
-            if (!inspecting)
+            if (!Inspecting)
             {
                 _fpController.CanMove = false;
                 _fpController.CanLook = false;
                 holdTransform.localPosition = inspectPos;
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true; 
-                inspecting = true;
+                Inspecting = true;
             }
             else
             {
@@ -153,7 +153,7 @@ namespace Player
                 holdTransform.localPosition = holdPos;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false; 
-                inspecting = false;
+                Inspecting = false;
             }
         }
         public void PlaceObject(Transform placePos)
@@ -180,7 +180,7 @@ namespace Player
         }
         void RotateObject()
         {
-            if(!inspecting) return; 
+            if(!Inspecting) return; 
             if (Input.GetKey(KeyCode.Mouse1))//hold R key to rotate, change this to whatever key you want
             {
                 _canDrop = false; //make sure throwing can't occur during rotating
