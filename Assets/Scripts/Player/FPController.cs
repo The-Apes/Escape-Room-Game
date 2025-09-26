@@ -17,7 +17,7 @@ namespace Player
         public float crouchingSpeed = 1.5f;
         public float proneSpeed = 0.6f;
 
-        public float jumpForce = 3f;
+        public float jumpForce = 0f;
         public float gravity = -9.81f;
 
         [NonSerialized]

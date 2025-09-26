@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
@@ -6,11 +7,14 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private float interactDistance = 3f;
 
     private Interactable lastInteractable;
+    private ObjectInteractor _objectInteractor;
 
     private void Awake()
     {
         if (playerCamera == null)
             playerCamera = Camera.main;
+        _objectInteractor = FindFirstObjectByType<ObjectInteractor>();
+        
     }
 
     void Update()
@@ -25,6 +29,7 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     if (lastInteractable != null)
                         lastInteractable.Highlight(false);
+                    if(_objectInteractor.inspecting) return;
                     interactable.Highlight(true);
                     lastInteractable = interactable;
                 }

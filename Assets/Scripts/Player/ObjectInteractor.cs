@@ -10,6 +10,7 @@ using Npc;
 using Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Util;
 
 namespace Player
@@ -28,7 +29,7 @@ namespace Player
         public float pickUpRange = 5f; //how far the player can pick up the object from
         //private float _rotationSensitivity = 3f; //how fast/slow the object is rotated in relation to mouse movement
         private bool _canDrop = true; //this is needed so we don't throw/drop object when rotating the object
-        private bool _inspecting;
+        [NonSerialized] public bool inspecting;
         private int _layerNumber; //layer index
         private Camera _cam;
         private FPController _fpController;
@@ -44,14 +45,14 @@ namespace Player
         {
             if (!HeldObj) return; //if player is holding object
             MoveObject(); //keep object position at holdPos
-            if(_inspecting) RotateObject();
+            if(inspecting) RotateObject();
         }
 
         public void Interact(InputAction.CallbackContext context)
         {
             if (!context.started) return; 
         
-            if(!_inspecting){
+            if(!inspecting){
                 //perform raycast to check if player is looking at object within pickup range
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, pickUpRange))
                 {
@@ -102,7 +103,7 @@ namespace Player
             if (HeldObj == null) return;
             if (!context.started) return;
             if (!_canDrop) return;
-            if (_inspecting) return;
+            if (inspecting) return;
             StopClipping(); //prevents object from clipping through walls
             DropObject();
         }
@@ -136,14 +137,14 @@ namespace Player
             if (!context.started) return;
             if (!HeldObj) return;
         
-            if (!_inspecting)
+            if (!inspecting)
             {
                 _fpController.CanMove = false;
                 _fpController.CanLook = false;
                 holdTransform.localPosition = inspectPos;
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true; 
-                _inspecting = true;
+                inspecting = true;
             }
             else
             {
@@ -152,7 +153,7 @@ namespace Player
                 holdTransform.localPosition = holdPos;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false; 
-                _inspecting = false;
+                inspecting = false;
             }
         }
         public void PlaceObject(Transform placePos)
@@ -179,7 +180,7 @@ namespace Player
         }
         void RotateObject()
         {
-            if(!_inspecting) return; 
+            if(!inspecting) return; 
             if (Input.GetKey(KeyCode.Mouse1))//hold R key to rotate, change this to whatever key you want
             {
                 _canDrop = false; //make sure throwing can't occur during rotating

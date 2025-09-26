@@ -69,6 +69,7 @@ namespace Npc
                     DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Inquire Item"), true);
                     yield return new WaitForSeconds(0.5f);
                     _npcAgent.DescribeObject();
+                    _npcAgent.StopInteraction();
                     break;
                 case "Give item":
                     DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Give Item"), true);

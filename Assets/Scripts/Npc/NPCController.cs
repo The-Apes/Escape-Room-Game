@@ -218,6 +218,7 @@ namespace Npc
             if (description != null)
             {
                 description.Describe();
+                
             }
             else
             {
