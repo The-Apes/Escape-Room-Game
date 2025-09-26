@@ -42,6 +42,7 @@ namespace Player
         [SerializeField] private AudioSource footstepAudioSource = default;
         [SerializeField] private AudioClip[] woodClips = default;
         [SerializeField] private AudioClip[] metalClips = default;
+        [SerializeField] private AudioClip[] concreteClips = default;
         private float _footstepTimer = 0;
         private float GetCurrentOffset => IsCrouching ? baseStepSpeed * crouchStepMultiplier : IsProne ? baseStepSpeed * proneStepMultiplier : IsSprinting ? baseStepSpeed * sprintStepMultiplier : baseStepSpeed;
 
@@ -183,7 +184,9 @@ namespace Player
                 if (Physics.Raycast(cameraTransform.position, Vector3.down, out RaycastHit hit, 3))
                 {
                     AudioClip[] clipsToUse = woodClips;
-                    if (hit.collider.CompareTag("METAL") && metalClips != null && metalClips.Length > 0)
+                    if (hit.collider.CompareTag("CONCRETE") && concreteClips != null && concreteClips.Length > 0)
+                        clipsToUse = concreteClips;
+                    else if (hit.collider.CompareTag("METAL") && metalClips != null && metalClips.Length > 0)
                         clipsToUse = metalClips;
                     else if (hit.collider.CompareTag("WOOD") && woodClips != null && woodClips.Length > 0)
                         clipsToUse = woodClips;
