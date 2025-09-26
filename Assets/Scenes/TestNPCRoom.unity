@@ -1174,6 +1174,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bb9f846f0dc55f84bbd310dbb9bfa0ab, type: 3}
   m_PrefabInstance: {fileID: 1632921140}
   m_PrefabAsset: {fileID: 0}
+--- !u!20 &99266197 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 608535892860801766, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
+  m_PrefabInstance: {fileID: 723033741}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &154529790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,7 +1195,7 @@ GameObject:
   - component: {fileID: 154529791}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: CONCRETE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4156,6 +4161,7 @@ GameObject:
   - component: {fileID: 377552842}
   - component: {fileID: 377552841}
   - component: {fileID: 377552840}
+  - component: {fileID: 377552846}
   m_Layer: 0
   m_Name: Keycard
   m_TagString: canPickUp
@@ -4292,6 +4298,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1900746398}
   m_LocalEulerAnglesHint: {x: 0, y: -79.286, z: 0}
+--- !u!114 &377552846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377552839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fea6bcc7cc9ce04689e3611fec36df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &384848642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9290,6 +9308,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7456976920613646926, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2074080162}
+    - targetCorrespondingSourceObject: {fileID: 7456976920613646926, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2074080163}
   m_SourcePrefab: {fileID: 100100000, guid: cdfc7ae611a876a4b88ed7f98fb5a7bf, type: 3}
 --- !u!1 &770418360
 GameObject:
@@ -11059,6 +11080,7 @@ GameObject:
   - component: {fileID: 887062782}
   - component: {fileID: 887062781}
   - component: {fileID: 887062784}
+  - component: {fileID: 887062785}
   m_Layer: 0
   m_Name: Keypad
   m_TagString: Interactable
@@ -11169,6 +11191,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 1270008556}
   key: {fileID: 377552839}
+--- !u!114 &887062785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887062779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fea6bcc7cc9ce04689e3611fec36df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &889325238
 GameObject:
   m_ObjectHideFlags: 0
@@ -14444,6 +14478,7 @@ GameObject:
   - component: {fileID: 1270262323}
   - component: {fileID: 1270262327}
   - component: {fileID: 1270262328}
+  - component: {fileID: 1270262329}
   m_Layer: 0
   m_Name: Vent
   m_TagString: Interactable
@@ -14595,6 +14630,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: The vent cover you just removed, nothing special about it, why you
     making me hold it?
+--- !u!114 &1270262329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1270262321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fea6bcc7cc9ce04689e3611fec36df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1273037083
 Mesh:
   m_ObjectHideFlags: 0
@@ -18268,6 +18315,7 @@ GameObject:
   - component: {fileID: 1616821078}
   - component: {fileID: 1616821077}
   - component: {fileID: 1616821076}
+  - component: {fileID: 1616821080}
   m_Layer: 0
   m_Name: Red key Hole
   m_TagString: Untagged
@@ -18366,6 +18414,18 @@ Transform:
   - {fileID: 1547807192}
   m_Father: {fileID: 1900746398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1616821080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616821075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fea6bcc7cc9ce04689e3611fec36df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1623935252
 GameObject:
   m_ObjectHideFlags: 0
@@ -26671,6 +26731,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2074080163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074080154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21cab3efc0a4cf3499e9f7eb772df666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 99266197}
+  interactDistance: 3
 --- !u!1 &2088855425
 GameObject:
   m_ObjectHideFlags: 0

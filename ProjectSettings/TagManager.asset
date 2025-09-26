@@ -7,6 +7,9 @@ TagManager:
   - canPickUp
   - Interactable
   - NPC
+  - CONCRETE
+  - WOOD
+  - METAL
   layers:
   - Default
   - TransparentFX
