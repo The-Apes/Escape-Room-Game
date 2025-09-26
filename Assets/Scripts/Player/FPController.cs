@@ -1,48 +1,72 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
 namespace Player
 {
-    // ReSharper disable once InconsistentNaming
     public class FPController : MonoBehaviour
     {
+        public bool useFootsteps = true;
+        public bool UseFootsteps => useFootsteps;
         public float radius = 0.3f;
-    
+
         [Header("Movement Settings")] 
         public float standingSpeed = 5f;
         public float crouchingSpeed = 1.5f;
         public float proneSpeed = 0.6f;
 
-        public float jumpForce = 3f; //will we have jumping? maybe remove jumping for immersion
+        public float jumpForce = 3f;
         public float gravity = -9.81f;
 
         [NonSerialized]
-        public bool CanMove = true; //if we want to disable movement, for example when you're inspecting an object
+        public bool CanMove = true;
+        public bool CanUseHeadbob = true;
 
-        [Header("Look Settings")] public Transform cameraTransform;
+        [Header("Headbob Settings")]
+        [SerializeField] private float walkBobSpeed = 14f;
+        [SerializeField] private float walkBobAmount = 0.05f;
+        [SerializeField] private float sprintBobSpeed = 18f;
+        [SerializeField] private float sprintBobAmount = 0.1f;
+        [SerializeField] private float crouchBobSpeed = 8f;
+        [SerializeField] private float crouchBobAmount = 0.025f;
+        private float _defaultYPos = 0;
+        private float _timer;
+
+        [Header("Footstep Settings")]
+        [SerializeField] private float baseStepSpeed = 0.5f;
+        [SerializeField] private float crouchStepMultiplier = 1.5f;
+        [SerializeField] private float proneStepMultiplier = 2.5f;
+        [SerializeField] private float sprintStepMultiplier = 0.6f;
+        [SerializeField] private AudioSource footstepAudioSource = default;
+        [SerializeField] private AudioClip[] woodClips = default;
+        [SerializeField] private AudioClip[] metalClips = default;
+        [SerializeField] private AudioClip[] concreteClips = default;
+        private float _footstepTimer = 0;
+        private float GetCurrentOffset => IsCrouching ? baseStepSpeed * crouchStepMultiplier : IsProne ? baseStepSpeed * proneStepMultiplier : IsSprinting ? baseStepSpeed * sprintStepMultiplier : baseStepSpeed;
+
+        [Header("Look Settings")]
+        public Transform cameraTransform;
         public float lookSensitivity = 2f;
         public float verticalLookLimit = 90f;
-        public float standingEyeHeight = 1.48f; //do we need?
+        public float standingEyeHeight = 1.48f;
         public float crouchingEyeHeight = 0.92f;
         public float proneEyeHeight = 0.7f;
 
         [NonSerialized]
-        public bool CanLook = true; //if we want to disable looking around, for example when you're inspecting an object
+        public bool CanLook = true;
 
         [Header("Crouch Settings")]
-        public float standHeight = 1.52f; //height when standing
+        public float standHeight = 1.52f;
         public float crouchHeight = 0.5f;
-        public float proneHeight = 0.1f; //height when prone, not sure if we will use this//height when crouching
+        public float proneHeight = 0.1f;
 
         private CharacterController _characterController;
         private float _moveSpeed;
         private Vector2 _moveInput;
         private Vector2 _lookInput;
         private Vector3 _velocity;
-        private bool _isGrounded;
-        private bool _crouching;
         private float _verticalRotation;
 
         private enum Height
@@ -51,13 +75,19 @@ namespace Player
             Crouching,
             Prone
         }
-    
+
         private Height _currentHeight = Height.Standing;
+        private bool _isSprinting = false; // Add sprinting logic if needed
+
+        // Properties for state checks
+        private bool IsCrouching => _currentHeight == Height.Crouching;
+        private bool IsProne => _currentHeight == Height.Prone;
+        private bool IsSprinting => _isSprinting;
 
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
-            //put this in a manager class maybe?
+            _defaultYPos = cameraTransform.localPosition.y;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             _moveSpeed = standingSpeed;
@@ -67,6 +97,8 @@ namespace Player
         {
             HandleMovement();
             HandleLook();
+            HandleHeadbob();
+            HandleFootsteps();
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -90,7 +122,7 @@ namespace Player
                 Height.Prone => proneSpeed,
                 _ => _moveSpeed
             };
-        
+
             Vector3 move = transform.right * _moveInput.x + transform.forward * _moveInput.y;
             _characterController.Move(move * (_moveSpeed * Time.deltaTime));
             if (_characterController.isGrounded && _velocity.y < 0) _velocity.y = -2f;
@@ -109,33 +141,89 @@ namespace Player
             transform.Rotate(Vector3.up * mouseX);
         }
 
+        private void HandleHeadbob()
+        {
+            if (!CanUseHeadbob) return;
+            if (!_characterController.isGrounded) return;
+            if (Mathf.Abs(_moveInput.x) > 0.1f || Mathf.Abs(_moveInput.y) > 0.1f)
+            {
+                float bobSpeed, bobAmount;
+                switch (_currentHeight)
+                {
+                    case Height.Crouching:
+                        bobSpeed = crouchBobSpeed;
+                        bobAmount = crouchBobAmount;
+                        break;
+                    case Height.Prone:
+                        // No headbob for prone
+                        return;
+                    default:
+                        bobSpeed = _isSprinting ? sprintBobSpeed : walkBobSpeed;
+                        bobAmount = _isSprinting ? sprintBobAmount : walkBobAmount;
+                        break;
+                }
+
+                _timer += Time.deltaTime * bobSpeed;
+                cameraTransform.localPosition = new Vector3(
+                    cameraTransform.localPosition.x,
+                    _defaultYPos + Mathf.Sin(_timer) * bobAmount,
+                    cameraTransform.localPosition.z);
+            }
+        }
+
+        private void HandleFootsteps()
+        {
+            if (!useFootsteps || footstepAudioSource == null) return;
+            if (!_characterController.isGrounded) return;
+            if (_moveInput == Vector2.zero) return;
+
+            _footstepTimer -= Time.deltaTime;
+
+            if (_footstepTimer <= 0)
+            {
+                if (Physics.Raycast(cameraTransform.position, Vector3.down, out RaycastHit hit, 3))
+                {
+                    AudioClip[] clipsToUse = woodClips;
+                    if (hit.collider.CompareTag("CONCRETE") && concreteClips != null && concreteClips.Length > 0)
+                        clipsToUse = concreteClips;
+                    else if (hit.collider.CompareTag("METAL") && metalClips != null && metalClips.Length > 0)
+                        clipsToUse = metalClips;
+                    else if (hit.collider.CompareTag("WOOD") && woodClips != null && woodClips.Length > 0)
+                        clipsToUse = woodClips;
+
+                    if (clipsToUse != null && clipsToUse.Length > 0)
+                    {
+                        footstepAudioSource.PlayOneShot(clipsToUse[UnityEngine.Random.Range(0, clipsToUse.Length)]);
+                    }
+                }
+
+                _footstepTimer = GetCurrentOffset;
+            }
+        }
+
         public void Jump(InputAction.CallbackContext context)
         {
-            if (_characterController.isGrounded)
+            if (context.performed && _characterController.isGrounded)
             {
-                _velocity.y = Mathf.Sqrt(jumpForce * -3f * gravity);
+                _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
             }
         }
 
         public void Crouch(InputAction.CallbackContext context)
         {
-            // I read about the is operator on GeeksforGeeks, and figured about interaction types by reading the Unity documentation
-            // not sure if it warrants a reference.
-            if (!context.performed) return; //only fires when either a tap or hold interaction is registered, not on button press
+            if (!context.performed) return;
             if (context.interaction is TapInteraction)
             {
                 if (_currentHeight == Height.Standing)
                 {
                     _characterController.height = crouchHeight;
                     cameraTransform.localPosition = new Vector3(0, crouchingEyeHeight, 0);
-
                     _currentHeight = Height.Crouching;
                 }
                 else
                 {
                     _characterController.height = standHeight;
                     cameraTransform.localPosition = new Vector3(0, standingEyeHeight, 0);
-
                     _currentHeight = Height.Standing;
                 }
             }
@@ -143,12 +231,8 @@ namespace Player
             {
                 _characterController.height = proneHeight;
                 cameraTransform.localPosition = new Vector3(0, proneEyeHeight, 0);
-
                 _currentHeight = Height.Prone;
             }
         }
-    
     }
 }
-
-        
