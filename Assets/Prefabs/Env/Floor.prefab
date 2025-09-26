@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5314054512945959308}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: WOOD
+  m_TagString: CONCRETE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,7 +300,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 723eabd52434a7848b292e2e94e6642c, type: 2}
+  - {fileID: 2100000, guid: c371915685d3b7040b7e4145a21da27a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
