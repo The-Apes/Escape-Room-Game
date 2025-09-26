@@ -118,13 +118,13 @@ namespace Player
             SetMultipleLayers.SetLayerRecursively(HeldObj, _layerNumber);
         
             //make sure object doesn't collide with player, it can cause weird bugs
-            Physics.IgnoreCollision(HeldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
+            Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), true);
         }
 
         private void DropObject()
         {
             //re-enable collision with player
-            Physics.IgnoreCollision(HeldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
+            Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), false);
             SetMultipleLayers.SetLayerRecursively(HeldObj, 0);
             HeldObjRb.isKinematic = false;
             HeldObj.transform.parent = null; //unparent object
