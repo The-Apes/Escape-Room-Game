@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -31,7 +32,8 @@ namespace Player
         [SerializeField] private float sprintBobAmount = 0.1f;
         [SerializeField] private float crouchBobSpeed = 8f;
         [SerializeField] private float crouchBobAmount = 0.025f;
-        private float _defaultYPos = 0;
+        private float _defaultYPos;
+        private float _defaultYPosBody;
         private float _timer;
 
         [Header("Footstep Settings")]
@@ -68,6 +70,8 @@ namespace Player
         private Vector2 _lookInput;
         private Vector3 _velocity;
         private float _verticalRotation;
+        
+       [SerializeField] private Transform body; // For head bob syncing
 
         private enum Height
         {
@@ -88,6 +92,7 @@ namespace Player
         {
             _characterController = GetComponent<CharacterController>();
             _defaultYPos = cameraTransform.localPosition.y;
+            _defaultYPosBody = body.localPosition.y;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             _moveSpeed = standingSpeed;
@@ -168,6 +173,16 @@ namespace Player
                     cameraTransform.localPosition.x,
                     _defaultYPos + Mathf.Sin(_timer) * bobAmount,
                     cameraTransform.localPosition.z);
+                body.localPosition = new Vector3(
+                    body.localPosition.x,
+                    _defaultYPosBody + Mathf.Sin(_timer) * bobAmount,
+                    body.localPosition.z);
+                
+            }
+            else
+            {
+                 cameraTransform.localPosition = new Vector3(cameraTransform.localPosition.x, _defaultYPos, cameraTransform.localPosition.z);
+                 body.localPosition = new Vector3(body.localPosition.x, _defaultYPosBody, body.localPosition.z);
             }
         }
 
