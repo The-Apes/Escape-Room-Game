@@ -26,9 +26,11 @@ namespace Npc
     
         private Camera _cam;
         private bool _walk;
-        private bool _talking;
+        private bool _talking; //dont touch, breaks game
+        private bool _textVisible;
         private Rigidbody _heldObjRb; //rigidbody of object we pick up
         private ObjectInteractor _objectInteractor;
+        private Animator _animator;
     
     
 
@@ -43,12 +45,14 @@ namespace Npc
         // States _currentState = States.Roam;
         private void SetTalking(bool value)
         {
+            //dont touch, breaks game
             _talking = value;
-            if(ScriptManager.instance){ScriptManager.instance.NpcTalking = value;}
+            if(ScriptManager.instance) {ScriptManager.instance.NpcTalking = value;}
         }
 
         void Awake()
         {
+            _animator = GetComponentInChildren<Animator>();
             Agent = GetComponent<NavMeshAgent>();
             _cam = Camera.main;
             ActiveState = new RoamState(this, transform);
@@ -68,6 +72,7 @@ namespace Npc
                 ChangeState(newState);
             }
             if(HeldObj) MoveObject();
+            HandleAnimation();
         }
         public void Speak(string line, float duration)
         {
@@ -79,9 +84,12 @@ namespace Npc
             //TODO
             // For each line, display one character at a time same way we did bog wood
             //SetTalking(true); don't wanna break nothing
+            //SetTalking(true);
             text.SetText(line);
+            _textVisible = true;
             yield return new WaitForSeconds(duration);
             text.SetText("");
+            _textVisible = false;
             SetTalking(false);
         }
         public void ScriptStart()
@@ -232,6 +240,12 @@ namespace Npc
             ActiveState.ExitState();
             ActiveState = newState;
             ActiveState.EnterState();
+        }
+        private void HandleAnimation()
+        {
+            _animator.SetBool("Moving", Agent.velocity.magnitude > 0.1f);
+            _animator.SetBool("Talking", _textVisible);
+            print("Talking: " + _textVisible);
         }
     }
 }
