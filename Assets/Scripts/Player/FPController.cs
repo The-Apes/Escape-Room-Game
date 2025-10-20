@@ -65,6 +65,7 @@ namespace Player
         public float proneHeight = 0.1f;
 
         private CharacterController _characterController;
+        private Animator _animator;
         private float _moveSpeed;
         private Vector2 _moveInput;
         private Vector2 _lookInput;
@@ -91,6 +92,7 @@ namespace Player
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
+            _animator = GetComponentInChildren<Animator>();
             _defaultYPos = cameraTransform.localPosition.y;
             _defaultYPosBody = body.localPosition.y;
             Cursor.lockState = CursorLockMode.Locked;
@@ -102,6 +104,7 @@ namespace Player
         {
             HandleMovement();
             HandleLook();
+            HandleAnimation();
             HandleHeadbob();
             HandleFootsteps();
         }
@@ -146,10 +149,21 @@ namespace Player
             transform.Rotate(Vector3.up * mouseX);
         }
 
+        private void HandleAnimation()
+        {
+            _animator.SetBool("Moving", _moveInput != Vector2.zero);
+            _animator.SetFloat("MoveX", _moveInput.x);
+            _animator.SetFloat("MoveY", _moveInput.y);
+            _animator.SetBool("Crouching", IsCrouching);
+            _animator.SetBool("Crawling", IsProne);
+            
+        }
+
         private void HandleHeadbob()
         {
             if (!CanUseHeadbob) return;
             if (!_characterController.isGrounded) return;
+            if (IsProne) return;
             if (Mathf.Abs(_moveInput.x) > 0.1f || Mathf.Abs(_moveInput.y) > 0.1f)
             {
                 float bobSpeed, bobAmount;
@@ -160,7 +174,8 @@ namespace Player
                         bobAmount = crouchBobAmount;
                         break;
                     case Height.Prone:
-                        // No headbob for prone
+                        bobSpeed = 0.1f;
+                        bobAmount = 0.1f;
                         return;
                     default:
                         bobSpeed = _isSprinting ? sprintBobSpeed : walkBobSpeed;
@@ -173,16 +188,16 @@ namespace Player
                     cameraTransform.localPosition.x,
                     _defaultYPos + Mathf.Sin(_timer) * bobAmount,
                     cameraTransform.localPosition.z);
-                body.localPosition = new Vector3(
-                    body.localPosition.x,
-                    _defaultYPosBody + Mathf.Sin(_timer) * bobAmount,
-                    body.localPosition.z);
+                //body.localPosition = new Vector3(
+                 //   body.localPosition.x,
+                 //   _defaultYPosBody + Mathf.Sin(_timer) * bobAmount,
+                 //   body.localPosition.z);
                 
             }
             else
             {
                  cameraTransform.localPosition = new Vector3(cameraTransform.localPosition.x, _defaultYPos, cameraTransform.localPosition.z);
-                 body.localPosition = new Vector3(body.localPosition.x, _defaultYPosBody, body.localPosition.z);
+                 //body.localPosition = new Vector3(body.localPosition.x, _defaultYPosBody, body.localPosition.z);
             }
         }
 
@@ -233,12 +248,14 @@ namespace Player
                 {
                     _characterController.height = crouchHeight;
                     cameraTransform.localPosition = new Vector3(0, crouchingEyeHeight, 0);
+                    body.localPosition = new Vector3(body.localPosition.x, 0.26f, body.localPosition.z);
                     _currentHeight = Height.Crouching;
                 }
                 else
                 {
                     _characterController.height = standHeight;
                     cameraTransform.localPosition = new Vector3(0, standingEyeHeight, 0);
+                    body.localPosition = new Vector3(body.localPosition.x, 0, body.localPosition.z);
                     _currentHeight = Height.Standing;
                 }
             }
@@ -246,6 +263,7 @@ namespace Player
             {
                 _characterController.height = proneHeight;
                 cameraTransform.localPosition = new Vector3(0, proneEyeHeight, 0);
+                body.localPosition = new Vector3(body.localPosition.x, 0.50f, body.localPosition.z);
                 _currentHeight = Height.Prone;
             }
         }
