@@ -1,6 +1,7 @@
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEditor;
 
 namespace UI
 {
@@ -12,49 +13,65 @@ namespace UI
         private Logs _logs;
         private FPController _fpController;
 
-        public void Start()
+        private void Start()
         {
-            _logs = FindFirstObjectByType<Logs>();
-            _fpController = FindFirstObjectByType<FPController>();
+            _logs = FindObjectOfType<Logs>();
+            _fpController = FindObjectOfType<FPController>();
         }
+
         public void PauseInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
             PauseGame();
-
         }
 
         public void PauseGame()
         {
             if (_paused)
             {
-                gameScreen.SetActive(true);
-                pauseScreen.SetActive(false);
-                if (_logs) _logs.ClearLogs();
-                if (_fpController) _fpController.CanMove = true;
-                if (_fpController) _fpController.CanLook = true;
+                if (gameScreen) gameScreen.SetActive(true);
+                if (pauseScreen) pauseScreen.SetActive(false);
+
+                _logs?.ClearLogs();
+
+                if (_fpController != null)
+                {
+                    _fpController.CanMove = true;
+                    _fpController.CanLook = true;
+                }
+
                 Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false; 
-                Time.timeScale = 1;
+                Cursor.visible = false;
+                Time.timeScale = 1f;
                 _paused = false;
             }
             else
             {
-                gameScreen.SetActive(false);
-                pauseScreen.SetActive(true);
-                if (_logs) _logs.ShowLogs();
-                if (_fpController) _fpController.CanMove = false;
-                if (_fpController) _fpController.CanLook = false;
+                if (gameScreen) gameScreen.SetActive(false);
+                if (pauseScreen) pauseScreen.SetActive(true);
+
+                _logs?.ShowLogs();
+
+                if (_fpController != null)
+                {
+                    _fpController.CanMove = false;
+                    _fpController.CanLook = false;
+                }
+
                 Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true; 
-                Time.timeScale = 0;
+                Cursor.visible = true;
+                Time.timeScale = 0f;
                 _paused = true;
             }
         }
 
         public void QuitGame()
         {
-                Application.Quit();
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
 }
