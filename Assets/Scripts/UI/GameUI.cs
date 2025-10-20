@@ -1,7 +1,6 @@
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEditor;
 
 namespace UI
 {
@@ -13,65 +12,49 @@ namespace UI
         private Logs _logs;
         private FPController _fpController;
 
-        private void Start()
+        public void Start()
         {
-            _logs = FindObjectOfType<Logs>();
-            _fpController = FindObjectOfType<FPController>();
+            _logs = FindFirstObjectByType<Logs>();
+            _fpController = FindFirstObjectByType<FPController>();
         }
-
         public void PauseInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
             PauseGame();
+
         }
 
         public void PauseGame()
         {
             if (_paused)
             {
-                if (gameScreen) gameScreen.SetActive(true);
-                if (pauseScreen) pauseScreen.SetActive(false);
-
-                _logs?.ClearLogs();
-
-                if (_fpController != null)
-                {
-                    _fpController.CanMove = true;
-                    _fpController.CanLook = true;
-                }
-
+                gameScreen.SetActive(true);
+                pauseScreen.SetActive(false);
+                if (_logs) _logs.ClearLogs();
+                if (_fpController) _fpController.CanMove = true;
+                if (_fpController) _fpController.CanLook = true;
                 Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                Time.timeScale = 1f;
+                Cursor.visible = false; 
+                Time.timeScale = 1;
                 _paused = false;
             }
             else
             {
-                if (gameScreen) gameScreen.SetActive(false);
-                if (pauseScreen) pauseScreen.SetActive(true);
-
-                _logs?.ShowLogs();
-
-                if (_fpController != null)
-                {
-                    _fpController.CanMove = false;
-                    _fpController.CanLook = false;
-                }
-
+                gameScreen.SetActive(false);
+                pauseScreen.SetActive(true);
+                if (_logs) _logs.ShowLogs();
+                if (_fpController) _fpController.CanMove = false;
+                if (_fpController) _fpController.CanLook = false;
                 Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;
-                Time.timeScale = 0f;
+                Cursor.visible = true; 
+                Time.timeScale = 0;
                 _paused = true;
             }
         }
 
         public void QuitGame()
         {
-#if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+                Application.Quit();
         }
     }
 }

@@ -6,14 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: a5c46bf86e141324d96a364dd03f8397
+    path: Assets/Scenes/Main Menu.unity
+    guid: 096d2da26006d2b43935c6c19389ca82
   - enabled: 1
     path: Assets/Scenes/TestNPCRoom.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
-    path: Assets/Scenes/Main Menu.unity
-    guid: 096d2da26006d2b43935c6c19389ca82
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: deeb6764f4aee1b4597d2879bb12dcc7, type: 3}
   m_UseUCBPForAssetBundles: 0
