@@ -31,6 +31,7 @@ namespace Npc
         private Rigidbody _heldObjRb; //rigidbody of object we pick up
         private ObjectInteractor _objectInteractor;
         private Animator _animator;
+        private FPController _fpController;
     
     
 
@@ -53,6 +54,7 @@ namespace Npc
         void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
+            _fpController = FindFirstObjectByType<FPController>();
             Agent = GetComponent<NavMeshAgent>();
             _cam = Camera.main;
             ActiveState = new RoamState(this, transform);
@@ -245,7 +247,21 @@ namespace Npc
         {
             _animator.SetBool("Moving", Agent.velocity.magnitude > 0.1f);
             _animator.SetBool("Talking", _textVisible);
-            print("Talking: " + _textVisible);
+            
+            //face the player when talking
+            if (_textVisible && !(Agent.velocity.magnitude > 0.1f)) FacePlayer();
+        }
+
+        private void FacePlayer()
+        {
+            float defaultXRotation = Agent.transform.rotation.eulerAngles.x;
+            float defaultZRotation = Agent.transform.rotation.eulerAngles.z;
+
+            Agent.transform.LookAt(_fpController.cameraTransform);
+            Agent.transform.rotation = Quaternion.Euler(defaultXRotation, Agent.transform.rotation.eulerAngles.y, defaultZRotation);
+        }
+
+
         }
     }
-}
+
