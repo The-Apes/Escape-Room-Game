@@ -64,13 +64,19 @@ namespace Player
         public float crouchHeight = 0.5f;
         public float proneHeight = 0.1f;
 
+        [Header("Sound Settings")] 
+        [SerializeField] private AudioClip[] talkSounds;
+        
         private CharacterController _characterController;
         private Animator _animator;
+        private AudioSource _audioSource;
         private float _moveSpeed;
         private Vector2 _moveInput;
         private Vector2 _lookInput;
         private Vector3 _velocity;
         private float _verticalRotation;
+        private int _lastTalkIndex = -1;
+
         
        [SerializeField] private Transform body; // For head bob syncing
 
@@ -93,6 +99,7 @@ namespace Player
         {
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponentInChildren<Animator>();
+            _audioSource = GetComponent<AudioSource>();
             _defaultYPos = cameraTransform.localPosition.y;
             _defaultYPosBody = body.localPosition.y;
             Cursor.lockState = CursorLockMode.Locked;
@@ -136,6 +143,28 @@ namespace Player
             if (_characterController.isGrounded && _velocity.y < 0) _velocity.y = -2f;
             _velocity.y += gravity * Time.deltaTime;
             _characterController.Move(_velocity * Time.deltaTime);
+        }
+
+        public void PlayTalkSound()
+        {
+            // I got freaky here cuz of OCD and I kinda regret it
+            if (talkSounds == null || talkSounds.Length == 0 || _audioSource == null) return;
+
+            int newIndex;
+            if (talkSounds.Length == 1)
+            {
+                newIndex = 0;
+            }
+            else
+            {
+                do
+                {
+                    newIndex = UnityEngine.Random.Range(0, talkSounds.Length);
+                } while (newIndex == _lastTalkIndex);
+            }
+
+            _lastTalkIndex = newIndex;
+            _audioSource.PlayOneShot(talkSounds[newIndex]);        
         }
 
         private void HandleLook()

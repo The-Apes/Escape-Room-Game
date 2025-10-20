@@ -23,6 +23,7 @@ namespace Npc
         [NonSerialized] public bool Busy;
     
         [SerializeField] private GameObject choicesPanel;
+        [SerializeField] private AudioClip[] talkSound;
     
         private Camera _cam;
         private bool _walk;
@@ -32,6 +33,9 @@ namespace Npc
         private ObjectInteractor _objectInteractor;
         private Animator _animator;
         private FPController _fpController;
+        private AudioSource _audioSource;
+        
+        private int _lastTalkIndex = -1;
     
     
 
@@ -54,6 +58,7 @@ namespace Npc
         void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
+            _audioSource = GetComponent<AudioSource>();
             _fpController = FindFirstObjectByType<FPController>();
             Agent = GetComponent<NavMeshAgent>();
             _cam = Camera.main;
@@ -88,7 +93,30 @@ namespace Npc
             //SetTalking(true); don't wanna break nothing
             //SetTalking(true);
             text.SetText(line);
-            _textVisible = true;
+            //play random sound from array
+            
+            // I got freaky here cuz of OCD and I kinda regret it
+            if (talkSound == null || talkSound.Length == 0 || _audioSource == null) {}
+            else
+            {
+                int newIndex;
+                if (talkSound.Length == 1)
+                {
+                    newIndex = 0;
+                }
+                else
+                {
+                    do
+                    {
+                        newIndex = UnityEngine.Random.Range(0, talkSound.Length);
+                    } while (newIndex == _lastTalkIndex);
+                }
+
+                _lastTalkIndex = newIndex;
+                _audioSource.PlayOneShot(talkSound[newIndex]);                  _textVisible = true;
+            }
+
+
             yield return new WaitForSeconds(duration);
             text.SetText("");
             _textVisible = false;
