@@ -33,6 +33,7 @@ namespace Player
         private int _layerNumber; //layer index
         private Camera _cam;
         private FPController _fpController;
+        private Hands _Hands;
         private float _xAxisRotation;
         private float _yAxisRotation;
         void Start()
@@ -40,6 +41,8 @@ namespace Player
             _layerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
             _cam = Camera.main;
             _fpController = FindFirstObjectByType<FPController>();
+            _Hands = FindFirstObjectByType<Hands>();
+
         }
         void Update()
         {
@@ -120,6 +123,19 @@ namespace Player
         
             //make sure object doesn't collide with player, it can cause weird bugs
             Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), true);
+            
+            //change hand animation based on object hold style
+            var holdDetails = HeldObj.GetComponent<ItemHoldDetails>();
+            if (holdDetails)
+            {
+                _Hands.ChangeStyle(holdDetails.holdStyle);
+                
+                //adjust hold position/rotation based on holdDetails script
+                HeldObjRb.transform.localPosition = holdDetails.holdPositionOffset;
+                HeldObjRb.transform.localRotation = Quaternion.Euler(holdDetails.holdRotationOffset);
+                print(HeldObj);
+            }
+            _Hands.Grab();
         }
 
         private void DropObject()
@@ -131,6 +147,7 @@ namespace Player
             HeldObj.transform.parent = null; //unparent object
             HeldObj.transform.position = new Vector3(HeldObj.transform.position.x, Mathf.Max(0.25f, HeldObj.transform.position.y), HeldObj.transform.position.z);
             HeldObj = null; //undefine game object
+            _Hands.Drop();
         }
         public void Inspect(InputAction.CallbackContext context)
         {

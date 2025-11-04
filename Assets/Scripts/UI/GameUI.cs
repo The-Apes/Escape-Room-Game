@@ -15,8 +15,8 @@ namespace UI
 
         private void Start()
         {
-            _logs = FindObjectOfType<Logs>();
-            _fpController = FindObjectOfType<FPController>();
+            _logs = FindAnyObjectByType<Logs>();
+            _fpController = FindAnyObjectByType<FPController>();
         }
 
         public void PauseInput(InputAction.CallbackContext context)
