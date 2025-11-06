@@ -50,6 +50,11 @@ namespace Player
             animator.SetTrigger("Drop");
         }
 
+        public void Place()
+        {
+            animator.SetTrigger("Place");
+        }
+
         public void ChangeStyle(ItemHoldDetails.HoldStyle style)
         {
             //Reset
@@ -94,7 +99,12 @@ namespace Player
             {
                 _usingLeftHand = false;
                 _usingRightHand = true;
-            }if (animator.GetCurrentAnimatorStateInfo(0).IsName("Handle Hold"))
+            }if (animator.GetCurrentAnimatorStateInfo(0).IsName("Place"))
+            {
+                _usingLeftHand = false;
+                _usingRightHand = true;
+            }
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Handle Hold"))
             {
                 _usingLeftHand = false;
                 _usingRightHand = true;

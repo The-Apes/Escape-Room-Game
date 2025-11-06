@@ -19,6 +19,7 @@ namespace Player
     {
         public GameObject player;
         public Transform holdTransform;
+        public Transform offsetTransform;
     
         [SerializeField] private Vector3 holdPos;
         [SerializeField] private Vector3 inspectPos;
@@ -33,7 +34,7 @@ namespace Player
         private int _layerNumber; //layer index
         private Camera _cam;
         private FPController _fpController;
-        private Hands _Hands;
+        private Hands _hands;
         private float _xAxisRotation;
         private float _yAxisRotation;
         void Start()
@@ -41,7 +42,7 @@ namespace Player
             _layerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
             _cam = Camera.main;
             _fpController = FindFirstObjectByType<FPController>();
-            _Hands = FindFirstObjectByType<Hands>();
+            _hands = FindFirstObjectByType<Hands>();
 
         }
         void Update()
@@ -116,7 +117,7 @@ namespace Player
             HeldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
             HeldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
             HeldObjRb.isKinematic = true;
-            HeldObjRb.transform.parent = holdTransform.transform; //parent object to hold position
+            HeldObjRb.transform.parent = offsetTransform.transform; //parent object to hold position
             HeldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
             HeldObj.layer = _layerNumber; //change the object layer to the holdLayer
             SetMultipleLayers.SetLayerRecursively(HeldObj, _layerNumber);
@@ -124,18 +125,22 @@ namespace Player
             //make sure object doesn't collide with player, it can cause weird bugs
             Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), true);
             
+            
+            //Reset offset
+            offsetTransform.transform.localPosition = Vector3.zero;
+            
             //change hand animation based on object hold style
             var holdDetails = HeldObj.GetComponent<ItemHoldDetails>();
             if (holdDetails)
             {
-                _Hands.ChangeStyle(holdDetails.holdStyle);
+                _hands.ChangeStyle(holdDetails.holdStyle);
                 
                 //adjust hold position/rotation based on holdDetails script
-                HeldObjRb.transform.localPosition = holdDetails.holdPositionOffset;
+                offsetTransform.transform.localPosition = holdDetails.holdPositionOffset;
                 HeldObjRb.transform.localRotation = Quaternion.Euler(holdDetails.holdRotationOffset);
                 print(HeldObj);
             }
-            _Hands.Grab();
+            _hands.Grab();
         }
 
         private void DropObject()
@@ -147,7 +152,7 @@ namespace Player
             HeldObj.transform.parent = null; //unparent object
             HeldObj.transform.position = new Vector3(HeldObj.transform.position.x, Mathf.Max(0.25f, HeldObj.transform.position.y), HeldObj.transform.position.z);
             HeldObj = null; //undefine game object
-            _Hands.Drop();
+            _hands.Drop();
         }
         public void Inspect(InputAction.CallbackContext context)
         {
@@ -184,11 +189,12 @@ namespace Player
             HeldObj.transform.position = placePos.position; 
             HeldObj.transform.rotation = placePos.rotation;
             HeldObj = null; //undefine game object
+            _hands.Place();
         }
         void MoveObject()
         {
             //keep object position the same as the holdPosition position
-            HeldObj.transform.position = holdTransform.transform.position;
+            HeldObj.transform.position = offsetTransform.transform.position;
         }
         public void RotateInput(InputAction.CallbackContext context)
         {
