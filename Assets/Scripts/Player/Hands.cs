@@ -63,6 +63,7 @@ namespace Player
             animator.SetBool("Cup", false);
             animator.SetBool("Palm", false);
             animator.SetBool("Key", false);
+            animator.SetBool("Paper", false);
             
             switch (style)
             {
@@ -80,6 +81,9 @@ namespace Player
                     break;
                 case ItemHoldDetails.HoldStyle.Key:
                     animator.SetBool("Key", true);
+                    break;
+                case ItemHoldDetails.HoldStyle.Paper:
+                    animator.SetBool("Paper", true);
                     break;
             }
         }
@@ -105,6 +109,28 @@ namespace Player
                 _usingRightHand = true;
             }
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Handle Hold"))
+            {
+                _usingLeftHand = false;
+                _usingRightHand = true;
+            }if (animator.GetCurrentAnimatorStateInfo(0).IsName("Cup Hold"))
+            {
+                _usingLeftHand = false;
+                _usingRightHand = true;
+            }
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Lantern Hold"))
+            {
+                _usingLeftHand = false;
+                _usingRightHand = true;
+            }if (animator.GetCurrentAnimatorStateInfo(0).IsName("Palm Hold"))
+            {
+                _usingLeftHand = false;
+                _usingRightHand = true;
+            }if (animator.GetCurrentAnimatorStateInfo(0).IsName("Key Hold"))
+            {
+                _usingLeftHand = false;
+                _usingRightHand = true;
+            }
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Paper Hold"))
             {
                 _usingLeftHand = false;
                 _usingRightHand = true;

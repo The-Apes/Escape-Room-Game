@@ -37,6 +37,7 @@ namespace Player
         private Hands _hands;
         private float _xAxisRotation;
         private float _yAxisRotation;
+        private Vector3 _cachedItemScale;
         void Start()
         {
             _layerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
@@ -114,7 +115,12 @@ namespace Player
         public void PickUpObject(GameObject pickUpObj)
         {
             if (!pickUpObj.GetComponent<Rigidbody>()) return; //make sure the object has a RigidBody
+            //Reset offset
+            offsetTransform.transform.localPosition = Vector3.zero;
+            offsetTransform.localScale = Vector3.one;
+            
             HeldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
+            _cachedItemScale = HeldObj.transform.localScale;
             HeldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
             HeldObjRb.isKinematic = true;
             HeldObjRb.transform.parent = offsetTransform.transform; //parent object to hold position
@@ -126,8 +132,7 @@ namespace Player
             Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), true);
             
             
-            //Reset offset
-            offsetTransform.transform.localPosition = Vector3.zero;
+            
             
             //change hand animation based on object hold style
             var holdDetails = HeldObj.GetComponent<ItemHoldDetails>();
@@ -137,6 +142,7 @@ namespace Player
                 
                 //adjust hold position/rotation based on holdDetails script
                 offsetTransform.transform.localPosition = holdDetails.holdPositionOffset;
+                offsetTransform.localScale = holdDetails.holdScaleOffset;
                 HeldObjRb.transform.localRotation = Quaternion.Euler(holdDetails.holdRotationOffset);
                 print(HeldObj);
             }
@@ -151,6 +157,7 @@ namespace Player
             HeldObjRb.isKinematic = false;
             HeldObj.transform.parent = null; //unparent object
             HeldObj.transform.position = new Vector3(HeldObj.transform.position.x, Mathf.Max(0.25f, HeldObj.transform.position.y), HeldObj.transform.position.z);
+            HeldObj.transform.localScale = _cachedItemScale;
             HeldObj = null; //undefine game object
             _hands.Drop();
         }

@@ -6,6 +6,7 @@ namespace Objects
     {
         public Vector3 holdPositionOffset;
         public Vector3 holdRotationOffset;
+        public Vector3 holdScaleOffset = Vector3.one;
         public HoldStyle holdStyle;
         public enum HoldStyle
         {
@@ -13,7 +14,8 @@ namespace Objects
             Cup,
             Lantern,
             Palm,
-            Key
+            Key,
+            Paper
         }
     }
 }
