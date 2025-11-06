@@ -9805,6 +9805,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7918335002988649766, guid: eb89c99015d3ed042a225529f6979eb4, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7918335002988649766, guid: eb89c99015d3ed042a225529f6979eb4, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: -6478536213147159724, guid: eb89c99015d3ed042a225529f6979eb4, type: 3}
+    - target: {fileID: -7029948723529949830, guid: eb89c99015d3ed042a225529f6979eb4, type: 3}
+      propertyPath: m_Name
+      value: Mesh
+      objectReference: {fileID: 0}
     - target: {fileID: -4292154010595695564, guid: eb89c99015d3ed042a225529f6979eb4, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -10263,7 +10275,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1795514966}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.16200785
+  m_Size: 0.26099437
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14286,6 +14298,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -121.305
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9c51e6f325eb23341986af4c7a6c352d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: 9c51e6f325eb23341986af4c7a6c352d, type: 3}
+    - target: {fileID: -7511558181221131132, guid: 9c51e6f325eb23341986af4c7a6c352d, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: -6478536213147159724, guid: 9c51e6f325eb23341986af4c7a6c352d, type: 3}
     - target: {fileID: 919132149155446097, guid: 9c51e6f325eb23341986af4c7a6c352d, type: 3}
       propertyPath: m_Name
       value: DeskLamp
@@ -33002,6 +33022,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2367966432050437843, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
+    - target: {fileID: -7511558181221131132, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2367966432050437843, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
     - target: {fileID: 919132149155446097, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
       propertyPath: m_Name
       value: Toolbox
@@ -33026,6 +33058,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1589025062}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1589025069}
   m_SourcePrefab: {fileID: 100100000, guid: ab8c03a08ba7b0941997d0c4b8dab950, type: 3}
 --- !u!1 &1589025061 stripped
 GameObject:
@@ -33105,6 +33140,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fea6bcc7cc9ce04689e3611fec36df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1589025069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589025061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1618697e083de440919de03683c0fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPositionOffset: {x: -0.65, y: 0, z: 0}
+  holdRotationOffset: {x: 0, y: 90, z: 90}
+  holdStyle: 2
 --- !u!4 &1594980546 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4571740683382641796, guid: 39d1c3ae82676054cb20378ad6d15148, type: 3}
