@@ -1,49 +1,51 @@
-using Player;
 using UnityEngine;
 
-public class PlayerInteraction : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private Camera playerCamera;
-    [SerializeField] private float interactDistance = 3f;
-
-    private Interactable lastInteractable;
-    private ObjectInteractor _objectInteractor;
-
-    private void Awake()
+    public class PlayerInteraction : MonoBehaviour
     {
-        if (playerCamera == null)
-            playerCamera = Camera.main;
-        _objectInteractor = FindFirstObjectByType<ObjectInteractor>();
-        
-    }
+        [SerializeField] private Camera playerCamera;
+        [SerializeField] private float interactDistance = 3f;
 
-    void Update()
-    {
-        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
+        private Interactable _lastInteractable;
+        private ObjectInteractor _objectInteractor;
+
+        private void Awake()
         {
-            Interactable interactable = hit.collider.GetComponent<Interactable>();
-            if (interactable != null)
+            if (playerCamera == null)
+                playerCamera = Camera.main;
+            _objectInteractor = FindFirstObjectByType<ObjectInteractor>();
+        
+        }
+
+        void Update()
+        {
+            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
             {
-                if (lastInteractable != interactable)
+                Interactable interactable = hit.collider.GetComponent<Interactable>();
+                if (interactable != null)
                 {
-                    if (lastInteractable != null)
-                        lastInteractable.Highlight(false);
-                    if(_objectInteractor.Inspecting) return;
-                    interactable.Highlight(true);
-                    lastInteractable = interactable;
+                    if (_lastInteractable != interactable)
+                    {
+                        if (_lastInteractable != null)
+                            _lastInteractable.Highlight(false);
+                        if(_objectInteractor.Inspecting) return;
+                        interactable.Highlight(true);
+                        _lastInteractable = interactable;
+                    }
+                }
+                else if (_lastInteractable != null)
+                {
+                    _lastInteractable.Highlight(false);
+                    _lastInteractable = null;
                 }
             }
-            else if (lastInteractable != null)
+            else if (_lastInteractable != null)
             {
-                lastInteractable.Highlight(false);
-                lastInteractable = null;
+                _lastInteractable.Highlight(false);
+                _lastInteractable = null;
             }
-        }
-        else if (lastInteractable != null)
-        {
-            lastInteractable.Highlight(false);
-            lastInteractable = null;
         }
     }
 }
