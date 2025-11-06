@@ -32,7 +32,7 @@ namespace Npc
         private Rigidbody _heldObjRb; //rigidbody of object we pick up
         private ObjectInteractor _objectInteractor;
         private Animator _animator;
-        private FPController _fpController;
+        private FpController _fpController;
         private AudioSource _audioSource;
         
         private int _lastTalkIndex = -1;
@@ -59,7 +59,7 @@ namespace Npc
         {
             _animator = GetComponentInChildren<Animator>();
             _audioSource = GetComponent<AudioSource>();
-            _fpController = FindFirstObjectByType<FPController>();
+            _fpController = FindFirstObjectByType<FpController>();
             Agent = GetComponent<NavMeshAgent>();
             _cam = Camera.main;
             ActiveState = new RoamState(this, transform);

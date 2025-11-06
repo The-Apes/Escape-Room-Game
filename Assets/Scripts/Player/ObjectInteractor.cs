@@ -33,7 +33,7 @@ namespace Player
         [NonSerialized] public bool Inspecting;
         private int _layerNumber; //layer index
         private Camera _cam;
-        private FPController _fpController;
+        private FpController _fpController;
         private Hands _hands;
         private float _xAxisRotation;
         private float _yAxisRotation;
@@ -41,7 +41,7 @@ namespace Player
         {
             _layerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
             _cam = Camera.main;
-            _fpController = FindFirstObjectByType<FPController>();
+            _fpController = FindFirstObjectByType<FpController>();
             _hands = FindFirstObjectByType<Hands>();
 
         }

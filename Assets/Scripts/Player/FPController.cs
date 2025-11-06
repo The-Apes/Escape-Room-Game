@@ -1,13 +1,11 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
-using UnityEngine.Serialization;
 
 namespace Player
 {
-    public class FPController : MonoBehaviour
+    public class FpController : MonoBehaviour
     {
         public bool useFootsteps = true;
         public bool UseFootsteps => useFootsteps;
@@ -18,14 +16,14 @@ namespace Player
         public float crouchingSpeed = 1.5f;
         public float proneSpeed = 0.6f;
 
-        public float jumpForce = 0f;
+        public float jumpForce;
         public float gravity = -9.81f;
 
         [NonSerialized]
         public bool CanMove = true;
-        public bool CanUseHeadbob = true;
+        public bool canUseHeadBob = true;
 
-        [Header("Headbob Settings")]
+        [Header("Head bob Settings")]
         [SerializeField] private float walkBobSpeed = 14f;
         [SerializeField] private float walkBobAmount = 0.05f;
         [SerializeField] private float sprintBobSpeed = 18f;
@@ -112,7 +110,7 @@ namespace Player
             HandleMovement();
             HandleLook();
             HandleAnimation();
-            HandleHeadbob();
+            HandleHeadBob();
             HandleFootsteps();
         }
 
@@ -188,9 +186,9 @@ namespace Player
             
         }
 
-        private void HandleHeadbob()
+        private void HandleHeadBob()
         {
-            if (!CanUseHeadbob) return;
+            if (!canUseHeadBob) return;
             if (!_characterController.isGrounded) return;
             if (IsProne) return;
             if (Mathf.Abs(_moveInput.x) > 0.1f || Mathf.Abs(_moveInput.y) > 0.1f)

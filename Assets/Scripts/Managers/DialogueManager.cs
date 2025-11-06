@@ -13,7 +13,7 @@ namespace Managers
   // if Script manager talking is false, hid the subtitles after some seconds,
   // Add code to show or hide subtitles based on if player is looking ar NPC or not, should this be here on in Subtitle class doe?
  
-  private FPController _player;
+  private FpController _player;
   private NpcAgent _npcAgent;
   private Subtitle _subtitle;
   private Logs _logs;
@@ -31,7 +31,7 @@ namespace Managers
    }
 
    _npcAgent = FindFirstObjectByType<NpcAgent>();
-   _player = FindFirstObjectByType<FPController>();
+   _player = FindFirstObjectByType<FpController>();
    _logs = FindFirstObjectByType<Logs>();
   }
 

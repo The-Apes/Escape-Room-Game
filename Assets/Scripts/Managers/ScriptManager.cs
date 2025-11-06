@@ -151,7 +151,7 @@ namespace Managers
         }
         private IEnumerator PlayerDistanceLessThan(float distance)
         {
-            GameObject player = FindFirstObjectByType<FPController>().gameObject;
+            GameObject player = FindFirstObjectByType<FpController>().gameObject;
             while (Vector3.Distance(_npcAgent.transform.position, player.transform.position) > distance)
             {
                 yield return null;

@@ -11,12 +11,12 @@ namespace UI
         [SerializeField] private GameObject pauseScreen;
         private bool _paused;
         private Logs _logs;
-        private FPController _fpController;
+        private FpController _fpController;
 
         private void Start()
         {
             _logs = FindAnyObjectByType<Logs>();
-            _fpController = FindAnyObjectByType<FPController>();
+            _fpController = FindAnyObjectByType<FpController>();
         }
 
         public void PauseInput(InputAction.CallbackContext context)
