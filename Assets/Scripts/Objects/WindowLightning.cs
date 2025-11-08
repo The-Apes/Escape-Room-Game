@@ -27,12 +27,12 @@ namespace Objects
         
             windowLight.intensity = intensity switch
             {
-                1 => 0.5f,
-                2 => 1f,
-                3 => 5.25f,
-                4 => 7.625f,
-                5 => 10f,
-                _ => 0.5f
+                1 => 1f,
+                2 => 2f,
+                3 => 10.5f,
+                4 => 14.125f,
+                5 => 20f,
+                _ => 1f
             };
         
         
