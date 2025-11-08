@@ -85,6 +85,9 @@ namespace Player
                 case ItemHoldDetails.HoldStyle.Paper:
                     animator.SetBool("Paper", true);
                     break;
+                default:
+                    animator.SetBool("Handle", true);
+                    break;
             }
         }
 
