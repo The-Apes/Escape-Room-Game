@@ -20,6 +20,9 @@ namespace Player
         public GameObject player;
         public Transform holdTransform;
         public Transform offsetTransform;
+        
+        [SerializeField] private GameObject HoldObj;
+        [SerializeField] private GameObject inspectObj;
     
         [SerializeField] private Vector3 holdPos;
         [SerializeField] private Vector3 inspectPos;
@@ -131,9 +134,6 @@ namespace Player
             //make sure object doesn't collide with player, it can cause weird bugs
             Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), true);
             
-            
-            
-            
             //change hand animation based on object hold style
             var holdDetails = HeldObj.GetComponent<ItemHoldDetails>();
             if (holdDetails)
@@ -170,7 +170,9 @@ namespace Player
             {
                 _fpController.CanMove = false;
                 _fpController.CanLook = false;
-                holdTransform.localPosition = inspectPos;
+                HoldObj = holdTransform.gameObject;
+                holdTransform.parent = inspectObj.transform;
+                //holdTransform.localPosition = inspectPos;
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true; 
                 Inspecting = true;
@@ -179,7 +181,8 @@ namespace Player
             {
                 _fpController.CanMove = true;
                 _fpController.CanLook = true;
-                holdTransform.localPosition = holdPos;
+                holdTransform.parent = HoldObj.transform;
+                //holdTransform.localPosition = holdPos;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false; 
                 Inspecting = false;

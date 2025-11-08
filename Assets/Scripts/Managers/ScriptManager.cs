@@ -29,11 +29,11 @@ namespace Managers
             {
                 Destroy(gameObject);
             }
+            _npcAgent = FindFirstObjectByType<NpcAgent>();
         }
     
         public void Start()
         {
-            _npcAgent = FindFirstObjectByType<NpcAgent>();
             if(introduction) StartCoroutine(RunScriptCoroutine(introduction));
         }
 
@@ -50,8 +50,9 @@ namespace Managers
 
         private IEnumerator RunScriptCoroutine(NpcScriptAsset script)
         {
+            OnScriptStart();
             CurrentScript = script;
-            _npcAgent.ScriptStart();
+            if (_npcAgent) _npcAgent.ScriptStart();
             foreach (ScriptLine line in script.scriptLines)
             {
                 CurrentLine = line;
@@ -132,7 +133,17 @@ namespace Managers
                     yield return null;
                 }
             }
+            CurrentScript = null;
             _npcAgent.ScriptEnd();
+            OnScriptEnd();
+        }
+        private void OnScriptStart()
+        {
+            // Any setup needed at the start of a script
+        }
+        private void OnScriptEnd()
+        {
+                
         }
 
         private IEnumerator WaitForSeconds(float seconds)
