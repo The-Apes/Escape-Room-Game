@@ -8,7 +8,7 @@ namespace Sound
         public AudioSource thunderAudioSource;
         public AudioClip[] thunderClips;
         private const float MinInterval = 8f;
-        private const float MaxInterval = 8f;
+        private const float MaxInterval = 30f;
 
         private float _nextThunderTime;
         private int _intensity;
