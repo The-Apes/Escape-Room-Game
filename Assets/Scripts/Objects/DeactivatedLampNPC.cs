@@ -13,6 +13,11 @@ namespace Objects
         [SerializeField] private AudioClip[] insertBatterySound;
         [SerializeField] private NpcScriptAsset scriptToPlay;
         private int _batteryCount;
+        
+        public void Start()
+        {
+            npc.SetActive(false);
+        }
 
         public void OnInteract(GameObject heldObject)
         {
@@ -29,17 +34,13 @@ namespace Objects
             _batteryCount++;
             
             //PuzzleManager.instance.SetPuzzleStage(2);
-            
-            if (_batteryCount >= 4)
-            {
-                Debug.Log("Activate Lamp NPC");
-                npc.SetActive(true);
-                ScriptManager.instance.RunScript(scriptToPlay);
-                Destroy(this);
-                
-                //activate lil jit
 
-            }
+            if (_batteryCount < 4) return;
+            Debug.Log("Activate Lamp NPC");
+            npc.SetActive(true);
+            ScriptManager.instance.RunScript(scriptToPlay);
+            Destroy(gameObject);
+            
         }
     }
 }

@@ -21,7 +21,6 @@ namespace Player
         public Transform holdTransform;
         public Transform offsetTransform;
         
-        [SerializeField] private GameObject HoldObj;
         [SerializeField] private GameObject inspectObj;
     
         [SerializeField] private Vector3 holdPos;
@@ -29,6 +28,11 @@ namespace Player
     
         [NonSerialized] public GameObject HeldObj; //object which we pick up
         [NonSerialized]public Rigidbody HeldObjRb; //rigidbody of object we pick up
+        
+        private GameObject _heldObjParent; //to store original parent
+        private Vector3 _initialObjPos; //to store When inspected
+        private Quaternion _initialObjRot; //to store When inspected
+
 
         public float pickUpRange = 5f; //how far the player can pick up the object from
         //private float _rotationSensitivity = 3f; //how fast/slow the object is rotated in relation to mouse movement
@@ -170,8 +174,12 @@ namespace Player
             {
                 _fpController.CanMove = false;
                 _fpController.CanLook = false;
-                HoldObj = holdTransform.gameObject;
+                _heldObjParent = holdTransform.parent.gameObject;
+                //store rotation
+                _initialObjPos = holdTransform.localPosition;
+                _initialObjRot = HeldObj.transform.localRotation;
                 holdTransform.parent = inspectObj.transform;
+                holdTransform.localPosition = Vector3.zero;
                 //holdTransform.localPosition = inspectPos;
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true; 
@@ -181,7 +189,10 @@ namespace Player
             {
                 _fpController.CanMove = true;
                 _fpController.CanLook = true;
-                holdTransform.parent = HoldObj.transform;
+                holdTransform.parent = _heldObjParent.transform;
+                holdTransform.localPosition = _initialObjPos;
+                HeldObj.transform.localRotation = _initialObjRot;
+                //apply rotation
                 //holdTransform.localPosition = holdPos;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false; 
