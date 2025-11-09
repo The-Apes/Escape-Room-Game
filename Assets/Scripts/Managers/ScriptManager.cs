@@ -39,7 +39,8 @@ namespace Managers
 
         public void RunScript(NpcScriptAsset script)
         {
-            if (script == null)
+            if (CurrentScript && !script.interruptible) return;
+            if (!script)
             {
                 Debug.Log("No Script");
                 _npcAgent.ScriptEnd();
@@ -96,6 +97,17 @@ namespace Managers
                             Debug.LogError("Invalid Parameter for 'wait' condition: " + parameters);
                         }
                         break;
+                    case "wait extra": 
+                        //Waits for the specified time
+                        if (float.TryParse(parameters, out float extraWaitTime))
+                        {
+                            StartCoroutine(WaitForSeconds(DialogueManager.instance.dialogueWaitTime+extraWaitTime));
+                        }
+                        else
+                        {
+                            Debug.LogError("Invalid Parameter for 'wait' condition: " + parameters);
+                        }
+                        break;
                     case "question":
                         ChoiceManager.instance.Ask(parameters);
                         break;
@@ -120,10 +132,14 @@ namespace Managers
                         break;
                     case "player looking at object":
                         break;
+                    case "custom":
+                        switch (parameters)
+                        {
+                            // Add custom conditions here
+                        }
+                        break;
                     default:
-                        Debug.LogError("Unknown command:"+condition);
-                        Debug.LogWarning("Waiting for 3 seconds instead");
-                        StartCoroutine(WaitForSeconds(3));
+                        StartCoroutine(WaitForSeconds(DialogueManager.instance.dialogueWaitTime));
                         _nextLine = true; // Default to true to avoid infinite wait
                         break;
                 }

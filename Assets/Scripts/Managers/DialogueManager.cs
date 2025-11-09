@@ -2,6 +2,7 @@ using Npc;
 using Player;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
@@ -12,6 +13,7 @@ namespace Managers
   //Brain dump
   // if Script manager talking is false, hid the subtitles after some seconds,
   // Add code to show or hide subtitles based on if player is looking ar NPC or not, should this be here on in Subtitle class doe?
+  public float dialogueWaitTime;
  
   private FpController _player;
   private NpcAgent _npcAgent;
@@ -40,6 +42,8 @@ namespace Managers
    float time = duration;
    if (Mathf.Approximately(time, -1f)) time = Mathf.Max(1,line.Split(' ').Length * 0.70f); // 0.70 seconds per word, can be adjusted
   
+   dialogueWaitTime = time;
+   
    if (!player) _npcAgent.Speak(line, time);
    if (player) _player.PlayTalkSound();
    ChangeSubtitle(line, player, time);
