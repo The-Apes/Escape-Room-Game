@@ -30,6 +30,7 @@ namespace UI
     
         public void StartButton()
         {
+
             if (mainMenu != null)
             {
                 mainMenu.SetActive(false);
