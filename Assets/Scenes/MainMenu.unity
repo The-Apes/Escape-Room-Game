@@ -3537,8 +3537,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 128113759}
   m_HandleRect: {fileID: 1252976848}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -4698,8 +4698,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1388522838}
   m_HandleRect: {fileID: 1268401036}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -5438,6 +5438,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7679343988685187797, guid: 176cf5a2a12999f46bfe5385014835bd, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 6404592963637480812, guid: 3c32072197cc46b4f96a2c9c1b1c1cbb, type: 2}
+    - target: {fileID: 7744527789272497378, guid: 176cf5a2a12999f46bfe5385014835bd, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 3220472438216766043, guid: 3c32072197cc46b4f96a2c9c1b1c1cbb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
