@@ -1,4 +1,5 @@
 using System;
+using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -278,6 +279,7 @@ namespace Player
                     cameraTransform.localPosition = new Vector3(0, crouchingEyeHeight, 0);
                     body.localPosition = new Vector3(body.localPosition.x, 0.26f, body.localPosition.z);
                     _currentHeight = Height.Crouching;
+                    PlayerFlagsManager.instance.Crouched = true;
                 }
                 else
                 {

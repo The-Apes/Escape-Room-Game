@@ -99,7 +99,7 @@ namespace Managers
         
         public void CrouchTutorial()
         {
-            StartCoroutine(ShowTutorial("Press C to Crouch", () => Input.GetKeyDown(KeyCode.C)));
+            StartCoroutine(ShowTutorial("Press C to Crouch \n Hold C to Crawl", () => PlayerFlagsManager.instance.Crouched));
         }
     }
 }

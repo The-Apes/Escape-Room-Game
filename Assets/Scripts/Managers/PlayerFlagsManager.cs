@@ -29,7 +29,7 @@ namespace Managers
         [NonSerialized] public bool SelectedChoice;
         [NonSerialized] public bool GaveNpcAnItem;
         [NonSerialized] public bool UsedTorch;
-
+        [NonSerialized] public bool Crouched;
         
         //List of script names that are do once
         [NonSerialized] public List<string> CompletedScripts = new List<string>();

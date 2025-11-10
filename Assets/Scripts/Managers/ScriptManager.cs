@@ -11,14 +11,16 @@ namespace Managers
         public static ScriptManager instance;
     
         [SerializeField] private NpcScriptAsset introduction;
-        private NpcAgent _npcAgent;
+        [SerializeField] private NpcScriptAsset torchScript;
 
-        private bool _nextLine;
         [NonSerialized] public bool NpcTalking;
         [NonSerialized] public ScriptLine CurrentLine;
         [NonSerialized] public NpcScriptAsset CurrentScript;
         [NonSerialized] public NpcScriptAsset MostRecentScript;
-    
+        
+        private NpcAgent _npcAgent;
+        private bool _nextLine;
+        
         private void Awake()
         {
             if (instance == null)
@@ -190,6 +192,10 @@ namespace Managers
                     break;
                 case "Battery":
                     FindFirstObjectByType<Torch>().ActivateTorch();
+                    RunScript(torchScript);
+                    break;
+                case "Torch":
+                    TutorialManager.instance.CrouchTutorial();
                     break;
                     
             }
