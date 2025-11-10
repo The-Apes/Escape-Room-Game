@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Managers;
 using Npc;
 using Player;
 using UnityEngine;
@@ -25,8 +26,6 @@ namespace UI
             _npcAgent = GetComponentInParent<NpcAgent>();
 
             CreateChoice("Talk");
-            if(_npcAgent.HeldObj) CreateChoice("Ask about item"); //Change to "Ask about item" if NPC is holding something
-            if(FindFirstObjectByType<ObjectInteractor>().HeldObj && !_npcAgent.HeldObj) CreateChoice("Give item"); //change
             if(!FindFirstObjectByType<ObjectInteractor>().HeldObj && _npcAgent.HeldObj) CreateChoice("Take item"); //change
        
             //Todo
@@ -68,6 +67,7 @@ namespace UI
             if (_choiceButtons.Count == 0) return;
             if (!context.started) return;
             FindFirstObjectByType<NpcInteraction>().DialogueOption(_choices[_selectedChoice]);
+            PlayerFlagsManager.instance.SelectedChoice = true;
 
             foreach (NpcChoiceButton choiceButton in _choiceButtons)
             {

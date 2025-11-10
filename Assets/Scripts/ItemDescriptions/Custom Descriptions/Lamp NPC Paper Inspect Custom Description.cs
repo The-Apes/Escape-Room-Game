@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ItemDescriptions.Custom_Descriptions
 {
-    public class LampNpcPaperDescription : MonoBehaviour, IInspectCustomDescription
+    public class LampNpcPaperInspectCustomDescription : MonoBehaviour, IInspectCustomDescription
     {
         public void Describe()
         {

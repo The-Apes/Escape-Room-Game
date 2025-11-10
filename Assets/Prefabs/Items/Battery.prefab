@@ -149,6 +149,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf47cd164b0a808468f5b4c8600fb20d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2106365466773042745}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf47cd164b0a808468f5b4c8600fb20d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7692802450177961743}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf47cd164b0a808468f5b4c8600fb20d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8574430537658257769}
   m_SourcePrefab: {fileID: 100100000, guid: cf47cd164b0a808468f5b4c8600fb20d, type: 3}
 --- !u!1 &2866390042639093218 stripped
 GameObject:
@@ -229,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1618697e083de440919de03683c0fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdPositionOffset: {x: 0.0181, y: 0.0171, z: 0.0655}
+  holdPositionOffset: {x: 0.00058, y: 0.00023, z: 0.00176}
   holdRotationOffset: {x: -50, y: 0, z: 0}
   holdScaleOffset: {x: 1, y: 1, z: 1}
   holdStyle: 4
@@ -334,6 +340,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: A battery.
+--- !u!114 &7692802450177961743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2866390042639093218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0cb0cf084e90142ad5e8c7003a5317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPositionOffset: {x: 0.00055, y: 0, z: 0}
+  holdRotationOffset: {x: 0, y: 0, z: 0}
+  itemSize: 0
+  small: 1
+--- !u!114 &8574430537658257769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2866390042639093218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1979e3a0921a63949b53a300f7117bd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptToPlay: {fileID: 11400000, guid: fb8d70df695b81749a2ba940dbe4f9c5, type: 2}
 --- !u!4 &3210123299594442584 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cf47cd164b0a808468f5b4c8600fb20d, type: 3}

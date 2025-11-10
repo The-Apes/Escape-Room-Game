@@ -72,14 +72,21 @@ namespace Managers
         {
             //if(PlayerFlagsManager.instance.PickedUpItem && PlayerFlagsManager.instance.InspectedAnItem)
             {
-                StartCoroutine(ShowTutorial("Left click the NPC to talk to him", () => PlayerFlagsManager.instance.InteractedWithNpc));
+                StartCoroutine(ShowTutorial("Left click the Lamp to talk to him", () => PlayerFlagsManager.instance.InteractedWithNpc));
             }
         }
         public void NpcTalkTutorial()
         {
-            if(!PlayerFlagsManager.instance.TalkedWithNpc)
+            if(!PlayerFlagsManager.instance.SelectedChoice)
             {
-                StartCoroutine(ShowTutorial("Use scroll wheel to scroll between choices, press space to select", () => PlayerFlagsManager.instance.TalkedWithNpc));
+                StartCoroutine(ShowTutorial("Use scroll wheel to scroll between choices, press space to select", () => PlayerFlagsManager.instance.SelectedChoice));
+            }
+        }
+        public void NpcGiveTutorial()
+        {
+            if(!PlayerFlagsManager.instance.SelectedChoice)
+            {
+                StartCoroutine(ShowTutorial("Press G While looking at the Lamp to give him items", () => PlayerFlagsManager.instance.GaveNpcAnItem));
             }
         }
         

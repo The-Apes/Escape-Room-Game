@@ -16,7 +16,7 @@ namespace Objects
         
         public void Start()
         {
-            npc.SetActive(false);
+            //npc.SetActive(false);
         }
 
         public void OnInteract(GameObject heldObject)

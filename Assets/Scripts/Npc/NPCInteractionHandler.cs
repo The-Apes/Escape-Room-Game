@@ -63,21 +63,7 @@ namespace Npc
                 case "Talk":
                     DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Talk"), true);
                     yield return new WaitForSeconds(0.5f);
-                    PlayerFlagsManager.instance.TalkedWithNpc = true;
                     PuzzleManager.instance.TalkHelp();
-                    break;
-                case "Ask about item":
-                    DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Inquire Item"), true);
-                    yield return new WaitForSeconds(0.5f);
-                    _npcAgent.DescribeObject();
-                    _npcAgent.StopInteraction();
-                    break;
-                case "Give item":
-                    DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Give Item"), true);
-                    yield return new WaitForSeconds(0.5f);
-                    DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Affirmative"));
-                    _npcAgent.TakeObject();
-                    _npcAgent.StopInteraction();
                     break;
                 case "Take item":
                     DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Take Item"), true);

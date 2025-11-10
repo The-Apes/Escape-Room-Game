@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
+  m_Name: Locked Computer
+  m_EditorClassIdentifier: 
+  interruptible: 0
+  sayOnce: 0
+  scriptLines:
+  - text: The computer is locked
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Hmm, I remember the toymaker has the password on a piece paper
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: He leaves it by his pc
+    player: 0
+    continueCondition: 'wait: 4'
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: I don't see anything
+    player: 1
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Well it must be around there somewhere, I'm sure of it!
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Just keep looking
+    player: 0
+    continueCondition: Wait:20
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: ' That reminds me, that helmet that you''re wearing'
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: I'm wearing.. a helmet?
+    player: 1
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Yes yes, I've seen a prototype of that before
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: it should have a flashlight atachment to it
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Come here, let me get a good look at you
+    player: 0
+    continueCondition: 'player distance less than: 2'
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Yep! as I suspected
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Tell you what, bring me a battery and I can put it in for you
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Okay...
+    player: 1
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  choices: []

@@ -35,7 +35,7 @@ namespace Managers
     
         public void Start()
         {
-            if(introduction) StartCoroutine(RunScriptCoroutine(introduction));
+            //if(introduction) StartCoroutine(RunScriptCoroutine(introduction));
         }
 
         public void RunScript(NpcScriptAsset script, bool force = false)
@@ -189,6 +189,11 @@ namespace Managers
                     break;
                 case "Lamp Wakeup":
                     TutorialManager.instance.NpcTutorial();
+                    PuzzleManager.instance.SetPuzzleStage(0);
+                    break;
+                case "Locked Computer":
+                    TutorialManager.instance.NpcGiveTutorial();
+                    PuzzleManager.instance.SetPuzzleStage(1);
                     break;
             }
         }
