@@ -11,13 +11,16 @@ namespace Managers
         public static ScriptManager instance;
     
         [SerializeField] private NpcScriptAsset introduction;
-        private NpcAgent _npcAgent;
+        [SerializeField] private NpcScriptAsset torchScript;
 
-        private bool _nextLine;
         [NonSerialized] public bool NpcTalking;
         [NonSerialized] public ScriptLine CurrentLine;
         [NonSerialized] public NpcScriptAsset CurrentScript;
-    
+        [NonSerialized] public NpcScriptAsset MostRecentScript;
+        
+        private NpcAgent _npcAgent;
+        private bool _nextLine;
+        
         private void Awake()
         {
             if (instance == null)
@@ -34,26 +37,32 @@ namespace Managers
     
         public void Start()
         {
-            if(introduction) StartCoroutine(RunScriptCoroutine(introduction));
+            //if(introduction) StartCoroutine(RunScriptCoroutine(introduction));
         }
 
-        public void RunScript(NpcScriptAsset script)
+        public void RunScript(NpcScriptAsset script, bool force = false)
         {
             // If the script is marked as completed, do nothing
-            if (PlayerFlagsManager.instance.CompletedScripts.Contains(script.name)) 
+            if (PlayerFlagsManager.instance.CompletedScripts.Contains(script.name))
             {
                 Debug.Log("Script already completed: " + script.name);
                 return;
             }
+
             // If a script is already running and the new script is not interruptible, do nothing
-            if (CurrentScript && !script.interruptible) return; 
+            print(force);
+            if (CurrentScript && !script.interruptible && !force)     
+            {
+                Debug.Log("Script already running and new script not interruptible: " + CurrentScript.name); 
+                return;
+            }
             if (!script)
             {
                 Debug.Log("No Script");
                 _npcAgent.ScriptEnd();
-                StopAllCoroutines();
                 return;
             }
+            StopAllCoroutines();
             StartCoroutine(RunScriptCoroutine(script));
         }
 
@@ -61,6 +70,7 @@ namespace Managers
         {
             OnScriptStart();
             CurrentScript = script;
+            MostRecentScript = script;
             if (_npcAgent) _npcAgent.ScriptStart();
             foreach (ScriptLine line in script.scriptLines)
             {
@@ -140,13 +150,6 @@ namespace Managers
                         break;
                     case "player looking at object":
                         break;
-                    case "custom":
-                        switch (parameters)
-                        {
-                           default:
-                               break;// Add custom conditions here
-                        }
-                        break;
                     default:
                         StartCoroutine(WaitForSeconds(DialogueManager.instance.dialogueWaitTime));
                         break;
@@ -174,14 +177,31 @@ namespace Managers
             {
                 PlayerFlagsManager.instance.CompletedScripts.Add(CurrentScript.name);
             }
-            if (CurrentScript.name=="Start")
+            switch (CurrentScript.name)
             {
-                TutorialManager.instance.InteractTutorial();
+                case "Start":
+                    TutorialManager.instance.InteractTutorial();
+                    break;
+                case "Lamp Wakeup":
+                    TutorialManager.instance.NpcTutorial();
+                    PuzzleManager.instance.SetPuzzleStage(0);
+                    break;
+                case "Locked Computer":
+                    TutorialManager.instance.NpcGiveTutorial();
+                    break;
+                case "FoundBattery":
+                    FindFirstObjectByType<Torch>().ActivateTorch();
+                    RunScript(torchScript);
+                    break;
+                case "Torch":
+                    TutorialManager.instance.CrouchTutorial();
+                    break;
+                    
             }
-            if (CurrentScript.name=="Lamp Wakeup")
-            {
-                TutorialManager.instance.InteractTutorial();
-            }
+        }
+        public void NextLine()
+        {
+            _nextLine = true;
         }
 
         private IEnumerator WaitForSeconds(float seconds)

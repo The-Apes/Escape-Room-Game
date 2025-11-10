@@ -6,13 +6,15 @@ Availability: https://github.com/JonDevTutorial/PickUpTutorial or https://www.yo
 */
 
 using System;
+using System.Collections;
 using ItemDescriptions;
+using ItemDescriptions.Custom_Descriptions;
 using Managers;
 using Npc;
 using Objects;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using Util;
 
 namespace Player
@@ -119,18 +121,20 @@ namespace Player
             if (!_canDrop) return;
             if (Inspecting) return;
             StopClipping(); //prevents object from clipping through walls
-            DropObject();
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, pickUpRange) && hit.transform.CompareTag("NPC")) //if looking at NPC
+            {
+                GiveToNpc();
+            }
+            else
+            {
+                DropObject();
+                PlayerFlagsManager.instance.DroppedAnItem = true;
+            }
         }
-       public void PickUpObject(GameObject pickUpObj)
+        public void PickUpObject(GameObject pickUpObj)
         {
-            if (!pickUpObj.TryGetComponent(out Rigidbody rb)) return; // Ensure object has Rigidbody
+            if (!pickUpObj.TryGetComponent(out Rigidbody rb)) return;
 
-            // Reset offset completely
-            offsetTransform.localPosition = Vector3.zero;
-            offsetTransform.localRotation = Quaternion.identity;
-            offsetTransform.localScale = Vector3.one;
-
-            // Assign and cache references
             HeldObj = pickUpObj;
             HeldObjRb = rb;
             _cachedItemScale = HeldObj.transform.localScale;
@@ -138,30 +142,32 @@ namespace Player
             // Setup rigidbody
             HeldObjRb.isKinematic = true;
 
-            // Parent cleanly to offsetTransform (false = keep world transforms disabled)
-            HeldObjRb.transform.SetParent(offsetTransform, false);
-            HeldObjRb.transform.localPosition = Vector3.zero;
-            HeldObjRb.transform.localRotation = Quaternion.identity;
+            // Set world position to Offset's world position first
+            HeldObj.transform.position = offsetTransform.position;
 
-            // Make sure the layer is correct
-            HeldObj.layer = _layerNumber;
-            SetMultipleLayers.SetLayerRecursively(HeldObj, _layerNumber);
+            // Parent to OFFSET (child of HoldPose)
+            HeldObj.transform.parent = offsetTransform;
 
-            // Apply hold details if available
+            // Reset rotation relative to parent
+            HeldObj.transform.localRotation = Quaternion.identity;
+
+            // Apply hold offsets (position + rotation) relative to OFFSET
             var holdDetails = HeldObj.GetComponent<ItemHoldDetails>();
             if (holdDetails)
             {
-                _hands.ChangeStyle(holdDetails.holdStyle);
-
                 offsetTransform.localPosition = holdDetails.holdPositionOffset;
+                offsetTransform.localRotation = Quaternion.Euler(holdDetails.holdRotationOffset);
                 offsetTransform.localScale = holdDetails.holdScaleOffset;
-                HeldObjRb.transform.localRotation = Quaternion.Euler(holdDetails.holdRotationOffset);
+
+                _hands.ChangeStyle(holdDetails.holdStyle);
             }
 
-            // Animate grab
+            // Layer and collision
+            HeldObj.layer = _layerNumber;
+            SetMultipleLayers.SetLayerRecursively(HeldObj, _layerNumber);
+
             _hands.Grab();
 
-            // Prevent collision with player
             var heldCollider = HeldObj.GetComponentInChildren<Collider>();
             var playerCollider = player.GetComponent<Collider>();
             if (heldCollider && playerCollider)
@@ -169,11 +175,13 @@ namespace Player
 
             PlayerFlagsManager.instance.PickedUpItem = true;
 
-            // Tutorial triggers
             if (HeldObj.TryGetComponent(out Readable readable) && !PlayerFlagsManager.instance.ReadAnItem)
                 TutorialManager.instance.ReadTutorial();
 
-            if (!PlayerFlagsManager.instance.InspectedAnItem)
+            if (!PlayerFlagsManager.instance.DroppedAnItem)
+                TutorialManager.instance.DropTutorial();
+
+            if (!PlayerFlagsManager.instance.InspectedAnItem && PlayerFlagsManager.instance.DroppedAnItem)
                 TutorialManager.instance.InspectTutorial();
         }
 
@@ -189,6 +197,27 @@ namespace Player
             HeldObj = null; //undefine game object
             _hands.Drop();
         }
+
+        private void GiveToNpc()
+        {
+            StartCoroutine(GiveToNpcCoroutine());
+        }
+
+        private IEnumerator GiveToNpcCoroutine()
+        {
+            NpcAgent npc = FindFirstObjectByType<NpcAgent>();
+            npc.TakeObject();
+            PlayerFlagsManager.instance.GaveNpcAnItem = true;
+            _hands.Place();
+            DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Give Item"), true);
+            yield return new WaitForSeconds(0.75f);
+            DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Npc Affirmative"));
+            yield return new WaitForSeconds(0.75f);
+            DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Inquire Item"), true);
+            yield return new WaitForSeconds(0.75f);
+            npc.DescribeObject();
+            npc.StopInteraction();
+        }
         public void Inspect(InputAction.CallbackContext context)
         {
             if (!context.started) return;
@@ -198,12 +227,12 @@ namespace Player
             {
                 _fpController.CanMove = false;
                 _fpController.CanLook = false;
-                _heldObjParent = holdTransform.parent.gameObject;
+                _heldObjParent = offsetTransform.parent.gameObject;
                 //store rotation
-                _initialObjPos = holdTransform.localPosition;
+                _initialObjPos = offsetTransform.localPosition;
                 _initialObjRot = HeldObj.transform.localRotation;
-                holdTransform.parent = inspectObj.transform;
-                holdTransform.localPosition = Vector3.zero;
+                offsetTransform.parent = inspectObj.transform;
+                offsetTransform.localPosition = Vector3.zero;
                 //holdTransform.localPosition = inspectPos;
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true; 
@@ -216,6 +245,7 @@ namespace Player
                 //check for description script
                 var description = HeldObj.GetComponent<InspectSimpleDescription>();
                 var scriptDescription = HeldObj.GetComponent<InspectScriptDescription>();
+                var customDescription = HeldObj.GetComponent<IInspectCustomDescription>();
                 if (description)
                 {
                     if (ScriptManager.instance.CurrentScript) return;
@@ -227,13 +257,14 @@ namespace Player
                     if (ScriptManager.instance.CurrentScript) return;
                     scriptDescription.Describe();
                 }
+                customDescription?.Describe();
             }
             else
             {
                 _fpController.CanMove = true;
                 _fpController.CanLook = true;
-                holdTransform.parent = _heldObjParent.transform;
-                holdTransform.localPosition = _initialObjPos;
+                offsetTransform.parent = _heldObjParent.transform;
+                offsetTransform.localPosition = _initialObjPos;
                 HeldObj.transform.localRotation = _initialObjRot;
                 //apply rotation
                 //holdTransform.localPosition = holdPos;
@@ -241,6 +272,8 @@ namespace Player
                 Cursor.visible = false; 
                 Inspecting = false;
                 _hands.HidingHands = false;
+                _canDrop = true;
+                FindFirstObjectByType<ReadingPanel>().Close(); //close reading panel if open
             }
         }
         public void PlaceObject(Transform placePos)

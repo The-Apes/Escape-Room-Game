@@ -1,4 +1,5 @@
 using System;
+using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -39,11 +40,11 @@ namespace Player
         [SerializeField] private float crouchStepMultiplier = 1.5f;
         [SerializeField] private float proneStepMultiplier = 2.5f;
         [SerializeField] private float sprintStepMultiplier = 0.6f;
-        [SerializeField] private AudioSource footstepAudioSource = default;
-        [SerializeField] private AudioClip[] woodClips = default;
-        [SerializeField] private AudioClip[] metalClips = default;
-        [SerializeField] private AudioClip[] concreteClips = default;
-        private float _footstepTimer = 0;
+        [SerializeField] private AudioSource footstepAudioSource;
+        [SerializeField] private AudioClip[] woodClips;
+        [SerializeField] private AudioClip[] metalClips;
+        [SerializeField] private AudioClip[] concreteClips;
+        private float _footstepTimer;
         private float GetCurrentOffset => IsCrouching ? baseStepSpeed * crouchStepMultiplier : IsProne ? baseStepSpeed * proneStepMultiplier : IsSprinting ? baseStepSpeed * sprintStepMultiplier : baseStepSpeed;
 
         [Header("Look Settings")]
@@ -188,6 +189,7 @@ namespace Player
 
         private void HandleHeadBob()
         {
+            if (!CanMove) return;
             if (!canUseHeadBob) return;
             if (!_characterController.isGrounded) return;
             if (IsProne) return;
@@ -277,6 +279,7 @@ namespace Player
                     cameraTransform.localPosition = new Vector3(0, crouchingEyeHeight, 0);
                     body.localPosition = new Vector3(body.localPosition.x, 0.26f, body.localPosition.z);
                     _currentHeight = Height.Crouching;
+                    PlayerFlagsManager.instance.Crouched = true;
                 }
                 else
                 {

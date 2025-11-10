@@ -50,10 +50,14 @@ namespace Managers
         {
             StartCoroutine(ShowTutorial("Left Click to Interact/Pick Up Objects", () => PlayerFlagsManager.instance.PickedUpItem));
         }
+        public void DropTutorial()
+        {
+            StartCoroutine(ShowTutorial("Press G to Drop Objects", () => PlayerFlagsManager.instance.DroppedAnItem));
+        }
         
         public void InspectTutorial()
         {
-            StartCoroutine(ShowTutorial("Press F to Inspect Objects", () => PlayerFlagsManager.instance.InspectedAnItem));
+            StartCoroutine(ShowTutorial("Press F to Inspect held Objects", () => PlayerFlagsManager.instance.InspectedAnItem));
         }
         
         public void ReadTutorial()
@@ -64,9 +68,38 @@ namespace Managers
             }
         }
         
+        public void NpcTutorial()
+        {
+            //if(PlayerFlagsManager.instance.PickedUpItem && PlayerFlagsManager.instance.InspectedAnItem)
+            {
+                StartCoroutine(ShowTutorial("Left click the Lamp to talk to him", () => PlayerFlagsManager.instance.InteractedWithNpc));
+            }
+        }
+        public void NpcTalkTutorial()
+        {
+            if(!PlayerFlagsManager.instance.SelectedChoice)
+            {
+                StartCoroutine(ShowTutorial("Use scroll wheel to scroll between choices, press space to select", () => PlayerFlagsManager.instance.SelectedChoice));
+            }
+        }
+        public void NpcGiveTutorial()
+        {
+            if(!PlayerFlagsManager.instance.SelectedChoice)
+            {
+                StartCoroutine(ShowTutorial("Press G While looking at the Lamp to give him items", () => PlayerFlagsManager.instance.GaveNpcAnItem));
+            }
+        }
+        public void TorchTutorial()
+        {
+            if(!PlayerFlagsManager.instance.UsedTorch)
+            {
+                StartCoroutine(ShowTutorial("Press T to use your torch", () => PlayerFlagsManager.instance.UsedTorch));
+            }
+        }
+        
         public void CrouchTutorial()
         {
-            StartCoroutine(ShowTutorial("Press C to Crouch", () => Input.GetKeyDown(KeyCode.C)));
+            StartCoroutine(ShowTutorial("Press C to Crouch \n Hold C to Crawl", () => PlayerFlagsManager.instance.Crouched));
         }
     }
 }

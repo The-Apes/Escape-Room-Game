@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2448966562603461359}
   - component: {fileID: 3191003318189427714}
+  - component: {fileID: 1806650214107903966}
+  - component: {fileID: 6847781247261275586}
   m_Layer: 0
   m_Name: Paper
   m_TagString: canPickUp
@@ -27,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.072, y: 0.437, z: -5.928}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1410309717829211483}
@@ -61,6 +63,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &1806650214107903966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3143829586098815613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1618697e083de440919de03683c0fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPositionOffset: {x: -0.00511, y: 0, z: 0}
+  holdRotationOffset: {x: 0, y: 0, z: 0}
+  holdScaleOffset: {x: 1, y: 1, z: 1}
+  holdStyle: 5
+--- !u!114 &6847781247261275586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3143829586098815613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0cb0cf084e90142ad5e8c7003a5317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPositionOffset: {x: 0.00178, y: 0.00132, z: -0.00158}
+  holdRotationOffset: {x: -140, y: 0, z: 0}
+  itemSize: 1
+  small: 0
 --- !u!1 &4298894431466534589
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,8 +224,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
+  m_fontSize: 0.5
+  m_fontSizeBase: 0.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -228,7 +262,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.05840683, y: 0.051729918, z: 0.064977646, w: 0.044807434}
+  m_margin: {x: 0.05840683, y: -0.159657, z: 0.064977646, w: -0.16024747}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -250,6 +284,7 @@ GameObject:
   - component: {fileID: 8109570524957796985}
   - component: {fileID: 8368282397001139309}
   - component: {fileID: 7106291254458938806}
+  - component: {fileID: 5895535069280110551}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: canPickUp
@@ -267,7 +302,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.01}
+  m_LocalScale: {x: 1, y: 1.414, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2448966562603461359}
@@ -359,3 +394,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: Le Papier
+--- !u!114 &5895535069280110551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5150135645455709899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fea6bcc7cc9ce04689e3611fec36df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

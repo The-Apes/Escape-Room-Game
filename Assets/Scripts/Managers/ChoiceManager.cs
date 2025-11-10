@@ -1,3 +1,4 @@
+using Npc;
 using UI;
 using UnityEngine;
 
@@ -45,7 +46,15 @@ namespace Managers
 
         public void ChosenChoice(int choice)
         {
-            ScriptManager.instance.RunScript(ScriptManager.instance.CurrentScript.choices[choice]);
+            if (ScriptManager.instance.MostRecentScript.choices[choice]) // If there is a script associated with this choice
+            {
+                ScriptManager.instance.RunScript(ScriptManager.instance.MostRecentScript.choices[choice], true);
+            }
+            else // No script associated, just continue
+            {
+                ScriptManager.instance.NextLine();
+            }
+
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created

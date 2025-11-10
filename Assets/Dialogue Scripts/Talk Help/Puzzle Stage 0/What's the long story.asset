@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
+  m_Name: What's the long story
+  m_EditorClassIdentifier: 
+  interruptible: 0
+  sayOnce: 0
+  scriptLines:
+  - text: What's the long story?
+    player: 1
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: As an AI myself, I have a need to learn
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: That way I could help the Toymaker better, by learning from mistakes and
+      achivments
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: However now...
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Now that i've learnt about what he's really doing here
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: I feel the need to... leave
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Most interesting
+    player: 1
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  choices: []

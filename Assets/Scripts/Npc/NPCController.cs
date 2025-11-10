@@ -1,13 +1,16 @@
 using System;
 using System.Collections;
 using ItemDescriptions;
+using ItemDescriptions.Custom_Descriptions;
 using Managers;
 using Npc.State_Machine;
+using Objects;
 using Player;
 using TMPro;
 using UI;
 using UnityEngine;
 using UnityEngine.AI;
+using Util;
 
 namespace Npc
 {
@@ -34,7 +37,7 @@ namespace Npc
         private Animator _animator;
         private FpController _fpController;
         private AudioSource _audioSource;
-        
+        private ItemNpcHoldDetails _heldObjDetails;
         private int _lastTalkIndex = -1;
     
     
@@ -142,9 +145,10 @@ namespace Npc
             if (Busy) return;
             Busy = true;
             _cachedState = ActiveState;
-            ActiveState = new FollowState(this, Camera.main.transform);
+            if (Camera.main) ActiveState = new FollowState(this, Camera.main.transform);
             DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Start Dialogue"), true);
-            print("Active");
+            PlayerFlagsManager.instance.InteractedWithNpc = true;
+            TutorialManager.instance.NpcTalkTutorial();
             Vector3 direction = _cam.transform.position - transform.position;
             direction.y = 0; // Ignore vertical difference
             if (direction.sqrMagnitude > 0.01f)
@@ -162,7 +166,6 @@ namespace Npc
             ChangeState(_cachedState);
             choicesPanel.SetActive(false);
             _cachedState = null;
-            print("Inactive");
         }
 
         public void Action(string action,string parameter = null)
@@ -181,24 +184,23 @@ namespace Npc
                 case "give item":
                     if (HeldObj) GiveObject();
                     break;
+                // case "custom":
+                //     switch (parameter)
+                //     {
+                //         case "torch":
+                //             FindFirstObjectByType<Torch>().ActivateTorch();
+                //             break;
+                //         default:
+                //             break;// Add custom conditions here
+                //     }
+                //     break;
 
             }
         }
 
-        // public void input()
-        // {
-        //     switch (_currentState)
-        //     {
-        //         case States.Roam:
-        //             break;
-        //     }
-        // }
-
-        // Update is called once per frame
-
-
         public void TakeObject()
         {
+            if (_objectInteractor.HeldObj) DropObject();
             GameObject objectToPickUp = _objectInteractor.HeldObj;
             _objectInteractor.HeldObj = null;
             HeldObj = objectToPickUp; //assign heldObj to the object that was hit by the raycast (no longer == null)
@@ -210,11 +212,21 @@ namespace Npc
             _heldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
             HeldObj.tag = "Untagged";
             HeldObj.layer = 0; //object assigned back to default layer
-        
-            //make sure object doesn't collide with player, it can cause weird bugs
-            // Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
-        
-        
+            SetMultipleLayers.SetLayerRecursively(HeldObj, 0);
+
+            //reset hold transform
+            holdTransform.localPosition = Vector3.zero;
+            holdTransform.localRotation = Quaternion.identity;
+            holdTransform.localScale = Vector3.one;
+            
+            _heldObjDetails = HeldObj.GetComponent<ItemNpcHoldDetails>();
+            if (_heldObjDetails)
+            {
+                holdTransform.localPosition = _heldObjDetails.holdPositionOffset;
+                holdTransform.localRotation = Quaternion.Euler(_heldObjDetails.holdRotationOffset);
+                //holdTransform.localScale = _heldObjDetails.holdScaleOffset;
+            }
+            _animator.SetTrigger("Hold");
         }
 
         public void GiveObject()
@@ -225,13 +237,17 @@ namespace Npc
             }
             else
             {
-                _objectInteractor.PickUpObject(HeldObj);
+                var cache = HeldObj;
+                DropObject();
+                _objectInteractor.PickUpObject(cache);
                 HeldObj.tag = "canPickUp"; //reset tag to canPickUp
                 HeldObj = null;
-                _heldObjRb = null; 
+                _heldObjRb = null;
+                _heldObjDetails = null;
             }
         }
-        public void DropObject()
+
+        private void DropObject()
         {
             if (HeldObj == null) return;
             //re-enable collision with player
@@ -242,6 +258,15 @@ namespace Npc
             _heldObjRb.transform.position = new Vector3(_heldObjRb.transform.position.x, Mathf.Max(0.25f, _heldObjRb.transform.position.y), _heldObjRb.transform.position.z);
             HeldObj.tag = "canPickUp"; //reset tag to canPickUp
             HeldObj = null; //undefine game object
+            _heldObjRb = null;
+            _heldObjDetails = null;
+        }
+
+        public void DestroyHeldObject()
+        {
+            var cache = HeldObj;
+            DropObject();
+            Destroy(cache);
         }
         void MoveObject()
         {
@@ -254,13 +279,18 @@ namespace Npc
             StopInteraction();
             var description = HeldObj.GetComponent<SimpleDescription>();
             var scriptDescription = HeldObj.GetComponent<ScriptDescription>();
+            var customDescription = HeldObj.GetComponent<ICustomDescription>();
             if (description)
             {
                 description.Describe();
             }
-            if (scriptDescription)
+            else if (scriptDescription)
             {
                 scriptDescription.Describe();
+            }
+            else if (customDescription != null)
+            {
+                customDescription.Describe();
             }
             else
             {
@@ -279,6 +309,13 @@ namespace Npc
         {
             _animator.SetBool("Moving", Agent.velocity.magnitude > 0.1f);
             _animator.SetBool("Talking", _textVisible);
+            _animator.SetBool("Holding", _heldObjRb);
+
+            if (_heldObjDetails)
+            {
+                _animator.SetFloat("Size", _heldObjDetails.itemSize);
+                _animator.SetBool("Small", _heldObjDetails.small);
+            }
             
             //face the player when talking
             if (_textVisible && !(Agent.velocity.magnitude > 0.1f)) FacePlayer();
@@ -292,8 +329,6 @@ namespace Npc
             Agent.transform.LookAt(_fpController.cameraTransform);
             Agent.transform.rotation = Quaternion.Euler(defaultXRotation, Agent.transform.rotation.eulerAngles.y, defaultZRotation);
         }
-
-
-        }
+    }
     }
 
