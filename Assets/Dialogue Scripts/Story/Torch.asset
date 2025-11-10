@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
   m_Name: Torch
   m_EditorClassIdentifier: 
-  interruptible: 0
+  interruptible: 1
   sayOnce: 0
   scriptLines:
   - text: There! go give it a whirl

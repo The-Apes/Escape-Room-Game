@@ -6252,17 +6252,13 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7106291254458938806, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
-      propertyPath: text
-      value: Test subject #027 \n Second Human prototype to turn into a mechanical
-        being, the first being Test subject #25 - The Lamp. wasn't able to finish
-        the transformation process, so the only thing that's mechanical is the subject's
-        legs. \n \n I'm leaving to obtain more materials to finish the transformation
-        \n \n End of Log
-      objectReference: {fileID: 0}
     - target: {fileID: 7149504359554609764, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
       propertyPath: m_text
-      value: Test Subject #027
+      value: 24376859
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149504359554609764, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
+      propertyPath: m_fontSize
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7149504359554609764, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
       propertyPath: m_margin.w
@@ -6276,6 +6272,10 @@ PrefabInstance:
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 9a8f8b1571e4c3f4a80d44fc82808a92, type: 2}
+    - target: {fileID: 7149504359554609764, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7149504359554609764, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
       propertyPath: m_sharedMaterial
       value: 
@@ -6292,39 +6292,23 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7106291254458938806, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3143829586098815613, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1485439568}
     - targetCorrespondingSourceObject: {fileID: 4298894431466534589, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 5150135645455709899, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 231456417}
   m_SourcePrefab: {fileID: 100100000, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
 --- !u!4 &231456415 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2448966562603461359, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
   m_PrefabInstance: {fileID: 231456414}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &231456416 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5150135645455709899, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
-  m_PrefabInstance: {fileID: 231456414}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &231456417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231456416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fea6bcc7cc9ce04689e3611fec36df4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &234345830
 GameObject:
   m_ObjectHideFlags: 0
@@ -19067,6 +19051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introduction: {fileID: 11400000, guid: 7a0b4cdb09a83e74783be3346d77e8a3, type: 2}
+  torchScript: {fileID: 11400000, guid: 3c1433ff07f06064cb5c0409b052b794, type: 2}
 --- !u!4 &1152391254
 Transform:
   m_ObjectHideFlags: 0
@@ -23598,6 +23583,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3143829586098815613, guid: e3d26286e7bfa73428abbff8fe2ed19d, type: 3}
   m_PrefabInstance: {fileID: 231456414}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1485439568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485439564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0722cd05aec864b97d6cec3143cf7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  computerPassword: {fileID: 11400000, guid: 4db73fa1a662e194093caee583b1e432, type: 2}
 --- !u!1 &1488527253
 GameObject:
   m_ObjectHideFlags: 0
