@@ -142,9 +142,9 @@ namespace Npc
             if (Busy) return;
             Busy = true;
             _cachedState = ActiveState;
-            ActiveState = new FollowState(this, Camera.main.transform);
+            if (Camera.main) ActiveState = new FollowState(this, Camera.main.transform);
             DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Start Dialogue"), true);
-            print("Active");
+            PlayerFlagsManager.instance.InteractedWithNpc = true;
             Vector3 direction = _cam.transform.position - transform.position;
             direction.y = 0; // Ignore vertical difference
             if (direction.sqrMagnitude > 0.01f)
@@ -162,7 +162,6 @@ namespace Npc
             ChangeState(_cachedState);
             choicesPanel.SetActive(false);
             _cachedState = null;
-            print("Inactive");
         }
 
         public void Action(string action,string parameter = null)
@@ -184,18 +183,6 @@ namespace Npc
 
             }
         }
-
-        // public void input()
-        // {
-        //     switch (_currentState)
-        //     {
-        //         case States.Roam:
-        //             break;
-        //     }
-        // }
-
-        // Update is called once per frame
-
 
         public void TakeObject()
         {
@@ -292,8 +279,6 @@ namespace Npc
             Agent.transform.LookAt(_fpController.cameraTransform);
             Agent.transform.rotation = Quaternion.Euler(defaultXRotation, Agent.transform.rotation.eulerAngles.y, defaultZRotation);
         }
-
-
-        }
+    }
     }
 

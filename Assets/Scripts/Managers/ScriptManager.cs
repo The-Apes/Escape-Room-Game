@@ -51,9 +51,9 @@ namespace Managers
             {
                 Debug.Log("No Script");
                 _npcAgent.ScriptEnd();
-                StopAllCoroutines();
                 return;
             }
+            StopAllCoroutines();
             StartCoroutine(RunScriptCoroutine(script));
         }
 
@@ -174,13 +174,14 @@ namespace Managers
             {
                 PlayerFlagsManager.instance.CompletedScripts.Add(CurrentScript.name);
             }
-            if (CurrentScript.name=="Start")
+            switch (CurrentScript.name)
             {
-                TutorialManager.instance.InteractTutorial();
-            }
-            if (CurrentScript.name=="Lamp Wakeup")
-            {
-                TutorialManager.instance.InteractTutorial();
+                case "Start":
+                    TutorialManager.instance.InteractTutorial();
+                    break;
+                case "Lamp Wakeup":
+                    TutorialManager.instance.NpcTutorial();
+                    break;
             }
         }
 

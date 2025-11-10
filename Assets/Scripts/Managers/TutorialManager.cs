@@ -53,7 +53,7 @@ namespace Managers
         
         public void InspectTutorial()
         {
-            StartCoroutine(ShowTutorial("Press F to Inspect Objects", () => PlayerFlagsManager.instance.InspectedAnItem));
+            StartCoroutine(ShowTutorial("Press F to Inspect held Objects", () => PlayerFlagsManager.instance.InspectedAnItem));
         }
         
         public void ReadTutorial()
@@ -61,6 +61,21 @@ namespace Managers
             if(PlayerFlagsManager.instance.PickedUpItem && PlayerFlagsManager.instance.InspectedAnItem)
             {
                 StartCoroutine(ShowTutorial("Items with text can be read if you click on them while inspecting", () => PlayerFlagsManager.instance.ReadAnItem));
+            }
+        }
+        
+        public void NpcTutorial()
+        {
+            //if(PlayerFlagsManager.instance.PickedUpItem && PlayerFlagsManager.instance.InspectedAnItem)
+            {
+                StartCoroutine(ShowTutorial("Left click the NPC to talk to him", () => PlayerFlagsManager.instance.InteractedWithNpc));
+            }
+        }
+        public void NpcTalkTutorial()
+        {
+            //if(PlayerFlagsManager.instance.PickedUpItem && PlayerFlagsManager.instance.InspectedAnItem)
+            {
+                StartCoroutine(ShowTutorial("Use Mousewheel to", () => PlayerFlagsManager.instance.InteractedWithNpc));
             }
         }
         

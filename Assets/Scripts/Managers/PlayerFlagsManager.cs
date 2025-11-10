@@ -24,6 +24,7 @@ namespace Managers
         [NonSerialized] public bool PickedUpItem;
         [NonSerialized] public bool InspectedAnItem;
         [NonSerialized] public bool ReadAnItem;
+        [NonSerialized] public bool InteractedWithNpc;
         
         //List of script names that are do once
         [NonSerialized] public List<string> CompletedScripts = new List<string>();
