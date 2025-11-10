@@ -252,11 +252,15 @@ namespace Npc
         {
             if (!HeldObj) return;
             StopInteraction();
-            IItemDescription description = HeldObj.GetComponent<IItemDescription>();
-            if (description != null)
+            var description = HeldObj.GetComponent<SimpleDescription>();
+            var scriptDescription = HeldObj.GetComponent<ScriptDescription>();
+            if (description)
             {
                 description.Describe();
-                
+            }
+            if (scriptDescription)
+            {
+                scriptDescription.Describe();
             }
             else
             {

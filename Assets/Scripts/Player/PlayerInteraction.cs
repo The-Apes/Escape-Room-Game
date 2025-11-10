@@ -24,25 +24,25 @@ namespace Player
             Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
             {
-                Interactable interactable = hit.collider.GetComponent<Interactable>();
-                if (interactable != null)
+                Interactable interactable = hit.collider.GetComponentInParent<Interactable>();
+                if (interactable)
                 {
                     if (_lastInteractable != interactable)
                     {
-                        if (_lastInteractable != null)
+                        if (_lastInteractable)
                             _lastInteractable.Highlight(false);
                         if(_objectInteractor.Inspecting) return;
                         interactable.Highlight(true);
                         _lastInteractable = interactable;
                     }
                 }
-                else if (_lastInteractable != null)
+                else if (_lastInteractable)
                 {
                     _lastInteractable.Highlight(false);
                     _lastInteractable = null;
                 }
             }
-            else if (_lastInteractable != null)
+            else if (_lastInteractable)
             {
                 _lastInteractable.Highlight(false);
                 _lastInteractable = null;

@@ -24,6 +24,7 @@ namespace Sound
 
             _intensity = Mathf.RoundToInt(SkewedRandom(1f, 5f, 2.5f));
         
+            Debug.Log("Lightning Level:"+ _intensity);
             Thunder();
             
             ScheduleNextThunder();
@@ -47,6 +48,7 @@ namespace Sound
         {
             float interval = Random.Range(MinInterval, MaxInterval);
             _nextThunderTime = Time.time + interval;
+            Debug.Log("Next thunder in: " + interval + " seconds.");
         }
     
         float SkewedRandom(float min, float max, float skew = 2f) {

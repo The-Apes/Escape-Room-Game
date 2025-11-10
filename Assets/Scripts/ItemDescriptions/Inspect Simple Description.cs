@@ -1,16 +1,15 @@
 using Managers;
-using Npc;
 using UnityEngine;
 
 namespace ItemDescriptions
 {
-    public class SimpleDescription : MonoBehaviour, IItemDescription
+    public class InspectSimpleDescription : MonoBehaviour, IItemDescription
     {
         [SerializeField] private string description; 
         public void Describe()
         {
             if(ScriptManager.instance.CurrentScript) return; // Don't interrupt a running script
-            DialogueManager.instance.SayLine(description);
+            DialogueManager.instance.SayLine(description, true);
         }
     }
 }

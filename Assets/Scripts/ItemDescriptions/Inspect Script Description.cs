@@ -9,7 +9,7 @@ namespace ItemDescriptions
         [SerializeField] private NpcScriptAsset script; 
         public void Describe()
         {
-            ScriptManager.instance.RunScript(script);        
+            ScriptManager.instance.RunScript(script);    
         }
     }
 }

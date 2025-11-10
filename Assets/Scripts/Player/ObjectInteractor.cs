@@ -121,71 +121,60 @@ namespace Player
             StopClipping(); //prevents object from clipping through walls
             DropObject();
         }
-        public void PickUpObject(GameObject pickUpObj)
+       public void PickUpObject(GameObject pickUpObj)
         {
-            if (!pickUpObj.GetComponent<Rigidbody>()) return; //make sure the object has a RigidBody
+            if (!pickUpObj.TryGetComponent(out Rigidbody rb)) return; // Ensure object has Rigidbody
+
             // Reset offset completely
             offsetTransform.localPosition = Vector3.zero;
             offsetTransform.localRotation = Quaternion.identity;
             offsetTransform.localScale = Vector3.one;
-            
-            HeldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
-            _cachedItemScale = HeldObj.transform.localScale;
-            HeldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
-            HeldObjRb.isKinematic = true;
-            HeldObjRb.transform.parent = offsetTransform.transform; //parent object to hold position
-            
-            // Cache and parent
+
+            // Assign and cache references
             HeldObj = pickUpObj;
-            HeldObjRb = pickUpObj.GetComponent<Rigidbody>();
+            HeldObjRb = rb;
+            _cachedItemScale = HeldObj.transform.localScale;
+
+            // Setup rigidbody
             HeldObjRb.isKinematic = true;
+
+            // Parent cleanly to offsetTransform (false = keep world transforms disabled)
             HeldObjRb.transform.SetParent(offsetTransform, false);
             HeldObjRb.transform.localPosition = Vector3.zero;
             HeldObjRb.transform.localRotation = Quaternion.identity;
-            
-            //Zero out position/rotation - Bugfix?
-            HeldObjRb.transform.localPosition = Vector3.zero;
-            HeldObjRb.transform.localRotation = Quaternion.identity;
-            
-            HeldObjRb.transform.rotation =Quaternion.identity;
-            HeldObj.layer = _layerNumber; //change the object layer to the holdLayer
+
+            // Make sure the layer is correct
+            HeldObj.layer = _layerNumber;
             SetMultipleLayers.SetLayerRecursively(HeldObj, _layerNumber);
-        
-            
-            
-            //change hand animation based on object hold style
+
+            // Apply hold details if available
             var holdDetails = HeldObj.GetComponent<ItemHoldDetails>();
             if (holdDetails)
             {
                 _hands.ChangeStyle(holdDetails.holdStyle);
-                
-                //adjust hold position/rotation based on holdDetails script
-                offsetTransform.transform.localPosition = holdDetails.holdPositionOffset;
+
+                offsetTransform.localPosition = holdDetails.holdPositionOffset;
                 offsetTransform.localScale = holdDetails.holdScaleOffset;
                 HeldObjRb.transform.localRotation = Quaternion.Euler(holdDetails.holdRotationOffset);
-                print(HeldObj);
             }
-            _hands.Grab();
-            
-            PlayerFlagsManager.instance.PickedUpItem = true;
-            //make sure object doesn't collide with player, it can cause weird bugs
-            //Moved to after parenting to prevent issues with compound colliders
-            Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), true);
 
-            //TUTORIAL STUFF//
-            //Is object readable?
-            var readable = HeldObj.GetComponent<Readable>();
-            if (readable && !PlayerFlagsManager.instance.ReadAnItem)
-            {
+            // Animate grab
+            _hands.Grab();
+
+            // Prevent collision with player
+            var heldCollider = HeldObj.GetComponentInChildren<Collider>();
+            var playerCollider = player.GetComponent<Collider>();
+            if (heldCollider && playerCollider)
+                Physics.IgnoreCollision(heldCollider, playerCollider, true);
+
+            PlayerFlagsManager.instance.PickedUpItem = true;
+
+            // Tutorial triggers
+            if (HeldObj.TryGetComponent(out Readable readable) && !PlayerFlagsManager.instance.ReadAnItem)
                 TutorialManager.instance.ReadTutorial();
-            }
-                
-            //Inspect
-            if (!PlayerFlagsManager.instance.InspectedAnItem) //only trigger if interact tutorial completed but not inspect tutorial
-            {
+
+            if (!PlayerFlagsManager.instance.InspectedAnItem)
                 TutorialManager.instance.InspectTutorial();
-            }
-            
         }
 
         private void DropObject()

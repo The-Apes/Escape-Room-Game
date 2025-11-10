@@ -8,6 +8,7 @@ namespace Npc
     public class NpcScriptAsset : ScriptableObject
     {
         public bool interruptible;
+        public bool sayOnce;
         public List <ScriptLine> scriptLines;
         [Header("Choices")]
         public NpcScriptAsset[] choices; //for every choice, there will be a script for the response

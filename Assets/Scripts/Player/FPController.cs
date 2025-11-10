@@ -178,7 +178,7 @@ namespace Player
 
         private void HandleAnimation()
         {
-            _animator.SetBool("Moving", _moveInput != Vector2.zero);
+            if(CanMove) _animator.SetBool("Moving", _moveInput != Vector2.zero);
             _animator.SetFloat("MoveX", _moveInput.x);
             _animator.SetFloat("MoveY", _moveInput.y);
             _animator.SetBool("Crouching", IsCrouching);

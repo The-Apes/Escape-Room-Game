@@ -1,3 +1,4 @@
+using System;
 using Objects;
 using UnityEngine;
 
@@ -5,6 +6,8 @@ namespace Player
 {
     public class Hands : MonoBehaviour
     {
+        [NonSerialized] public bool HidingHands = false;
+        
         [SerializeField] private Animator animator;
         [Header("First Person Hands")]
         [SerializeField] private GameObject fpLeftHand;
@@ -19,25 +22,32 @@ namespace Player
         private void Update()
         {
             FindAnimationState();
-        
-            if (_usingRightHand)
-            {
-                fpRightHand.SetActive(true);
-                rightHand.SetActive(false);
-            } else
-            {
+            if(HidingHands){
                 fpRightHand.SetActive(false);
-                rightHand.SetActive(true);
-            }
-            if (_usingLeftHand)
-            {
-                fpLeftHand.SetActive(true);
-                leftHand.SetActive(false);
-            }
-            else
-            {
                 fpLeftHand.SetActive(false);
+                rightHand.SetActive(true);
                 leftHand.SetActive(true);
+            }
+            else {
+                if (_usingRightHand)
+                {
+                    fpRightHand.SetActive(true);
+                    rightHand.SetActive(false);
+                } else
+                {
+                    fpRightHand.SetActive(false);
+                    rightHand.SetActive(true);
+                }
+                if (_usingLeftHand)
+                {
+                    fpLeftHand.SetActive(true);
+                    leftHand.SetActive(false);
+                }
+                else
+                {
+                    fpLeftHand.SetActive(false);
+                    leftHand.SetActive(true);
+                }
             }
         }
 

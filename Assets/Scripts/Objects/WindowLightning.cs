@@ -48,7 +48,6 @@ namespace Objects
                 5 => 0.35f,
                 _ => 0.1f
             };
-            print(intensity);
             Invoke(nameof(StopFlash), duration); //Invoke, where have you been all of my life?
         }
         private void StopFlash()

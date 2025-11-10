@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Managers
+{
+    public class PlayerFlagsManager : MonoBehaviour
+    {
+        public static PlayerFlagsManager instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        [NonSerialized] public bool PickedUpItem;
+        [NonSerialized] public bool InspectedAnItem;
+        [NonSerialized] public bool ReadAnItem;
+        
+        //List of script names that are do once
+        [NonSerialized] public List<string> CompletedScripts = new List<string>();
+    }
+}

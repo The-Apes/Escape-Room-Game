@@ -39,11 +39,19 @@ namespace Managers
 
         public void RunScript(NpcScriptAsset script)
         {
-            if (CurrentScript && !script.interruptible) return;
+            // If the script is marked as completed, do nothing
+            if (PlayerFlagsManager.instance.CompletedScripts.Contains(script.name)) 
+            {
+                Debug.Log("Script already completed: " + script.name);
+                return;
+            }
+            // If a script is already running and the new script is not interruptible, do nothing
+            if (CurrentScript && !script.interruptible) return; 
             if (!script)
             {
                 Debug.Log("No Script");
                 _npcAgent.ScriptEnd();
+                StopAllCoroutines();
                 return;
             }
             StartCoroutine(RunScriptCoroutine(script));
@@ -135,12 +143,12 @@ namespace Managers
                     case "custom":
                         switch (parameters)
                         {
-                            // Add custom conditions here
+                           default:
+                               break;// Add custom conditions here
                         }
                         break;
                     default:
                         StartCoroutine(WaitForSeconds(DialogueManager.instance.dialogueWaitTime));
-                        _nextLine = true; // Default to true to avoid infinite wait
                         break;
                 }
 
@@ -149,9 +157,9 @@ namespace Managers
                     yield return null;
                 }
             }
+            OnScriptEnd();
             CurrentScript = null;
             _npcAgent.ScriptEnd();
-            OnScriptEnd();
         }
         private void OnScriptStart()
         {
@@ -159,7 +167,21 @@ namespace Managers
         }
         private void OnScriptEnd()
         {
-                
+            Debug.Log("Script Ended: " + CurrentScript.name);
+            
+            // Mark script as completed if sayOnce is true
+            if (CurrentScript.sayOnce)
+            {
+                PlayerFlagsManager.instance.CompletedScripts.Add(CurrentScript.name);
+            }
+            if (CurrentScript.name=="Start")
+            {
+                TutorialManager.instance.InteractTutorial();
+            }
+            if (CurrentScript.name=="Lamp Wakeup")
+            {
+                TutorialManager.instance.InteractTutorial();
+            }
         }
 
         private IEnumerator WaitForSeconds(float seconds)

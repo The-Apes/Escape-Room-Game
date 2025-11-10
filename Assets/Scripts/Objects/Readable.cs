@@ -7,11 +7,12 @@ namespace Objects
 {
     public class Readable : MonoBehaviour, IClickable
     {
-        [SerializeField] private String text;
+        [SerializeField] [TextArea(5,10)] private string text;
         
         public void OnClick(GameObject heldObject)
         {
             UIManager.instance.Read(text);
+            PlayerFlagsManager.instance.ReadAnItem = true;
         }
     }
 }

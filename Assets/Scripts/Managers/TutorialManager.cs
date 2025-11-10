@@ -1,0 +1,72 @@
+using System;
+using System.Collections;
+using TMPro;
+using UI;
+using UnityEngine;
+
+namespace Managers
+{
+    public class TutorialManager : MonoBehaviour
+    {
+        public static TutorialManager instance;
+        [SerializeField] private TextMeshProUGUI text;
+        private Logs _logs;
+        
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
+            _logs = FindFirstObjectByType<Logs>();
+        }
+        
+        private void Start()
+        {
+            text.gameObject.SetActive(false);
+        }
+        
+        private IEnumerator ShowTutorial(string message, Func<bool> condition)
+        {
+            while (!condition())
+            { 
+                text.text = message;
+                text.gameObject.SetActive(true);
+                yield return null;
+            }
+            
+            text.text = "";
+            text.gameObject.SetActive(false);
+            _logs.LogTutorial(message);
+        }
+        
+        public void InteractTutorial()
+        {
+            StartCoroutine(ShowTutorial("Left Click to Interact/Pick Up Objects", () => PlayerFlagsManager.instance.PickedUpItem));
+        }
+        
+        public void InspectTutorial()
+        {
+            StartCoroutine(ShowTutorial("Press F to Inspect Objects", () => PlayerFlagsManager.instance.InspectedAnItem));
+        }
+        
+        public void ReadTutorial()
+        {
+            if(PlayerFlagsManager.instance.PickedUpItem && PlayerFlagsManager.instance.InspectedAnItem)
+            {
+                StartCoroutine(ShowTutorial("Items with text can be read if you click on them while inspecting", () => PlayerFlagsManager.instance.ReadAnItem));
+            }
+        }
+        
+        public void CrouchTutorial()
+        {
+            StartCoroutine(ShowTutorial("Press C to Crouch", () => Input.GetKeyDown(KeyCode.C)));
+        }
+    }
+}

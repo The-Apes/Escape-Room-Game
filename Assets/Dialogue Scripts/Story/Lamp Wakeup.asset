@@ -1,0 +1,282 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
+  m_Name: Lamp Wakeup
+  m_EditorClassIdentifier: 
+  interruptible: 1
+  sayOnce: 0
+  scriptLines:
+  - text: Alas I rise!
+    player: 0
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: What the hell?!?
+    player: 1
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Hey! Thanks for switching me on
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Who...uh...what are you?
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: I am but one of many of the Toymaker's creations
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: The toy maker?
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Yes, the person who trapped you here.
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: I don't know if you read my file, but he made me as a mobile light tool
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Because this place is so damn dark
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: But yes, I am a computer program
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Designed to follow him around and help him with his craftiwork
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: I thought you said he was a toy maker?
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Well he was..
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: But recently he's been doing these prototype and experiments
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: All using robotics and Artificial Intelligence
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: I am one of those prototypes
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: So I'm another one of his.. experiments..
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Well... yes.
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: ...
+    player: 1
+    continueCondition: 'wait: 5'
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Anyway... Why did you say "Alas" when I actiavted you?
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Oh yes! Because the toymaker shut me down indefinetly!
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: He didn't like the comments and advice I was giving him
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: What advice?
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: His work, his code, his plans they're all so unethical!
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: He got angry at me and shut me down!
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: I don't know how long I've been out for
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Okay... So what is this place, how do I get out?
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: ' This is where the toymaker operates and does his research'
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Aside from that, I've never left this room
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: But the Toymaker always comes from this door, come
+    player: 0
+    continueCondition: 'wait: 6'
+    actions:
+    - go to location
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  - text: And I know there is a spare key somewhere
+    player: 0
+    continueCondition: 
+    actions:
+    - 
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  - text: I was there when he was making it
+    player: 0
+    continueCondition: 
+    actions:
+    - 
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  - text: So where is it?
+    player: 1
+    continueCondition: 
+    actions:
+    - 
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  - text: I don't know, he shut me down when I questioned him
+    player: 0
+    continueCondition: 
+    actions:
+    - 
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  - text: But what I do know is
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  - text: if there are any clues, you should check his computer
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  - text: Right, I'll start there
+    player: 1
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  - text: Righto! Talk to me if you need anything
+    player: 0
+    continueCondition: 
+    actions:
+    - go to player
+    customObject: {fileID: 0}
+    location: {x: 4.5042953, y: 0.005558729, z: 10.040599}
+  choices: []

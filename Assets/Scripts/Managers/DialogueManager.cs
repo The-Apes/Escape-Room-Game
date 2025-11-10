@@ -40,7 +40,7 @@ namespace Managers
   public void SayLine(string line, bool player = false, float duration = -1f)
   {
    float time = duration;
-   if (Mathf.Approximately(time, -1f)) time = Mathf.Max(1,line.Split(' ').Length * 0.70f); // 0.70 seconds per word, can be adjusted
+   if (Mathf.Approximately(time, -1f)) time = Mathf.Max(2.25f,line.Split(' ').Length * 0.45f); //seconds per word, can be adjusted
   
    dialogueWaitTime = time;
    
