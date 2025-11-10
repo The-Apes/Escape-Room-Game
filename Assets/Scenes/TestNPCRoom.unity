@@ -13002,6 +13002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockedComputerScript: {fileID: 11400000, guid: d72d90a3b49f89340a62d368b0ad5499, type: 2}
+  ventScript: {fileID: 11400000, guid: 6c155cce7d482a74ab627f00b35d83bb, type: 2}
   greenScreen: {fileID: 629518393}
   redScreen: {fileID: 10067840}
 --- !u!1 &727719348
