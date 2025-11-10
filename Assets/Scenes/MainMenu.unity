@@ -1597,6 +1597,7 @@ GameObject:
   - component: {fileID: 286096202}
   - component: {fileID: 286096204}
   - component: {fileID: 286096203}
+  - component: {fileID: 286096205}
   m_Layer: 5
   m_Name: MenuHeadLight
   m_TagString: Untagged
@@ -1661,6 +1662,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286096201}
   m_CullTransparentMesh: 1
+--- !u!114 &286096205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286096201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5304862803b6e8f4fb13167116744ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 1
+  pulseSpeed: 0.5
 --- !u!1 &318929267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,6 +1854,7 @@ GameObject:
   - component: {fileID: 397690517}
   - component: {fileID: 397690519}
   - component: {fileID: 397690518}
+  - component: {fileID: 397690520}
   m_Layer: 5
   m_Name: MenuMiddleLight
   m_TagString: Untagged
@@ -1902,6 +1919,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 397690516}
   m_CullTransparentMesh: 1
+--- !u!114 &397690520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397690516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5304862803b6e8f4fb13167116744ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 1
+  pulseSpeed: 0.5
 --- !u!1 &402778393
 GameObject:
   m_ObjectHideFlags: 0
@@ -3534,6 +3566,7 @@ GameObject:
   - component: {fileID: 933507845}
   - component: {fileID: 933507847}
   - component: {fileID: 933507846}
+  - component: {fileID: 933507848}
   m_Layer: 5
   m_Name: MenuBackgroundLight
   m_TagString: Untagged
@@ -3598,6 +3631,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933507844}
   m_CullTransparentMesh: 1
+--- !u!114 &933507848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933507844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5304862803b6e8f4fb13167116744ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 1
+  pulseSpeed: 0.5
 --- !u!1 &969135153
 GameObject:
   m_ObjectHideFlags: 0
@@ -3699,6 +3747,7 @@ GameObject:
   - component: {fileID: 986489323}
   - component: {fileID: 986489325}
   - component: {fileID: 986489324}
+  - component: {fileID: 986489326}
   m_Layer: 5
   m_Name: MenuMiddleLight
   m_TagString: Untagged
@@ -3763,6 +3812,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986489322}
   m_CullTransparentMesh: 1
+--- !u!114 &986489326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986489322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5304862803b6e8f4fb13167116744ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 1
+  pulseSpeed: 0.5
 --- !u!1 &987169447
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,6 +4196,7 @@ GameObject:
   - component: {fileID: 1219164257}
   - component: {fileID: 1219164259}
   - component: {fileID: 1219164258}
+  - component: {fileID: 1219164260}
   m_Layer: 5
   m_Name: MenuBackLight
   m_TagString: Untagged
@@ -4196,6 +4261,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1219164256}
   m_CullTransparentMesh: 1
+--- !u!114 &1219164260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219164256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5304862803b6e8f4fb13167116744ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 1
+  pulseSpeed: 0.5
 --- !u!1 &1238673356
 GameObject:
   m_ObjectHideFlags: 0
@@ -5659,6 +5739,7 @@ GameObject:
   - component: {fileID: 1652716363}
   - component: {fileID: 1652716365}
   - component: {fileID: 1652716364}
+  - component: {fileID: 1652716366}
   m_Layer: 5
   m_Name: MenuHeadLight
   m_TagString: Untagged
@@ -5723,6 +5804,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652716362}
   m_CullTransparentMesh: 1
+--- !u!114 &1652716366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652716362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5304862803b6e8f4fb13167116744ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 1
+  pulseSpeed: 0.5
 --- !u!1 &1751376306
 GameObject:
   m_ObjectHideFlags: 0
@@ -6014,6 +6110,7 @@ GameObject:
   - component: {fileID: 1847519369}
   - component: {fileID: 1847519371}
   - component: {fileID: 1847519370}
+  - component: {fileID: 1847519372}
   m_Layer: 5
   m_Name: MenuBackgroundLight
   m_TagString: Untagged
@@ -6078,6 +6175,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1847519368}
   m_CullTransparentMesh: 1
+--- !u!114 &1847519372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847519368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5304862803b6e8f4fb13167116744ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 1
+  pulseSpeed: 0.5
 --- !u!1 &1937064145
 GameObject:
   m_ObjectHideFlags: 0
@@ -6829,6 +6941,7 @@ GameObject:
   - component: {fileID: 2111718426}
   - component: {fileID: 2111718428}
   - component: {fileID: 2111718427}
+  - component: {fileID: 2111718429}
   m_Layer: 5
   m_Name: MenuBackLight
   m_TagString: Untagged
@@ -6893,6 +7006,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2111718425}
   m_CullTransparentMesh: 1
+--- !u!114 &2111718429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111718425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5304862803b6e8f4fb13167116744ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 1
+  pulseSpeed: 0.5
 --- !u!1 &2142273255
 GameObject:
   m_ObjectHideFlags: 0
