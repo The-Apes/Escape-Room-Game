@@ -50,6 +50,10 @@ namespace Managers
         {
             StartCoroutine(ShowTutorial("Left Click to Interact/Pick Up Objects", () => PlayerFlagsManager.instance.PickedUpItem));
         }
+        public void DropTutorial()
+        {
+            StartCoroutine(ShowTutorial("Press G to Drop Objects", () => PlayerFlagsManager.instance.DroppedAnItem));
+        }
         
         public void InspectTutorial()
         {

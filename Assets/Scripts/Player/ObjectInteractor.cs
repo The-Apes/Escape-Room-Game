@@ -121,6 +121,7 @@ namespace Player
             if (Inspecting) return;
             StopClipping(); //prevents object from clipping through walls
             DropObject();
+            PlayerFlagsManager.instance.DroppedAnItem = true;
         }
        public void PickUpObject(GameObject pickUpObj)
         {
@@ -174,7 +175,12 @@ namespace Player
             if (HeldObj.TryGetComponent(out Readable readable) && !PlayerFlagsManager.instance.ReadAnItem)
                 TutorialManager.instance.ReadTutorial();
 
-            if (!PlayerFlagsManager.instance.InspectedAnItem)
+            if (!PlayerFlagsManager.instance.DroppedAnItem)
+            {
+                TutorialManager.instance.DropTutorial();
+            }
+
+            if (!PlayerFlagsManager.instance.InspectedAnItem && PlayerFlagsManager.instance.DroppedAnItem)
                 TutorialManager.instance.InspectTutorial();
         }
 

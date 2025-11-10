@@ -22,6 +22,7 @@ namespace Managers
         }
 
         [NonSerialized] public bool PickedUpItem;
+        [NonSerialized] public bool DroppedAnItem;
         [NonSerialized] public bool InspectedAnItem;
         [NonSerialized] public bool ReadAnItem;
         [NonSerialized] public bool InteractedWithNpc;
