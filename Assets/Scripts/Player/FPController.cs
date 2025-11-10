@@ -188,6 +188,7 @@ namespace Player
 
         private void HandleHeadBob()
         {
+            if (!CanMove) return;
             if (!canUseHeadBob) return;
             if (!_characterController.isGrounded) return;
             if (IsProne) return;
