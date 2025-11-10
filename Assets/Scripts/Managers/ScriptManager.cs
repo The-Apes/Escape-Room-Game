@@ -188,9 +188,8 @@ namespace Managers
                     break;
                 case "Locked Computer":
                     TutorialManager.instance.NpcGiveTutorial();
-                    PuzzleManager.instance.SetPuzzleStage(1);
                     break;
-                case "Battery":
+                case "FoundBattery":
                     FindFirstObjectByType<Torch>().ActivateTorch();
                     RunScript(torchScript);
                     break;
