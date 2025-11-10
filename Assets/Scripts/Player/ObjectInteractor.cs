@@ -217,6 +217,7 @@ namespace Player
                 //check for description script
                 var description = HeldObj.GetComponent<InspectSimpleDescription>();
                 var scriptDescription = HeldObj.GetComponent<InspectScriptDescription>();
+                var customDescription = HeldObj.GetComponent<IInspectCustomDescription>();
                 if (description)
                 {
                     if (ScriptManager.instance.CurrentScript) return;
@@ -228,6 +229,7 @@ namespace Player
                     if (ScriptManager.instance.CurrentScript) return;
                     scriptDescription.Describe();
                 }
+                customDescription?.Describe();
             }
             else
             {
