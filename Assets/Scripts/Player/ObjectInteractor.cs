@@ -10,6 +10,7 @@ using ItemDescriptions;
 using Managers;
 using Npc;
 using Objects;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -198,12 +199,12 @@ namespace Player
             {
                 _fpController.CanMove = false;
                 _fpController.CanLook = false;
-                _heldObjParent = holdTransform.parent.gameObject;
+                _heldObjParent = offsetTransform.parent.gameObject;
                 //store rotation
-                _initialObjPos = holdTransform.localPosition;
+                _initialObjPos = offsetTransform.localPosition;
                 _initialObjRot = HeldObj.transform.localRotation;
-                holdTransform.parent = inspectObj.transform;
-                holdTransform.localPosition = Vector3.zero;
+                offsetTransform.parent = inspectObj.transform;
+                offsetTransform.localPosition = Vector3.zero;
                 //holdTransform.localPosition = inspectPos;
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true; 
@@ -232,8 +233,8 @@ namespace Player
             {
                 _fpController.CanMove = true;
                 _fpController.CanLook = true;
-                holdTransform.parent = _heldObjParent.transform;
-                holdTransform.localPosition = _initialObjPos;
+                offsetTransform.parent = _heldObjParent.transform;
+                offsetTransform.localPosition = _initialObjPos;
                 HeldObj.transform.localRotation = _initialObjRot;
                 //apply rotation
                 //holdTransform.localPosition = holdPos;
@@ -241,6 +242,7 @@ namespace Player
                 Cursor.visible = false; 
                 Inspecting = false;
                 _hands.HidingHands = false;
+                FindFirstObjectByType<ReadingPanel>().Close(); //close reading panel if open
             }
         }
         public void PlaceObject(Transform placePos)
