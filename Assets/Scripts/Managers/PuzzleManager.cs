@@ -11,6 +11,7 @@ namespace Managers
         public int puzzleStage; 
         
         [SerializeField] private NpcScriptAsset puzzleStage0Help;
+        [SerializeField] private NpcScriptAsset puzzleStage1Help;
         [SerializeField] private NpcScriptAsset prototypeEnd; // Remove
 
         private void Awake()
@@ -42,8 +43,8 @@ namespace Managers
                     //do I need? FindFirstObjectByType<NpcAgent>().StopInteraction();
                     break;
                 case 1:
-                    DialogueManager.instance.SayLine("That object in the vent surely was hidden for a reason...");
-                    FindFirstObjectByType<NpcAgent>().StopInteraction();
+                    ScriptManager.instance.RunScript(puzzleStage1Help);
+                    //do I need? FindFirstObjectByType<NpcAgent>().StopInteraction();
                     break;
                 case 2:
                     DialogueManager.instance.SayLine("Maybe check inside the closet for something useful?");

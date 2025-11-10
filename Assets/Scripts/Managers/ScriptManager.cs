@@ -148,13 +148,6 @@ namespace Managers
                         break;
                     case "player looking at object":
                         break;
-                    case "custom":
-                        switch (parameters)
-                        {
-                           default:
-                               break;// Add custom conditions here
-                        }
-                        break;
                     default:
                         StartCoroutine(WaitForSeconds(DialogueManager.instance.dialogueWaitTime));
                         break;
@@ -195,6 +188,10 @@ namespace Managers
                     TutorialManager.instance.NpcGiveTutorial();
                     PuzzleManager.instance.SetPuzzleStage(1);
                     break;
+                case "Battery":
+                    FindFirstObjectByType<Torch>().ActivateTorch();
+                    break;
+                    
             }
         }
         public void NextLine()

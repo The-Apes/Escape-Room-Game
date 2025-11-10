@@ -184,6 +184,16 @@ namespace Npc
                 case "give item":
                     if (HeldObj) GiveObject();
                     break;
+                // case "custom":
+                //     switch (parameter)
+                //     {
+                //         case "torch":
+                //             FindFirstObjectByType<Torch>().ActivateTorch();
+                //             break;
+                //         default:
+                //             break;// Add custom conditions here
+                //     }
+                //     break;
 
             }
         }
