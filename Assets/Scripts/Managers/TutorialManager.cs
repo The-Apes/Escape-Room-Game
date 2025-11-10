@@ -89,6 +89,13 @@ namespace Managers
                 StartCoroutine(ShowTutorial("Press G While looking at the Lamp to give him items", () => PlayerFlagsManager.instance.GaveNpcAnItem));
             }
         }
+        public void TorchTutorial()
+        {
+            if(!PlayerFlagsManager.instance.usedTorch)
+            {
+                StartCoroutine(ShowTutorial("Press T to use your torch", () => PlayerFlagsManager.instance.usedTorch));
+            }
+        }
         
         public void CrouchTutorial()
         {

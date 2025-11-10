@@ -25,15 +25,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "b1899a0c-a809-46d8-9131-3e41d6f8f2bb",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Crouch",
                     "type": "Button",
                     "id": "f5b959f1-e2d9-4147-8e65-ffcdc429bf69",
@@ -100,6 +91,15 @@
                     "name": "Call NPC",
                     "type": "Button",
                     "id": "df556719-7ff6-4e7c-80f9-e20b1959cc98",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Torch",
+                    "type": "Button",
+                    "id": "4b253e3c-754e-43fc-9a4f-0237983d92f2",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -216,28 +216,6 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "f8de5391-dfaa-4c91-8238-bd93fbf80899",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keybaord and Mouse",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3ca9a4eb-68c9-428f-9cbe-321cbacd2b6d",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -478,6 +456,28 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Call NPC",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c59134b-5efb-4e9e-bffd-827daeaf72c3",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keybaord and Mouse",
+                    "action": "Torch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b93146b9-33da-4d65-86ee-7549869663b6",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Torch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

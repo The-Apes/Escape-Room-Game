@@ -251,6 +251,13 @@ namespace Npc
             _heldObjRb = null;
             _heldObjDetails = null;
         }
+
+        public void DestroyHeldObject()
+        {
+            var cache = HeldObj;
+            DropObject();
+            Destroy(cache);
+        }
         void MoveObject()
         {
             //keep object position the same as the holdPosition position
