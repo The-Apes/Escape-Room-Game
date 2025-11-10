@@ -24,14 +24,15 @@ namespace Objects
             if(!heldObject) return;
             print("HeldObject: " + heldObject);
             print("key: " + key);
+            if(PuzzleManager.instance.puzzleStage != 4) return; //only accept key at puzzle stage 4
             if(!heldObject.Equals(key)) return;
             print("Key matches, placing object in slot");
             
             gameObject.tag = "canPickUp";
             _rigidbody.isKinematic = false; //make the vent fall down
             ScriptManager.instance.RunScript(script);
-            
-            PuzzleManager.instance.SetPuzzleStage(1);
+            FindFirstObjectByType<Hands>().Grab();
+            PuzzleManager.instance.SetPuzzleStage(5);
         }
     }
 }
