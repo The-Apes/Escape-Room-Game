@@ -6,6 +6,8 @@ Availability: https://github.com/JonDevTutorial/PickUpTutorial or https://www.yo
 */
 
 using System;
+using ItemDescriptions;
+using Managers;
 using Npc;
 using Objects;
 using UnityEngine;
@@ -122,8 +124,9 @@ namespace Player
         public void PickUpObject(GameObject pickUpObj)
         {
             if (!pickUpObj.GetComponent<Rigidbody>()) return; //make sure the object has a RigidBody
-            //Reset offset
-            offsetTransform.transform.localPosition = Vector3.zero;
+            // Reset offset completely
+            offsetTransform.localPosition = Vector3.zero;
+            offsetTransform.localRotation = Quaternion.identity;
             offsetTransform.localScale = Vector3.one;
             
             HeldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
@@ -131,12 +134,24 @@ namespace Player
             HeldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
             HeldObjRb.isKinematic = true;
             HeldObjRb.transform.parent = offsetTransform.transform; //parent object to hold position
-            HeldObjRb.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+            
+            // Cache and parent
+            HeldObj = pickUpObj;
+            HeldObjRb = pickUpObj.GetComponent<Rigidbody>();
+            HeldObjRb.isKinematic = true;
+            HeldObjRb.transform.SetParent(offsetTransform, false);
+            HeldObjRb.transform.localPosition = Vector3.zero;
+            HeldObjRb.transform.localRotation = Quaternion.identity;
+            
+            //Zero out position/rotation - Bugfix?
+            HeldObjRb.transform.localPosition = Vector3.zero;
+            HeldObjRb.transform.localRotation = Quaternion.identity;
+            
+            HeldObjRb.transform.rotation =Quaternion.identity;
             HeldObj.layer = _layerNumber; //change the object layer to the holdLayer
             SetMultipleLayers.SetLayerRecursively(HeldObj, _layerNumber);
         
-            //make sure object doesn't collide with player, it can cause weird bugs
-            Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), true);
+            
             
             //change hand animation based on object hold style
             var holdDetails = HeldObj.GetComponent<ItemHoldDetails>();
@@ -151,6 +166,26 @@ namespace Player
                 print(HeldObj);
             }
             _hands.Grab();
+            
+            PlayerFlagsManager.instance.PickedUpItem = true;
+            //make sure object doesn't collide with player, it can cause weird bugs
+            //Moved to after parenting to prevent issues with compound colliders
+            Physics.IgnoreCollision(HeldObj.GetComponentInChildren<Collider>(), player.GetComponent<Collider>(), true);
+
+            //TUTORIAL STUFF//
+            //Is object readable?
+            var readable = HeldObj.GetComponent<Readable>();
+            if (readable && !PlayerFlagsManager.instance.ReadAnItem)
+            {
+                TutorialManager.instance.ReadTutorial();
+            }
+                
+            //Inspect
+            if (!PlayerFlagsManager.instance.InspectedAnItem) //only trigger if interact tutorial completed but not inspect tutorial
+            {
+                TutorialManager.instance.InspectTutorial();
+            }
+            
         }
 
         private void DropObject()
@@ -184,6 +219,25 @@ namespace Player
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true; 
                 Inspecting = true;
+                _hands.HidingHands = true;
+                
+                PlayerFlagsManager.instance.InspectedAnItem = true;
+
+                
+                //check for description script
+                var description = HeldObj.GetComponent<InspectSimpleDescription>();
+                var scriptDescription = HeldObj.GetComponent<InspectScriptDescription>();
+                if (description)
+                {
+                    if (ScriptManager.instance.CurrentScript) return;
+                    description.Describe();
+                }
+
+                if (scriptDescription)
+                {
+                    if (ScriptManager.instance.CurrentScript) return;
+                    scriptDescription.Describe();
+                }
             }
             else
             {
@@ -197,6 +251,7 @@ namespace Player
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false; 
                 Inspecting = false;
+                _hands.HidingHands = false;
             }
         }
         public void PlaceObject(Transform placePos)
