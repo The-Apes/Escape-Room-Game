@@ -63,6 +63,7 @@ namespace Npc
                 case "Talk":
                     DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Talk"), true);
                     yield return new WaitForSeconds(0.5f);
+                    PlayerFlagsManager.instance.TalkedWithNpc = true;
                     PuzzleManager.instance.TalkHelp();
                     break;
                 case "Ask about item":

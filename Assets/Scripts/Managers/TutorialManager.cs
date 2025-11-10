@@ -73,9 +73,9 @@ namespace Managers
         }
         public void NpcTalkTutorial()
         {
-            //if(PlayerFlagsManager.instance.PickedUpItem && PlayerFlagsManager.instance.InspectedAnItem)
+            if(!PlayerFlagsManager.instance.TalkedWithNpc)
             {
-                StartCoroutine(ShowTutorial("Use Mousewheel to", () => PlayerFlagsManager.instance.InteractedWithNpc));
+                StartCoroutine(ShowTutorial("Use scroll wheel to scroll between choices, press space to select", () => PlayerFlagsManager.instance.TalkedWithNpc));
             }
         }
         

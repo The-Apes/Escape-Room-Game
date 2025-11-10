@@ -8,9 +8,10 @@ namespace Managers
     {
         public static PuzzleManager instance;
         
-        public int puzzleStage; // Start with -1 to indicate no puzzle state set, but 0 for prototype
+        public int puzzleStage; 
         
-        [SerializeField] private NpcScriptAsset prototypeEnd; // Script to run when the prototype is completed
+        [SerializeField] private NpcScriptAsset puzzleStage0Help;
+        [SerializeField] private NpcScriptAsset prototypeEnd; // Remove
 
         private void Awake()
         {
@@ -34,19 +35,11 @@ namespace Managers
 
         public void TalkHelp()
         {
-            StartCoroutine(TalkHelpCoroutine());
-        }
-        private IEnumerator TalkHelpCoroutine()
-        {
             switch (puzzleStage)
             {
-               case 0:
-                    DialogueManager.instance.SayLine("Not sure... but there is plenty of stuff here.");
-                    yield return new WaitForSeconds(3f);
-                    DialogueManager.instance.SayLine("You can also bring me items and I can tell you what I know about them.");
-                    yield return new WaitForSeconds(3f);
-                    DialogueManager.instance.SayLine("Also, check upstairs, there is a computer and a screwdriver that might come in handy.");
-                    FindFirstObjectByType<NpcAgent>().StopInteraction();
+                case 0:
+                    ScriptManager.instance.RunScript(puzzleStage0Help);
+                    //do I need? FindFirstObjectByType<NpcAgent>().StopInteraction();
                     break;
                 case 1:
                     DialogueManager.instance.SayLine("That object in the vent surely was hidden for a reason...");

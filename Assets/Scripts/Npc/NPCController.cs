@@ -145,6 +145,7 @@ namespace Npc
             if (Camera.main) ActiveState = new FollowState(this, Camera.main.transform);
             DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Start Dialogue"), true);
             PlayerFlagsManager.instance.InteractedWithNpc = true;
+            TutorialManager.instance.NpcTalkTutorial();
             Vector3 direction = _cam.transform.position - transform.position;
             direction.y = 0; // Ignore vertical difference
             if (direction.sqrMagnitude > 0.01f)

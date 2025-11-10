@@ -25,9 +25,9 @@ namespace UI
             _npcAgent = GetComponentInParent<NpcAgent>();
 
             CreateChoice("Talk");
-            if(_npcAgent.HeldObj) CreateChoice("Ask about item");
-            if(FindFirstObjectByType<ObjectInteractor>().HeldObj && !_npcAgent.HeldObj) CreateChoice("Give item");
-            if(!FindFirstObjectByType<ObjectInteractor>().HeldObj && _npcAgent.HeldObj) CreateChoice("Take item");
+            if(_npcAgent.HeldObj) CreateChoice("Ask about item"); //Change to "Ask about item" if NPC is holding something
+            if(FindFirstObjectByType<ObjectInteractor>().HeldObj && !_npcAgent.HeldObj) CreateChoice("Give item"); //change
+            if(!FindFirstObjectByType<ObjectInteractor>().HeldObj && _npcAgent.HeldObj) CreateChoice("Take item"); //change
        
             //Todo
             //if (_npcAgent.CachedState is RoamState) CreateChoice("Follow");

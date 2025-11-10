@@ -17,6 +17,7 @@ namespace Managers
         [NonSerialized] public bool NpcTalking;
         [NonSerialized] public ScriptLine CurrentLine;
         [NonSerialized] public NpcScriptAsset CurrentScript;
+        [NonSerialized] public NpcScriptAsset MostRecentScript;
     
         private void Awake()
         {
@@ -37,16 +38,22 @@ namespace Managers
             if(introduction) StartCoroutine(RunScriptCoroutine(introduction));
         }
 
-        public void RunScript(NpcScriptAsset script)
+        public void RunScript(NpcScriptAsset script, bool force = false)
         {
             // If the script is marked as completed, do nothing
-            if (PlayerFlagsManager.instance.CompletedScripts.Contains(script.name)) 
+            if (PlayerFlagsManager.instance.CompletedScripts.Contains(script.name))
             {
                 Debug.Log("Script already completed: " + script.name);
                 return;
             }
+
             // If a script is already running and the new script is not interruptible, do nothing
-            if (CurrentScript && !script.interruptible) return; 
+            print(force);
+            if (CurrentScript && !script.interruptible && !force)     
+            {
+                Debug.Log("Script already running and new script not interruptible: " + CurrentScript.name); 
+                return;
+            }
             if (!script)
             {
                 Debug.Log("No Script");
@@ -61,6 +68,7 @@ namespace Managers
         {
             OnScriptStart();
             CurrentScript = script;
+            MostRecentScript = script;
             if (_npcAgent) _npcAgent.ScriptStart();
             foreach (ScriptLine line in script.scriptLines)
             {
@@ -183,6 +191,10 @@ namespace Managers
                     TutorialManager.instance.NpcTutorial();
                     break;
             }
+        }
+        public void NextLine()
+        {
+            _nextLine = true;
         }
 
         private IEnumerator WaitForSeconds(float seconds)
