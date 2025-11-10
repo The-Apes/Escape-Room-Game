@@ -5444,9 +5444,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 1123482071}
-  disclaimerMenu: {fileID: 0}
-  description: {fileID: 0}
-  continueButton: {fileID: 0}
+  disclaimerMenu: {fileID: 369036865}
+  description: {fileID: 987169449}
+  continueButton: {fileID: 402778395}
   audioMixer: {fileID: 24100000, guid: 3c32072197cc46b4f96a2c9c1b1c1cbb, type: 2}
   musicSlider: {fileID: 1372668874}
   sfxSlider: {fileID: 1944236681}
