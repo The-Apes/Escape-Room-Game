@@ -207,6 +207,7 @@ namespace Player
         {
             NpcAgent npc = FindFirstObjectByType<NpcAgent>();
             npc.TakeObject();
+            PlayerFlagsManager.instance.GaveNpcAnItem = true;
             _hands.Place();
             DialogueManager.instance.SayLine(GenericLines.GetRandomLine("Give Item"), true);
             yield return new WaitForSeconds(0.75f);
