@@ -28,7 +28,7 @@ namespace Managers
         [NonSerialized] public bool InteractedWithNpc;
         [NonSerialized] public bool SelectedChoice;
         [NonSerialized] public bool GaveNpcAnItem;
-        [NonSerialized] public bool usedTorch;
+        [NonSerialized] public bool UsedTorch;
 
         
         //List of script names that are do once

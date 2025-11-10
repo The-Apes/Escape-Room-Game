@@ -40,7 +40,7 @@ namespace Player
             _on = !_on;
             _light.enabled = _on;
             AudioSource.PlayClipAtPoint(torchSounds[UnityEngine.Random.Range(0, torchSounds.Length)], transform.position);
-            PlayerFlagsManager.instance.usedTorch = true;
+            PlayerFlagsManager.instance.UsedTorch = true;
         }
     }
 }

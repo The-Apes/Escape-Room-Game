@@ -91,9 +91,9 @@ namespace Managers
         }
         public void TorchTutorial()
         {
-            if(!PlayerFlagsManager.instance.usedTorch)
+            if(!PlayerFlagsManager.instance.UsedTorch)
             {
-                StartCoroutine(ShowTutorial("Press T to use your torch", () => PlayerFlagsManager.instance.usedTorch));
+                StartCoroutine(ShowTutorial("Press T to use your torch", () => PlayerFlagsManager.instance.UsedTorch));
             }
         }
         
