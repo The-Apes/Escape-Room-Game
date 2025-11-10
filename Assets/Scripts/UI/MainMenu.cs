@@ -24,7 +24,6 @@ namespace UI
 
           private void Start()
     {
-        LoadVolume();
         MusicManager.Instance.PlayMusic("MainMenu");
     }
     
