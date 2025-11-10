@@ -10,28 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa93904677c420349bfe3a28064b29bf, type: 3}
-  m_Name: FoundScalpel
+  m_Name: Opened Door
   m_EditorClassIdentifier: 
-  interruptible: 1
+  interruptible: 0
   sayOnce: 0
   scriptLines:
-  - text: Hmmm
+  - text: Yipee!! we did it
     player: 0
     continueCondition: 
     actions: []
     customObject: {fileID: 0}
     location: {x: 0, y: 0, z: 0}
-  - text: Well would you look at that, I think this could work as a screwdriver!
+  - text: What is this place
+    player: 1
+    continueCondition: 
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: This is his workshop
     player: 0
     continueCondition: 
     actions: []
     customObject: {fileID: 0}
     location: {x: 0, y: 0, z: 0}
-  - text: Try the Scalpel on the Vent
+  - text: You can explore if you want or just exit through the front door
     player: 0
     continueCondition: 
-    actions:
-    - give item
+    actions: []
+    customObject: {fileID: 0}
+    location: {x: 0, y: 0, z: 0}
+  - text: Will do
+    player: 1
+    continueCondition: 
+    actions: []
     customObject: {fileID: 0}
     location: {x: 0, y: 0, z: 0}
   choices: []

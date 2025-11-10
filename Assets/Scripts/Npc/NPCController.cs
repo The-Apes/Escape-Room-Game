@@ -198,6 +198,11 @@ namespace Npc
             }
         }
 
+        public void UnlockRoom()
+        {
+            
+        }
+
         public void TakeObject()
         {
             if (_objectInteractor.HeldObj) DropObject();

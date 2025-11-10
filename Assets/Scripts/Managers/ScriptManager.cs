@@ -37,7 +37,7 @@ namespace Managers
     
         public void Start()
         {
-            //if(introduction) StartCoroutine(RunScriptCoroutine(introduction));
+            if(introduction) StartCoroutine(RunScriptCoroutine(introduction));
         }
 
         public void RunScript(NpcScriptAsset script, bool force = false)
